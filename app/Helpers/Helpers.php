@@ -83,49 +83,63 @@ if (!function_exists('previous_baseurl')) {
         return $previousBaseUrl;
     }
 }
+
 if (!function_exists('calculateRentPenalty')) {
     function calculateRentPenalty($basicRent, $dueDate, $penaltySetting, $collectionYear, $collectionMonth)
     {
-        if (!$penaltySetting || empty($dueDate) || $basicRent <= 0 || empty($collectionYear) || empty($collectionMonth)) {
+        if (
+            !$penaltySetting ||
+            empty($dueDate) ||
+            $basicRent <= 0 ||
+            empty($collectionYear) ||
+            empty($collectionMonth)
+        ) {
             return 0;
         }
 
         $today = \Carbon\Carbon::today();
-        $collectionDate = \Carbon\Carbon::create((int) $collectionYear, (int) $collectionMonth, 1);
 
-        $dueDate = (int) $dueDate;
-        $penalty1Day = (int) $penaltySetting->penalty1_day;
-        $penalty2Day = (int) $penaltySetting->penalty2_day;
-        $penalty3Day = (int) $penaltySetting->penalty3_day;
+        $collectionDate = \Carbon\Carbon::create(
+            (int) $collectionYear,
+            (int) $collectionMonth,
+            1
+        );
 
         // Future collection month = No penalty
         if ($collectionDate->greaterThan($today->copy()->startOfMonth())) {
             return 0;
         }
 
-        // Previous collection month = Penalty 3
-        if ($collectionDate->lessThan($today->copy()->startOfMonth())) {
-            $rate = $penaltySetting->penalty3;
-            return round($basicRent * $rate / 100, 2);
-        }
+        $dueDay = (int) $dueDate;
 
-        // Current collection month
-        $currentDay = $today->day;
+        // Use the actual due date, safely handling short months.
+        $dueDateCarbon = $collectionDate->copy()
+            ->day(min($dueDay, $collectionDate->daysInMonth));
 
-        // Due date to Rule 1 = No penalty
-        if ($currentDay <= $penalty1Day) {
+        // Calculate penalty dates relative to the due date.
+        $penalty1Date = $dueDateCarbon->copy()
+            ->addDays((int) $penaltySetting->penalty1_day);
+
+        $penalty2Date = $dueDateCarbon->copy()
+            ->addDays((int) $penaltySetting->penalty2_day);
+
+        $penalty3Date = $dueDateCarbon->copy()
+            ->addDays((int) $penaltySetting->penalty3_day);
+
+        // Before the first penalty date = No penalty
+        if ($today->lt($penalty1Date)) {
             return 0;
         }
 
-        // After Rule 1 up to Rule 2 = Penalty 1
-        if ($currentDay < $penalty2Day) {
+        // First penalty period
+        if ($today->lt($penalty2Date)) {
             $rate = $penaltySetting->penalty1;
         }
-        // Rule 2 up to Rule 3 = Penalty 2
-        elseif ($currentDay < $penalty3Day) {
+        // Second penalty period
+        elseif ($today->lt($penalty3Date)) {
             $rate = $penaltySetting->penalty2;
         }
-        // Rule 3 onward = Penalty 3
+        // Third penalty period
         else {
             $rate = $penaltySetting->penalty3;
         }

@@ -52,8 +52,6 @@ class AuthController extends Controller
             'name'   => $tenant->name,
             'email'  => $tenant->email,
             'mobile' => $tenant->mobile,
-            'project_id'  => $tenant->project_id,
-            'shop_id'  => $tenant->shop_id,
         ];
         Session::put('tenent_login', $sessdata);
         return redirect()->to('rms/dashboard');

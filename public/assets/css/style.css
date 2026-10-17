@@ -226,7 +226,13 @@ html,body{top:0!important;position:static!important;min-height:100%}
 .bank-row:last-child { border-bottom: 0; }
 .bank-row .lbl { width: 110px; font-size: 13px; color: #55657d; font-weight: 600; }
 .bank-row .val { flex: 1 1 140px; min-width: 0; font-size: 13px; font-weight: 600; word-break: break-word; }
-
+.editRecords {
+  cursor: pointer;
+  border-bottom: 2px solid blue;
+  padding: 1px;
+  border-radius: 5px;
+  font-size: 14px;
+}
 /* ---- mobile ---- */
 @media (max-width: 575.98px) {
     .modal-dialog.pay-dialog { max-width: none; margin: .5rem; }

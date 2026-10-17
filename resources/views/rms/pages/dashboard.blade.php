@@ -16,20 +16,48 @@
         12 => 'December',
     ];
 @endphp
-{{-- ================= FILTER ================= --}}
+
+{{-- ================= FILTER WITH PROPERTY SELECTOR ================= --}}
 <div class="card tcard mb-4">
     <div class="card-head bg-g-blue">
-        <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
             <div>
                 <h6 class="mb-0">Payment Dashboard</h6>
-                <small class="opacity-75">{{ $shop->shop_name ?? 'My Property' }}</small>
+                <small class="opacity-75">
+                    @if($activeShop)
+                        <i class="bi bi-shop me-1"></i>{{ $activeShop->shop_name }} ({{ $activeShop->project_name ?? 'Property' }})
+                    @else
+                        <i class="bi bi-grid-fill me-1"></i>All Properties ({{ $tenantShops->count() }} {{ Str::plural('Unit', $tenantShops->count()) }})
+                    @endif
+                </small>
             </div>
+            @if($tenantShops->count() > 1)
+                <span class="badge bg-light text-dark">
+                    Multi-Unit Tenant
+                </span>
+            @endif
         </div>
     </div>
     <div class="card-body">
         <form method="GET" action="{{ route('rms.dashboard') }}">
             <div class="row g-2 align-items-end">
-                <div class="col-12 col-md-4 col-lg-3">
+                {{-- Property / Shop Switcher --}}
+                <div class="col-12 col-md-6 col-lg-4">
+                    <label class="form-label">Property / Unit</label>
+                    <select name="shop_id" class="form-select">
+                        <option value="0" {{ $selectedShopId == 0 ? 'selected' : '' }}>
+                            All Leased Properties ({{ $tenantShops->count() }})
+                        </option>
+                        @foreach($tenantShops as $tShop)
+                            <option value="{{ $tShop->shop_id }}" {{ (int) $selectedShopId === (int) $tShop->shop_id ? 'selected' : '' }}>
+                                {{ $tShop->shop_name }} ({{ $tShop->project_name ?? 'Project' }})
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                {{-- Year --}}
+                <div class="col-6 col-md-3 col-lg-2">
                     <label class="form-label">Year</label>
                     <select name="year" class="form-select">
                         @foreach($years as $year)
@@ -39,7 +67,9 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-12 col-md-4 col-lg-3">
+
+                {{-- Month --}}
+                <div class="col-6 col-md-3 col-lg-3">
                     <label class="form-label">Month</label>
                     <select name="month" class="form-select">
                         <option value="0" {{ $selectedMonth == 0 ? 'selected' : '' }}>All Months</option>
@@ -50,7 +80,9 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-12 col-md-4 col-lg-auto">
+
+                {{-- Filter Action Buttons --}}
+                <div class="col-12 col-lg-auto mt-2 mt-lg-0">
                     <button type="submit" class="btn btn-gradient">
                         <i class="bi bi-funnel me-1"></i>Apply Filter
                     </button>
@@ -62,6 +94,7 @@
         </form>
     </div>
 </div>
+
 {{-- ================= SUMMARY CARDS ================= --}}
 <div class="row g-4">
     <div class="col-12 col-sm-6 col-xl-3">
@@ -103,7 +136,7 @@
                 <h4>₹{{ number_format($totals['total_outstanding'], 2) }}</h4>
             </div>
             <div class="foot">
-                <span class="down">Remaining</span> amount
+                <span class="down">Remaining</span> balance
             </div>
         </div>
     </div>
@@ -117,11 +150,12 @@
                 <h4>₹{{ number_format($totals['total_pending'], 2) }}</h4>
             </div>
             <div class="foot">
-                Payment submitted for approval
+                Payment under review
             </div>
         </div>
     </div>
 </div>
+
 {{-- ================= PAYMENT GRAPH ================= --}}
 <div class="row g-4 mt-1">
     <div class="col-12">
@@ -131,6 +165,9 @@
                     <h6>Payment Overview</h6>
                     <p class="mb-0">
                         {{ $selectedMonth > 0 ? $months[$selectedMonth] . ' ' : '' }}{{ $selectedYear }}
+                        <span class="text-muted">
+                            ({{ $activeShop ? $activeShop->shop_name : 'Combined Properties' }})
+                        </span>
                     </p>
                 </div>
                 <div class="small text-secondary">
@@ -145,6 +182,7 @@
         </div>
     </div>
 </div>
+
 {{-- ================= ALL RENT RECORDS ================= --}}
 <div class="card tcard mt-5">
     <div class="card-head bg-g-blue">
@@ -166,10 +204,11 @@
             <table class="table table-m align-middle mb-0">
                 <thead>
                     <tr>
-                        <th>Month</th>
+                        <th>Month & Unit</th>
                         <th>Basic Rent</th>
                         <th>Maintenance</th>
                         <th>Electricity</th>
+                        <th>Other Charges</th>
                         <th>Penalty</th>
                         <th>Total Due</th>
                         <th>Paid</th>
@@ -182,57 +221,36 @@
                     @forelse($records as $record)
                         <tr>
                             <td>
-                                <strong>{{ $record['month_name'] }}</strong>
-                                <small class="d-block text-secondary">
-                                    {{ $record['year'] }}
+                                <strong>{{ $record['month_name'] }} {{ $record['year'] }}</strong>
+                                <small class="d-block text-primary">
+                                    <i class="bi bi-shop me-1"></i>{{ $record['shop_name'] }}
                                 </small>
                             </td>
-                            <td>
-                                ₹{{ number_format($record['basic_rent'], 2) }}
-                            </td>
-                            <td>
-                                ₹{{ number_format($record['cleaning_cost'], 2) }}
-                            </td>
-                            <td>
-                                ₹{{ number_format($record['electricity'], 2) }}
-                            </td>
+                            <td>₹{{ number_format($record['basic_rent'], 2) }}</td>
+                            <td>₹{{ number_format($record['cleaning_cost'], 2) }}</td>
+                            <td>₹{{ number_format($record['electricity'], 2) }}</td>
+                            <td>₹{{ number_format($record['other_charge'], 2) }}</td>
                             <td>
                                 @if($record['penalty'] > 0)
-                                    <strong class="down">
-                                        ₹{{ number_format($record['penalty'], 2) }}
-                                    </strong>
+                                    <strong class="down">₹{{ number_format($record['penalty'], 2) }}</strong>
                                 @else
                                     <span class="text-secondary">₹0.00</span>
                                 @endif
                             </td>
-                            <td>
-                                <strong>
-                                    ₹{{ number_format($record['total_due'], 2) }}
-                                </strong>
-                            </td>
-                            <td>
-                                <strong class="up">
-                                    ₹{{ number_format($record['approved_amount'], 2) }}
-                                </strong>
-                            </td>
+                            <td><strong>₹{{ number_format($record['total_due'], 2) }}</strong></td>
+                            <td><strong class="up">₹{{ number_format($record['approved_amount'], 2) }}</strong></td>
                             <td>
                                 @if($record['pending_amount'] > 0)
-                                    <strong class="text-warning">
-                                        ₹{{ number_format($record['pending_amount'], 2) }}
-                                    </strong>
+                                    <strong class="text-warning">₹{{ number_format($record['pending_amount'], 2) }}</strong>
                                 @else
                                     ₹0.00
                                 @endif
                             </td>
                             <td>
                                 @if($record['outstanding'] > 0)
-                                    <strong class="down">
-                                        ₹{{ number_format($record['outstanding'], 2) }}
-                                    </strong>
+                                    <strong class="down">₹{{ number_format($record['outstanding'], 2) }}</strong>
                                 @else
-                                    <strong class="up">
-                                        ₹0.00
-                                    </strong>
+                                    <strong class="up">₹0.00</strong>
                                 @endif
                             </td>
                             <td>
@@ -243,9 +261,9 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="10" class="text-center py-5 text-secondary">
+                            <td colspan="11" class="text-center py-5 text-secondary">
                                 <i class="bi bi-inbox fs-2 d-block mb-2"></i>
-                                No rent records found for the selected period.
+                                No rent records found for the selected filter.
                             </td>
                         </tr>
                     @endforelse
@@ -254,22 +272,12 @@
                     <tfoot>
                         <tr>
                             <th>Total</th>
-                            <th colspan="3"></th>
-                            <th>
-                                ₹{{ number_format($totals['total_penalty'], 2) }}
-                            </th>
-                            <th>
-                                ₹{{ number_format($totals['total_due'], 2) }}
-                            </th>
-                            <th class="text-success">
-                                ₹{{ number_format($totals['total_paid'], 2) }}
-                            </th>
-                            <th class="text-warning">
-                                ₹{{ number_format($totals['total_pending'], 2) }}
-                            </th>
-                            <th class="text-danger">
-                                ₹{{ number_format($totals['total_outstanding'], 2) }}
-                            </th>
+                            <th colspan="4"></th>
+                            <th>₹{{ number_format($totals['total_penalty'], 2) }}</th>
+                            <th>₹{{ number_format($totals['total_due'], 2) }}</th>
+                            <th class="text-success">₹{{ number_format($totals['total_paid'], 2) }}</th>
+                            <th class="text-warning">₹{{ number_format($totals['total_pending'], 2) }}</th>
+                            <th class="text-danger">₹{{ number_format($totals['total_outstanding'], 2) }}</th>
                             <th></th>
                         </tr>
                     </tfoot>
@@ -278,15 +286,14 @@
         </div>
     </div>
 </div>
+
 {{-- ================= RECENT PAYMENT HISTORY ================= --}}
 <div class="card tcard mt-5">
     <div class="card-head bg-g-green">
         <div class="d-flex justify-content-between align-items-center">
             <div>
                 <h6 class="mb-0">Recent Payment History</h6>
-                <small class="opacity-75">
-                    Submitted payments for selected period
-                </small>
+                <small class="opacity-75">Submitted payments for selected period</small>
             </div>
             <a href="{{ route('rms.my-payments') }}" class="btn btn-sm btn-light">
                 View All
@@ -298,7 +305,7 @@
             <table class="table table-m align-middle mb-0">
                 <thead>
                     <tr>
-                        <th>Month</th>
+                        <th>Month & Property</th>
                         <th>Payment Date</th>
                         <th>Amount</th>
                         <th>Mode</th>
@@ -315,39 +322,18 @@
                                 1 => ['Approved', 'bg-g-green'],
                                 2 => ['Rejected', 'bg-g-pink'],
                             ];
-                            $pStatus = $paymentStatus[$payment->approval_status]
-                                ?? ['Unknown', 'bg-g-grey'];
+                            $pStatus = $paymentStatus[$payment->approval_status] ?? ['Unknown', 'bg-g-grey'];
                         @endphp
                         <tr>
                             <td>
-                                <strong>
-                                    {{ date('F', mktime(0, 0, 0, $payment->collection_month, 1)) }}
-                                </strong>
-                                <small class="d-block text-secondary">
-                                    {{ $payment->collection_year }}
-                                </small>
+                                <strong>{{ date('F', mktime(0, 0, 0, $payment->collection_month, 1)) }} {{ $payment->collection_year }}</strong>
+                                <small class="d-block text-secondary">{{ $payment->shop_name ?? 'Property' }}</small>
                             </td>
-                            <td>
-                                {{ $payment->payment_date
-                                    ? date('d M, Y', strtotime($payment->payment_date))
-                                    : '-' }}
-                            </td>
-                            <td>
-                                <strong>
-                                    ₹{{ number_format((float) $payment->payment_amount, 2) }}
-                                </strong>
-                            </td>
-                            <td>
-                                {{ $payment->payment_mode ?: '-' }}
-                            </td>
-                            <td class="text-break">
-                                {{ $payment->reference_number ?: '-' }}
-                            </td>
-                            <td>
-                                {{ $payment->created_at
-                                    ? date('d M, Y', strtotime($payment->created_at))
-                                    : '-' }}
-                            </td>
+                            <td>{{ $payment->payment_date ? date('d M, Y', strtotime($payment->payment_date)) : '-' }}</td>
+                            <td><strong>₹{{ number_format((float) $payment->payment_amount, 2) }}</strong></td>
+                            <td>{{ $payment->payment_mode ?: '-' }}</td>
+                            <td class="text-break">{{ $payment->reference_number ?: '-' }}</td>
+                            <td>{{ $payment->created_at ? date('d M, Y', strtotime($payment->created_at)) : '-' }}</td>
                             <td>
                                 <span class="badge-s {{ $pStatus[1] }}">
                                     {{ $pStatus[0] }}
@@ -367,16 +353,19 @@
         </div>
     </div>
 </div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const canvas = document.getElementById('paymentOverviewChart');
     if (!canvas) return;
+
     const records = @json($records->values());
-    const labels = records.map(record => record.month_name + ' ' + record.year);
+    const labels = records.map(record => record.month_name + ' (' + record.shop_name + ')');
     const due = records.map(record => Number(record.total_due || 0));
     const paid = records.map(record => Number(record.approved_amount || 0));
     const penalty = records.map(record => Number(record.penalty || 0));
     const outstanding = records.map(record => Number(record.outstanding || 0));
+
     new Chart(canvas, {
         type: 'bar',
         data: {
@@ -412,9 +401,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 intersect: false
             },
             plugins: {
-                legend: {
-                    position: 'top'
-                },
+                legend: { position: 'top' },
                 tooltip: {
                     callbacks: {
                         label: function (context) {
