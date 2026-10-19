@@ -132,7 +132,7 @@
                             <div class="col-6 col-lg-3"><div class="pay-detail"><span>Outstanding</span><strong class="{{ $outstanding > 0 ? 'down' : '' }}">₹{{ number_format($outstanding, 2) }}</strong></div></div>
                         </div>
 
-                        @if(in_array($status, [0, 1, 2, 4]) &&$outstanding > 0)
+                        @if(in_array($status, [0, 1, 2, 4]) && $outstanding > 0)
                             <div class="text-end mt-3">
                                 <button type="button" class="btn btn-sm btn-outline-secondary js-payment-history" data-id="{{ $list->id }}">
                                     <i class="bi bi-clock-history me-1"></i>Payment History
@@ -150,6 +150,12 @@
                             </div>
                         @elseif($status === 5)
                             <div class="text-end mt-3 small down">This payment request has been cancelled.</div>
+                        @else
+                            <div class="text-end mt-3">
+                                <button type="button" class="btn btn-sm btn-outline-secondary js-payment-history" data-id="{{ $list->id }}">
+                                    <i class="bi bi-clock-history me-1"></i>Payment History
+                                </button>
+                            </div>
                         @endif
                     </div>
                 @empty
@@ -165,12 +171,12 @@
 
             {{-- ================= COMPLETED PAYMENTS ================= --}}
             <div class="tab-pane fade" id="pane-completed" role="tabpanel">
-                @forelse($completedLists as$list)
+                @forelse($completedLists as $list)
                     @php
                         $elApplicable = $list->shop ? $list->shop->electricity_applicable : 0;
                         $maintenance = $list->shop ? $list->shop->cleaning_cost : 0;
-                        $other_charge =$list->other_charge ?? 0;
-                        $electricityAmount = ($elApplicable &&$list->electricity) 
+                        $other_charge = $list->other_charge ?? 0;
+                        $electricityAmount = ($elApplicable && $list->electricity) 
                             ? (float) $list->electricity->electricity_cost 
                             : 0;
 
@@ -239,6 +245,7 @@
             @csrf
             <input type="hidden" name="collection_id" id="payment_collection_id">
             <input type="hidden" name="shop_id" id="payment_shop_id">
+            <input type="hidden" id="edit_payment_id" value="">
 
             {{-- STEP 1: METHOD --}}
             <div class="pay-step" data-step="1">
@@ -356,7 +363,7 @@
             <div class="pay-step d-none" data-step="3">
                 <div class="modal-header border-0 pb-0">
                     <div>
-                        <h5 class="modal-title fw-bold">Submit Payment Receipt</h5>
+                        <h5 class="modal-title fw-bold" id="step3Title">Submit Payment Receipt</h5>
                         <small class="text-secondary">Enter transaction details and upload confirmation.</small>
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -394,6 +401,7 @@
                         <div class="col-12">
                             <label class="form-label" for="payProof">Payment Proof / Screenshot</label>
                             <input id="payProof" name="receipt" type="file" class="form-control" accept=".jpg,.jpeg,.png,.pdf">
+                            <small id="currentProofInfo" class="text-muted d-none mt-1 d-block"></small>
                         </div>
                         <div class="col-12">
                             <label class="form-label" for="payRemarks">Remarks</label>
@@ -402,7 +410,7 @@
                     </div>
                 </div>
                 <div class="modal-footer border-0 pt-0">
-                    <button type="button" class="btn btn-light" data-pay-back>Back</button>
+                    <button type="button" class="btn btn-light" id="step3BackBtn" data-pay-back>Back</button>
                     <button type="submit" class="btn btn-gradient" id="submitPaymentBtn">Submit for Verification</button>
                 </div>
             </div>
@@ -444,12 +452,22 @@
 <script>
     const shopAccounts = @json($shopAccountMap);
     const paymentModalEl = document.getElementById('paymentModal');
+    const paymentHistoryModalEl = document.getElementById('paymentHistoryModal');
+    const defaultSaveUrl = "{{ route('rms.save-rent') }}";
+    const updateUrlBase = "{{ url('/rms/update-payment') }}";
+    const getPaymentUrlBase = "{{ url('/rms/get-payment') }}";
     const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
+    let isEditMode = false;
+
+    // Reset Form for New Payment
     document.addEventListener('click', function (e) {
         const btn = e.target.closest('.js-pay-btn');
         if (!btn) return;
         const d = btn.dataset;
+
+        isEditMode = false;
+        resetPaymentForm();
 
         fillPaymentSummary({
             collectionId: d.id,
@@ -461,8 +479,25 @@
             outstanding: d.outstanding
         });
 
+        goToStep(1);
         bootstrap.Modal.getOrCreateInstance(paymentModalEl).show();
     });
+
+    function resetPaymentForm() {
+        const form = document.getElementById('rentForm');
+        form.reset();
+        form.action = defaultSaveUrl;
+        document.getElementById('edit_payment_id').value = '';
+        document.getElementById('step3Title').textContent = 'Submit Payment Receipt';
+        document.getElementById('submitPaymentBtn').textContent = 'Submit for Verification';
+        document.getElementById('step3BackBtn').classList.remove('d-none');
+        const proofInfo = document.getElementById('currentProofInfo');
+        if (proofInfo) {
+            proofInfo.classList.add('d-none');
+            proofInfo.innerHTML = '';
+        }
+        document.getElementById('payDate').value = "{{ now()->format('Y-m-d') }}";
+    }
 
     function fillPaymentSummary({ collectionId, shopId, month, year, rent, dueDate, outstanding }) {
         const inr = v => '₹' + Number(v).toLocaleString('en-IN', { minimumFractionDigits: 2 });
@@ -524,54 +559,50 @@
         }
     }
 
-    // Modal navigation
-    (function () {
-        const modalEl = document.getElementById('paymentModal');
-        const dialog  = document.getElementById('payDialog');
-        const steps   = modalEl.querySelectorAll('.pay-step');
-        let method = null;
+    // Modal navigation helpers
+    const steps = paymentModalEl.querySelectorAll('.pay-step');
+    const dialog = document.getElementById('payDialog');
+    let paymentMethod = null;
 
-        function goTo(n) {
-            steps.forEach(s => s.classList.toggle('d-none', s.dataset.step != n));
-            dialog.classList.toggle('modal-lg', n == 2);
-        }
+    function goToStep(n) {
+        steps.forEach(s => s.classList.toggle('d-none', s.dataset.step != n));
+        dialog.classList.toggle('modal-lg', n == 2);
+    }
 
-        modalEl.querySelectorAll('.pay-option').forEach(btn => {
-            btn.addEventListener('click', () => {
-                method = btn.dataset.method;
-                goTo(method === 'online' ? 2 : 3);
-            });
+    paymentModalEl.querySelectorAll('.pay-option').forEach(btn => {
+        btn.addEventListener('click', () => {
+            paymentMethod = btn.dataset.method;
+            goToStep(paymentMethod === 'online' ? 2 : 3);
         });
+    });
 
-        modalEl.querySelector('[data-pay-next]').addEventListener('click', () => {
-            document.getElementById('payMode').value = 'UPI';
-            goTo(3);
+    paymentModalEl.querySelector('[data-pay-next]').addEventListener('click', () => {
+        document.getElementById('payMode').value = 'UPI';
+        goToStep(3);
+    });
+
+    paymentModalEl.querySelectorAll('[data-pay-back]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (isEditMode) return;
+            const current = btn.closest('.pay-step').dataset.step;
+            goToStep(current == 3 && paymentMethod === 'online' ? 2 : 1);
         });
+    });
 
-        modalEl.querySelectorAll('[data-pay-back]').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const current = btn.closest('.pay-step').dataset.step;
-                goTo(current == 3 && method === 'online' ? 2 : 1);
-            });
+    // Copy buttons
+    paymentModalEl.querySelectorAll('.copy-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+            const target = document.querySelector(btn.dataset.copyTarget);
+            const text = (target.value || target.textContent).trim();
+            try {
+                await navigator.clipboard.writeText(text);
+                btn.textContent = 'Copied';
+                setTimeout(() => btn.textContent = 'Copy', 1200);
+            } catch (e) {}
         });
+    });
 
-        modalEl.addEventListener('show.bs.modal', () => { method = null; goTo(1); });
-
-        // Copy buttons
-        modalEl.querySelectorAll('.copy-btn').forEach(btn => {
-            btn.addEventListener('click', async () => {
-                const target = document.querySelector(btn.dataset.copyTarget);
-                const text = (target.value || target.textContent).trim();
-                try {
-                    await navigator.clipboard.writeText(text);
-                    btn.textContent = 'Copied';
-                    setTimeout(() => btn.textContent = 'Copy', 1200);
-                } catch (e) {}
-            });
-        });
-    })();
-
-    // Payment Form Submission
+    // Form Submission (Add OR Update)
     document.getElementById('rentForm').addEventListener('submit', function (e) {
         e.preventDefault();
         const form = this;
@@ -588,7 +619,8 @@
             contentType: false,
             success: function (res) {
                 if (res.status) {
-                    Swal.fire('Success', res.message || 'Payment submitted.', 'success').then(() => location.reload());
+                    Swal.fire('Success', res.message || 'Payment submitted successfully.', 'success')
+                        .then(() => location.reload());
                 } else {
                     Swal.fire('Error', res.message || 'Submission failed.', 'error');
                 }
@@ -598,56 +630,152 @@
             },
             complete: function () {
                 btn.disabled = false;
-                btn.innerHTML = 'Submit for Verification';
+                btn.innerHTML = isEditMode ? 'Update Payment' : 'Submit for Verification';
             }
         });
     });
 
-    // History Modal Loader
+    // Payment History Modal & Edit Rejected Payment Action
     document.addEventListener('click', function(e) {
-        const btn = e.target.closest('.js-payment-history');
-        if (!btn) return;
+    const btn = e.target.closest('.js-payment-history');
+    if (!btn) return;
 
-        const id = btn.dataset.id;
-        const modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('paymentHistoryModal'));
-        modal.show();
+    const id = btn.dataset.id;
+    const modal = bootstrap.Modal.getOrCreateInstance(paymentHistoryModalEl);
+    modal.show();
 
-        $('#historyLoading').removeClass('d-none');
-        $('#historyEmpty, #historyContent').addClass('d-none');
+    $('#historyLoading').removeClass('d-none');
+    $('#historyEmpty, #historyContent').addClass('d-none');
+
+    $.ajax({
+        url: "{{ url('/rms/my-payments') }}/" + id + "/history",
+        type: "GET",
+        success: function (res) {
+            $('#historyLoading').addClass('d-none');
+            if (!res.status || !res.payments?.length) {
+                $('#historyEmpty').removeClass('d-none');
+                return;
+            }
+
+            $('#historyContent').removeClass('d-none');
+            let html = '';
+            res.payments.forEach(p => {
+                const statusBadge = p.approval_status == 1 ? 'bg-success' : (p.approval_status == 2 ? 'bg-danger' : 'bg-warning text-dark');
+                const statusText  = p.approval_status == 1 ? 'Approved' : (p.approval_status == 2 ? 'Rejected' : 'Pending');
+
+                // Normalize proof URL whether stored as full URL or relative path
+                let proofUrl = '';
+                if (p.payment_proof) {
+                    proofUrl = p.payment_proof.startsWith('http') 
+                        ? p.payment_proof 
+                        : "{{ asset('') }}" + p.payment_proof.replace(/^\/+/, '');
+                }
+
+                html += `
+                    <div class="border rounded p-3 mb-2">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <strong>Payment #${p.id}</strong>
+                            <div>
+                                <span class="badge ${statusBadge}">${statusText}</span>
+                                ${p.approval_status == 2 ? `
+                                    <button type="button" class="btn btn-sm btn-outline-danger ms-2 py-0 px-2 js-edit-rejected-pay" data-payment-id="${p.id}">
+                                        <i class="bi bi-pencil-square me-1"></i>Edit / Resubmit
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </div>
+
+                        <div class="row g-2 small">
+                            <div class="col-6 col-sm-3">Amount: <strong>₹${Number(p.payment_amount).toFixed(2)}</strong></div>
+                            <div class="col-6 col-sm-3">Mode: <strong>${p.payment_mode || '-'}</strong></div>
+                            <div class="col-6 col-sm-3">Date: <strong>${p.payment_date || '-'}</strong></div>
+                            <div class="col-6 col-sm-3">Ref: <strong>${p.reference_number || '-'}</strong></div>
+                        </div>
+
+                        ${proofUrl ? `
+                            <div class="mt-2 pt-2 border-top d-flex align-items-center justify-content-between small">
+                                <span class="text-secondary"><i class="bi bi-paperclip me-1"></i>Attachment:</span>
+                                <a href="${proofUrl}" target="_blank" class="btn btn-sm btn-outline-primary py-0 px-2">
+                                    <i class="bi bi-file-earmark-arrow-down me-1"></i>View Attachment
+                                </a>
+                            </div>
+                        ` : ''}
+
+                        ${p.rejection_reason ? `
+                            <div class="text-danger small mt-2">
+                                <strong>Reason:</strong> ${p.rejection_reason}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            });
+            $('#paymentHistoryList').html(html);
+        }
+    });
+});
+
+    // Handle Edit / Resubmit of Rejected Payment in Step 3 Modal
+    document.addEventListener('click', function(e) {
+        const editBtn = e.target.closest('.js-edit-rejected-pay');
+        if (!editBtn) return;
+
+        const paymentId = editBtn.dataset.paymentId;
+        editBtn.disabled = true;
 
         $.ajax({
-            url: "{{ url('/rms/my-payments') }}/" + id + "/history",
+            url: `${getPaymentUrlBase}/${paymentId}`,
             type: "GET",
-            success: function (res) {
-                $('#historyLoading').addClass('d-none');
-                if (!res.status || !res.payments?.length) {
-                    $('#historyEmpty').removeClass('d-none');
+            success: function(res) {
+                editBtn.disabled = false;
+                if (!res.status || !res.data) {
+                    Swal.fire('Error', res.message || 'Unable to fetch payment details.', 'error');
                     return;
                 }
 
-                $('#historyContent').removeClass('d-none');
-                let html = '';
-                res.payments.forEach(p => {
-                    const statusBadge = p.approval_status == 1 ? 'bg-success' : (p.approval_status == 2 ? 'bg-danger' : 'bg-warning text-dark');
-                    const statusText  = p.approval_status == 1 ? 'Approved' : (p.approval_status == 2 ? 'Rejected' : 'Pending');
+                const pay = res.data;
+                const col = res.collection || {};
 
-                    html += `
-                        <div class="border rounded p-3 mb-2">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <strong>Payment #${p.id}</strong>
-                                <span class="badge ${statusBadge}">${statusText}</span>
-                            </div>
-                            <div class="row g-2 small">
-                                <div class="col-3">Amount: <strong>₹${Number(p.payment_amount).toFixed(2)}</strong></div>
-                                <div class="col-3">Mode: <strong>${p.payment_mode || '-'}</strong></div>
-                                <div class="col-3">Date: <strong>${p.payment_date || '-'}</strong></div>
-                                <div class="col-3">Ref: <strong>${p.reference_number || '-'}</strong></div>
-                            </div>
-                            ${p.rejection_reason ? `<div class="text-danger small mt-2"><strong>Reason:</strong> ${p.rejection_reason}</div>` : ''}
-                        </div>
-                    `;
-                });
-                $('#paymentHistoryList').html(html);
+                // Hide History Modal
+                bootstrap.Modal.getOrCreateInstance(paymentHistoryModalEl).hide();
+
+                // Setup Step 3 in Edit Mode
+                isEditMode = true;
+                resetPaymentForm();
+
+                const form = document.getElementById('rentForm');
+                form.action = `${updateUrlBase}/${pay.id}`;
+                document.getElementById('edit_payment_id').value = pay.id;
+                document.getElementById('payment_collection_id').value = pay.rentcollection_id || pay.rent_collection_id || col.id;
+
+                // Outstanding amount banner in Step 3
+                const outBal = col.remaining_amount !== undefined ? col.remaining_amount : pay.payment_amount;
+                document.getElementById('outstandingAmount').textContent = '₹' + Number(outBal).toLocaleString('en-IN', { minimumFractionDigits: 2 });
+
+                // Fill inputs with existing rejected data
+                document.getElementById('payAmount').value = Number(pay.payment_amount || pay.paid_amount || 0).toFixed(2);
+                document.getElementById('payDate').value = pay.payment_date ? pay.payment_date.split('T')[0] : "{{ now()->format('Y-m-d') }}";
+                document.getElementById('payMode').value = pay.payment_mode || '';
+                document.getElementById('payRef').value = pay.reference_number || '';
+                document.getElementById('payRemarks').value = pay.remarks || '';
+
+                if (pay.payment_proof) {
+                    const info = document.getElementById('currentProofInfo');
+                    info.innerHTML = `Current file: <a href="${pay.payment_proof}" target="_blank" class="text-primary text-decoration-underline">View Previous Proof</a>`;
+                    info.classList.remove('d-none');
+                }
+
+                // Update UI text for Editing
+                document.getElementById('step3Title').textContent = 'Update Rejected Payment #' + pay.id;
+                document.getElementById('submitPaymentBtn').textContent = 'Update Payment';
+                document.getElementById('step3BackBtn').classList.add('d-none'); // Hide back button in edit mode
+
+                // Open directly to Step 3
+                goToStep(3);
+                bootstrap.Modal.getOrCreateInstance(paymentModalEl).show();
+            },
+            error: function(xhr) {
+                editBtn.disabled = false;
+                Swal.fire('Error', xhr.responseJSON?.message || 'Failed to load payment details.', 'error');
             }
         });
     });

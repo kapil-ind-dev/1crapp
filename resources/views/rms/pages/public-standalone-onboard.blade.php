@@ -172,7 +172,7 @@
                     <div class="card-body">
                         <div class="row g-3">
                             {{-- Police Verification --}}
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label class="form-label fw-bold small">Police Verification Status *</label>
                                 <select name="police_status" class="form-select" {{ $isLocked ? 'disabled' : '' }}>
                                     <option value="Not started" {{ ($verif?->police_status ?? '') === 'Not started' ? 'selected' : '' }}>Not started</option>
@@ -182,12 +182,12 @@
                                 </select>
                             </div>
 
-                            <div class="col-md-4">
+                            <!-- <div class="col-md-4">
                                 <label class="form-label fw-bold small">Police Reference / Ack #</label>
                                 <input type="text" name="police_ref" class="form-control" value="{{ $verif->police_ref ?? '' }}" placeholder="Ref number" {{ $isLocked ? 'disabled' : '' }}>
-                            </div>
+                            </div> -->
 
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label class="form-label fw-bold small">Upload Police Copy</label>
                                 <input type="file" name="police_file" class="form-control" accept=".pdf,image/*" {{ $isLocked ? 'disabled' : '' }}>
                                 @if(!empty($verif?->police_file))
@@ -198,7 +198,7 @@
                             </div>
 
                             {{-- Agreement --}}
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label class="form-label fw-bold small">Rent Agreement Status *</label>
                                 <select name="agreement_status" class="form-select" {{ $isLocked ? 'disabled' : '' }}>
                                     <option value="Not started" {{ ($verif?->agreement_status ?? '') === 'Not started' ? 'selected' : '' }}>Not started</option>
@@ -208,12 +208,12 @@
                                 </select>
                             </div>
 
-                            <div class="col-md-4">
+                            <!-- <div class="col-md-4">
                                 <label class="form-label fw-bold small">Execution Date</label>
                                 <input type="date" name="agreement_date" class="form-control" value="{{ $verif->agreement_date ?? '' }}" {{ $isLocked ? 'disabled' : '' }}>
-                            </div>
+                            </div> -->
 
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label class="form-label fw-bold small">Signed Agreement Copy *</label>
                                 <input type="file" name="agreement_file" class="form-control" accept=".pdf,image/*" {{ $isLocked ? 'disabled' : '' }}>
                                 @if(!empty($verif?->agreement_file))

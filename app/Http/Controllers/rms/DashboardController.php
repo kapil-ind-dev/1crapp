@@ -8,7 +8,6 @@ use App\Models\rms\TenantModel;
 use App\Models\rms\TenantTenancyModel;
 use App\Models\rms\TenantVerificationModel;
 use App\Models\rms\TenantDocumentModel;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -19,7 +18,6 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
-
 class DashboardController extends Controller
 {
     public function __construct()
@@ -30,13 +28,10 @@ class DashboardController extends Controller
         // dd('hello');
         $agentId = app('currentAgent')->id ?? 8;
         $tenantSession = Session::get('tenent_login');
-        
         if (!$tenantSession) {
             return redirect()->route('rms.tenant-login');
         }
-
         $tenantId = $tenantSession['id'];
-
         // 1. Fetch all active shops assigned to this tenant via approved/active tenancies
         $tenantShops = DB::table('rms_tenant_tenancies as t')
             ->join('rms_shops as s', 's.id', '=', 't.shop_id')
@@ -51,98 +46,75 @@ class DashboardController extends Controller
                 'p.name as project_name'
             )
             ->get();
-            
         // dd($tenantShops);
         // if ($tenantShops->isEmpty()) {
         //     return redirect()->back()->with('error', 'No active properties/shops assigned to your account.');
         // }
-
         // 2. Filter Inputs: Shop, Year, Month
         $selectedShopId = $request->filled('shop_id') ? (int) $request->shop_id : 0; // 0 = All Properties
         $selectedYear   = $request->filled('year') ? (int) $request->year : now()->year;
         $selectedMonth  = $request->filled('month') ? (int) $request->month : 0;
-
         // Current active shop object for banner title
         $activeShop = $selectedShopId > 0 
             ? $tenantShops->firstWhere('shop_id', $selectedShopId) 
             : null;
-
         // Penalty configurations
         $penaltySettings = DB::table('rms_penalty_setting')
             ->where('agent_id', $agentId)
             ->first();
-
         $isPenaltyOverride = DB::table('rms_tenant_penalty_override')
             ->where([
                 'agent_id'  => $agentId,
                 'tenant_id' => $tenantId
             ])
             ->exists();
-
         // 3. Rent Collections Query (supports all shops or a specific selected shop)
         $query = RentCollectionModel::with(['electricity', 'shop', 'shop.project'])
             ->where('tenant_id', $tenantId)
             ->where('collection_year', $selectedYear);
-
         if ($selectedShopId > 0) {
             $query->where('shop_id', $selectedShopId);
         } else {
             $query->whereIn('shop_id', $tenantShops->pluck('shop_id')->toArray());
         }
-
         if ($selectedMonth > 0) {
             $query->where('collection_month', $selectedMonth);
         }
-
         $collections = $query
             ->orderByDesc('collection_year')
             ->orderByDesc('collection_month')
             ->orderByDesc('id')
             ->get();
-
         $collectionIds = $collections->pluck('id')->toArray();
-
         // 4. Payments
         $payments = DB::table('rms_rent_payments')
             ->whereIn('rentcollection_id', $collectionIds ?: [0])
             ->orderByDesc('id')
             ->get();
-
         $paymentGroups = $payments->groupBy('rentcollection_id');
-
         $records = collect();
-
         foreach ($collections as $collection) {
             $electricityAmount = ($collection->shop && $collection->shop->electricity_applicable)
                 ? (float) ($collection->electricity->electricity_cost ?? 0)
                 : 0;
-
             $basicRent    = (float) $collection->basic_rent;
             $cleaningCost = (float) $collection->cleaning_cost;
             $otherCharge  = (float) $collection->other_charge;
-
             $baseAmount = $basicRent + $cleaningCost + $electricityAmount + $otherCharge;
-
             $collectionPayments = $paymentGroups->get($collection->id, collect());
-
             $approvedAmount = (float) $collectionPayments
                 ->where('approval_status', 1)
                 ->sum('payment_amount');
-
             $pendingAmount = (float) $collectionPayments
                 ->where('approval_status', 0)
                 ->sum('payment_amount');
-
             $rejectedAmount = (float) $collectionPayments
                 ->where('approval_status', 2)
                 ->sum('payment_amount');
-
             $penalty = 0;
-
             if (!$isPenaltyOverride && $penaltySettings) {
                 $dueDate = $collection->shop->due_day ?? null;
                 $penaltyBase = max(0, $baseAmount - $approvedAmount);
-
                 if (function_exists('calculateRentPenalty')) {
                     $penalty = calculateRentPenalty(
                         $penaltyBase,
@@ -153,10 +125,8 @@ class DashboardController extends Controller
                     );
                 }
             }
-
             $totalDue = $baseAmount + $penalty;
             $outstanding = max(0, $totalDue - $approvedAmount);
-
             $records->push([
                 'id'              => $collection->id,
                 'shop_id'         => $collection->shop_id,
@@ -181,7 +151,6 @@ class DashboardController extends Controller
                 'payments'        => $collectionPayments,
             ]);
         }
-
         $totals = [
             'total_due'         => $records->sum('total_due'),
             'total_paid'        => $records->sum('approved_amount'),
@@ -190,24 +159,20 @@ class DashboardController extends Controller
             'total_outstanding' => $records->sum('outstanding'),
             'total_requests'    => $records->count(),
         ];
-
         // 5. Recent Payments Query
         $recentPaymentsQuery = DB::table('rms_rent_payments as p')
             ->join('rms_rentcollection as r', 'r.id', '=', 'p.rentcollection_id')
             ->leftJoin('rms_shops as s', 's.id', '=', 'p.shop_id')
             ->where('p.tenant_id', $tenantId)
             ->where('r.collection_year', $selectedYear);
-
         if ($selectedShopId > 0) {
             $recentPaymentsQuery->where('p.shop_id', $selectedShopId);
         } else {
             $recentPaymentsQuery->whereIn('p.shop_id', $tenantShops->pluck('shop_id')->toArray());
         }
-
         if ($selectedMonth > 0) {
             $recentPaymentsQuery->where('r.collection_month', $selectedMonth);
         }
-
         $recentPayments = $recentPaymentsQuery
             ->select(
                 'p.*',
@@ -218,18 +183,15 @@ class DashboardController extends Controller
             ->orderByDesc('p.id')
             ->limit(10)
             ->get();
-
         // Available Distinct Years
         $years = RentCollectionModel::where('tenant_id', $tenantId)
             ->select('collection_year')
             ->distinct()
             ->orderByDesc('collection_year')
             ->pluck('collection_year');
-
         if (!$years->contains($selectedYear)) {
             $years->prepend($selectedYear);
         }
-
         $statusLabels = [
             0 => 'Pending Request',
             1 => 'Request Sent',
@@ -238,7 +200,6 @@ class DashboardController extends Controller
             4 => 'Overdue',
             5 => 'Cancelled',
         ];
-
         $statusColors = [
             0 => 'bg-g-dark',
             1 => 'bg-g-blue',
@@ -266,13 +227,10 @@ class DashboardController extends Controller
     {
         $agent_id = app('currentAgent')->id ?? 8;
         $tenantSession = Session::get('tenent_login');
-
         if (!$tenantSession) {
             return redirect()->route('rms.tenant-login');
         }
-
         $tenantId = $tenantSession['id'];
-
         // 1. Fetch all active shops assigned to this tenant
         $tenantShops = DB::table('rms_tenant_tenancies as t')
             ->join('rms_shops as s', 's.id', '=', 't.shop_id')
@@ -287,18 +245,14 @@ class DashboardController extends Controller
                 'p.name as project_name'
             )
             ->get();
-
         if ($tenantShops->isEmpty()) {
             return redirect()->back()->with('error', 'No active properties/shops linked to your profile.');
         }
-
         // 2. Filter by Shop (0 = All Properties)
         $selectedShopId = $request->filled('shop_id') ? (int) $request->shop_id : 0;
-
         $shopIds = $selectedShopId > 0 
             ? [$selectedShopId] 
             : $tenantShops->pluck('shop_id')->toArray();
-
         // 3. Payment Requests (Unpaid, Partial, Overdue)
         $requestLists = RentCollectionModel::with(['electricity', 'shop.project', 'shop'])
             ->where('tenant_id', $tenantId)
@@ -307,7 +261,6 @@ class DashboardController extends Controller
             ->orderByDesc('id')
             ->paginate(10, ['*'], 'requests_page')
             ->withQueryString();
-
         // 4. Completed Payments
         $completedLists = RentCollectionModel::with(['electricity', 'shop.project', 'shop'])
             ->withSum([
@@ -321,7 +274,6 @@ class DashboardController extends Controller
             ->orderByDesc('id')
             ->paginate(10, ['*'], 'completed_page')
             ->withQueryString();
-
         // 5. Fetch bank/UPI accounts for all tenant shops (mapped by shop_id)
         $shopAccountMap = DB::table('rms_shops as s')
             ->leftJoin('rms_accounts as a', 'a.id', '=', 's.account_id')
@@ -340,23 +292,19 @@ class DashboardController extends Controller
             )
             ->get()
             ->keyBy('shop_id');
-
         // Default account for initial load
         $activeAccount = $selectedShopId > 0
             ? ($shopAccountMap->get($selectedShopId) ?? null)
             : ($shopAccountMap->first() ?? null);
-
         $penaltySettings = DB::table('rms_penalty_setting')
             ->where('agent_id', $agent_id)
             ->first();
-
         $isPenaltyOverride = DB::table('rms_tenant_penalty_override')
             ->where([
                 'agent_id'  => $agent_id,
                 'tenant_id' => $tenantId
             ])
             ->exists();
-
         return view('rms.pages.my-payments', compact(
             'requestLists',
             'completedLists',
@@ -372,16 +320,13 @@ class DashboardController extends Controller
     {
         $agentId = app('currentAgent')->id ?? 8;
         $tenantSession = Session::get('tenent_login');
-
         if (!$tenantSession) {
             return response()->json([
                 'status'  => false, 
                 'message' => 'Tenant session expired.'
             ], 401);
         }
-
         $tenantId = $tenantSession['id'];
-
         // 1. Fetch collection ensuring it belongs to this tenant and an active tenancy
         $collection = RentCollectionModel::with(['electricity', 'shop'])
             ->where('id', $id)
@@ -391,52 +336,42 @@ class DashboardController extends Controller
                 ->where('status', 1);
             })
             ->first();
-
         if (!$collection) {
             return response()->json([
                 'status'  => false, 
                 'message' => 'Payment request not found or unauthorized.'
             ], 404);
         }
-
         // 2. Penalty configuration & exemptions
         $penaltySettings = DB::table('rms_penalty_setting')
             ->where('agent_id', $agentId)
             ->first();
-
         $isPenaltyOverride = DB::table('rms_tenant_penalty_override')
             ->where([
                 'agent_id'  => $agentId,
                 'tenant_id' => $tenantId
             ])
             ->exists();
-
         // 3. Base Amount Calculations
         $electricityAmount = ($collection->shop && $collection->shop->electricity_applicable)
             ? (float) ($collection->electricity->electricity_cost ?? 0)
             : 0;
-
         $basicRent    = (float) $collection->basic_rent;
         $cleaningCost = (float) $collection->cleaning_cost;
         $otherCharge  = (float) ($collection->other_charge ?? 0);
-
         $baseAmount = $basicRent + $cleaningCost + $electricityAmount + $otherCharge;
-
         // 4. Fetch all payment submissions for this collection
         $payments = DB::table('rms_rent_payments')
             ->where('rentcollection_id', $collection->id)
             ->orderByDesc('id')
             ->get();
-
         $approvedAmount = (float) $payments->where('approval_status', 1)->sum('payment_amount');
         $pendingAmount  = (float) $payments->where('approval_status', 0)->sum('payment_amount');
-
         // 5. Penalty Calculation
         $penalty = 0;
         if (!$isPenaltyOverride && $penaltySettings) {
             $dueDate     = $collection->shop->due_day ?? null;
             $penaltyBase = max(0, $baseAmount - $approvedAmount);
-
             if (function_exists('calculateRentPenalty')) {
                 $penalty = calculateRentPenalty(
                     $penaltyBase,
@@ -447,10 +382,8 @@ class DashboardController extends Controller
                 );
             }
         }
-
         $totalDue    = $baseAmount + $penalty;
         $outstanding = max(0, $totalDue - $approvedAmount);
-
         return response()->json([
             'status'     => true,
             'collection' => [
@@ -479,10 +412,8 @@ class DashboardController extends Controller
         if (!$tenantSession) {
             return redirect()->route('rms.tenant-login');
         }
-
         $tenantId = $tenantSession['id'];
         $agent_id = app('currentAgent')->id ?? 8;
-
         // 1. Fetch all active properties leased by this tenant
         $tenantProperties = DB::table('rms_tenant_tenancies as t')
             ->join('rms_shops as s', 's.id', '=', 't.shop_id')
@@ -503,29 +434,23 @@ class DashboardController extends Controller
                 'p.name as project_name'
             )
             ->get();
-
         if ($tenantProperties->isEmpty()) {
             return redirect()->back()->with('error', 'No active properties/shops linked to your profile.');
         }
-
         // 2. Determine active property
         $selectedShopId = $request->filled('shop_id') 
             ? (int) $request->shop_id 
             : (int) $tenantProperties->first()->shop_id;
-
         $activeProperty = $tenantProperties->firstWhere('shop_id', $selectedShopId) 
             ?? $tenantProperties->first();
-
         // 3. Penalty settings & overrides
         $penalty = DB::table('rms_penalty_setting')->where('agent_id', $agent_id)->first();
-        
         $isPenaltyOverride = DB::table('rms_tenant_penalty_override')
             ->where([
                 'agent_id'  => $agent_id,
                 'tenant_id' => $tenantId
             ])
             ->exists();
-
         // 4. Rent Collections Totals for the active property
         $totals = DB::table('rms_rentcollection')
             ->selectRaw('
@@ -536,7 +461,6 @@ class DashboardController extends Controller
             ->where('tenant_id', $tenantId)
             ->where('shop_id', $activeProperty->shop_id)
             ->first();
-
         // 5. Fetch latest electricity cost using your existing RentCollectionModel relation (SAFE)
         $latestElectricity = null;
         if ($activeProperty->electricity_applicable) {
@@ -546,10 +470,8 @@ class DashboardController extends Controller
                 ->orderByDesc('collection_year')
                 ->orderByDesc('collection_month')
                 ->first();
-
             $latestElectricity = $latestCollection->electricity ?? null;
         }
-
         return view('rms.pages.my-property', compact(
             'tenantSession',
             'tenantProperties',
@@ -581,11 +503,7 @@ class DashboardController extends Controller
         ]);
         DB::beginTransaction();
         try {
-            /*
-            |--------------------------------------------------------------------------
-            | Get Rent Collection
-            |--------------------------------------------------------------------------
-            */
+            
             $collection = DB::table('rms_rentcollection')
                 ->where('id', $request->collection_id)
                 ->where('tenant_id', $tenant['id'])
@@ -598,11 +516,7 @@ class DashboardController extends Controller
                     'message' => 'Payment request not found.'
                 ], 404);
             }
-            /*
-            |--------------------------------------------------------------------------
-            | Do not allow payment on cancelled / fully paid request
-            |--------------------------------------------------------------------------
-            */
+            
             if (in_array((int) $collection->status, [3, 5])) {
                 DB::rollBack();
                 return response()->json([
@@ -612,17 +526,7 @@ class DashboardController extends Controller
                         : 'This payment request has been cancelled.'
                 ], 422);
             }
-            /*
-            |--------------------------------------------------------------------------
-            | Calculate already approved + pending payments
-            |--------------------------------------------------------------------------
-            |
-            | approval_status:
-            | 0 = Pending
-            | 1 = Approved
-            | 2 = Rejected
-            |
-            */
+            
             $approvedAmount = (float) DB::table('rms_rent_payments')
                 ->where('rentcollection_id', $collection->id)
                 ->where('approval_status', 1)
@@ -631,11 +535,8 @@ class DashboardController extends Controller
                 ->where('rentcollection_id', $collection->id)
                 ->where('approval_status', 0)
                 ->sum('payment_amount');
-            /*
-            |--------------------------------------------------------------------------
-            | Available outstanding amount
-            |--------------------------------------------------------------------------
-            */
+            
+                
             $remainingAmount = max(
                 0,
                 (float) $collection->gross_due
@@ -643,41 +544,16 @@ class DashboardController extends Controller
                 - $pendingAmount
             );
             $paymentAmount = (float) $request->paid_amount;
-            /*
-            |--------------------------------------------------------------------------
-            | Overpayment is allowed
-            |--------------------------------------------------------------------------
-            |
-            | You have removed the old restriction, so we do not block:
-            |
-            | paymentAmount > remainingAmount
-            |
-            */
-            /*
-            |--------------------------------------------------------------------------
-            | Upload Payment Proof
-            |--------------------------------------------------------------------------
-            */
+            
             $paymentProof = null;
-            if ($request->hasFile('receipt')) {
-                $directory = public_path('uploads/rms/payments');
-                if (!is_dir($directory)) {
-                    mkdir($directory, 0755, true);
-                }
-                $file = $request->file('receipt');
-                $fileName = time()
-                    . '_'
-                    . mt_rand(1000, 9999)
-                    . '.'
-                    . $file->getClientOriginalExtension();
-                $file->move($directory, $fileName);
-                $paymentProof = 'uploads/rms/payments/' . $fileName;
+            if($request->hasFile('payment_proof')) {
+                $proofName = $this->set_logoname(
+                    time() . '_' . $request->payment_proof->getClientOriginalName()
+                );
+                $request->payment_proof->move(public_path('uploads'), $proofName);
+                $paymentProof = asset('uploads/' . $proofName);
             }
-            /*
-            |--------------------------------------------------------------------------
-            | Insert Payment Request
-            |--------------------------------------------------------------------------
-            */
+            
             $penaltySettings = DB::table('rms_penalty_setting')->where('agent_id', $agentId)->first();
             $subgross = (float)$collection->basic_rent +
             (float)($this->electricityTotal($collection->id) ?? 0) +
@@ -690,7 +566,6 @@ class DashboardController extends Controller
                 $collection->collection_year,
                 $collection->collection_month
             );
-
             $shop = ShopModel::select('id', 'shop_name', 'account_id')->where('agent_id', $agentId)
             ->find($collection->shop_id);
             $paymentId = DB::table('rms_rent_payments')->insertGetId([
@@ -718,18 +593,6 @@ class DashboardController extends Controller
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
-            /*
-            |--------------------------------------------------------------------------
-            | Change collection status to Request Sent
-            |--------------------------------------------------------------------------
-            |
-            | IMPORTANT:
-            | Do NOT change paid_amount here.
-            |
-            | Payment is still pending admin approval.
-            |
-            */
-            
             $grossAmount = $subgross+$penalty-$paymentAmount;
             if ((int) $collection->status === 0) {
                 DB::table('rms_rentcollection')
@@ -767,7 +630,6 @@ class DashboardController extends Controller
     {
         $user = Session::get('tenent_login');
         $tenant = TenantModel::find($user['id']);
-
         // Uniqueness is checked only when the value is actually being changed,
         // and only inside the same project. This avoids false errors when the
         // same person has more than one tenant row (e.g. multiple shops).
@@ -777,14 +639,12 @@ class DashboardController extends Controller
                 ->where('project_id', $tenant->project_id)
                 ->ignore($tenant->id);
         }
-
         $mobileRules = ['required', 'digits:10'];
         if ($request->mobile !== $tenant->mobile) {
             $mobileRules[] = Rule::unique('rms_tenants', 'mobile')
                 ->where('project_id', $tenant->project_id)
                 ->ignore($tenant->id);
         }
-
         $data = $request->validate([
             'name'   => ['required', 'string', 'max:255'],
             'email'  => $emailRules,
@@ -793,11 +653,9 @@ class DashboardController extends Controller
         // Profile image: upload new / remove existing
         if ($request->hasFile('profile')) {
             $this->deleteProfileFile($tenant->profile);
- 
             $file     = $request->file('profile');
             $fileName = 'tenant_' . $tenant->id . '_' . time() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('uploads/tenant_profiles'), $fileName);
- 
             $data['profile'] = asset('uploads/tenant_profiles/' . $fileName);
         } elseif ($request->boolean('remove_profile')) {
             $this->deleteProfileFile($tenant->profile);
@@ -805,9 +663,7 @@ class DashboardController extends Controller
         } else {
             unset($data['profile']); // keep the existing image
         }
-
         $tenant->update($data);
-
         return redirect()->route('rms.profile')
             ->with('success', 'Profile updated successfully.');
     }
@@ -824,28 +680,23 @@ class DashboardController extends Controller
     {
         $user = Session::get('tenent_login');
         $tenant = TenantModel::find($user['id']);
- 
         $request->validate([
             'current_pin' => ['required', 'digits:4'],
             'pin'         => ['required', 'digits:4', 'confirmed', 'different:current_pin'],
         ], [
             'pin.different' => 'New PIN must be different from the current PIN.',
         ]);
- 
         // Supports both hashed and plain-text stored PINs
         $stored = (string) $tenant->pin;
         $isHashed = password_get_info($stored)['algoName'] !== 'unknown';
         $valid  = $isHashed
             ? Hash::check($request->current_pin, $stored)
             : hash_equals($stored, $request->current_pin);
- 
         if (! $valid) {
             return back()->withErrors(['current_pin' => 'Current PIN is incorrect.']);
         }
- 
         // If your login compares the PIN as plain text, use $request->pin instead of Hash::make(...)
         $tenant->update(['pin' => $request->pin, 'password'=>Hash::make($request->pin)]);
- 
         return redirect()->route('rms.pin')
             ->with('success', 'PIN updated successfully.');
     }
@@ -853,16 +704,13 @@ class DashboardController extends Controller
     {
         try {
             $payment = RentPayment::findOrFail($id);
-
             // Fetch collection using the correct foreign key
             $collection = RentCollectionModel::with([
                 'shop',
                 'payments',
                 'electricity'
             ])->find($payment->rentcollection_id);
-
             $collectionData = null;
-
             if ($collection) {
                 $basicRent   = (float) ($collection->basic_rent ?? 0);
                 $maintenance = (float) ($collection->shop?->cleaning_cost ?? 0);
@@ -870,7 +718,6 @@ class DashboardController extends Controller
                 $electricity = (float) (
                     $collection->electricity?->electricity_cost ?? 0
                 );
-
                 // Calculate gross due
                 $grossDue = (float) (
                     $collection->gross_due
@@ -881,18 +728,15 @@ class DashboardController extends Controller
                         $electricity
                     )
                 );
-
                 // Sum approved payments
                 $approvedPaid = (float) $collection->payments
                     ->where('approval_status', 1)
                     ->sum('payment_amount');
-
                 // Outstanding amount
                 $remainingAmount = max(
                     0,
                     $grossDue - $approvedPaid
                 );
-
                 $collectionData = [
                     'id'               => $collection->id,
                     'collection_year'  => $collection->collection_year,
@@ -902,70 +746,22 @@ class DashboardController extends Controller
                     'remaining_amount' => $remainingAmount,
                 ];
             }
-
             return response()->json([
                 'status'     => true,
                 'data'       => $payment,
                 'collection' => $collectionData,
             ]);
-
         } catch (\Exception $e) {
             \Log::error('Edit rent payment error', [
                 'payment_id' => $id,
                 'message'    => $e->getMessage(),
             ]);
-
             return response()->json([
                 'status'  => false,
                 'message' => 'Unable to fetch payment details.',
             ], 500);
         }
     }
-    // public function editPayment($id)
-    // {
-    //     try {
-    //         $payment = RentPayment::findOrFail($id);
-
-    //         // Collection data fetch karein taaki remaining amount aur month/year mil sake
-    //         $collection = RentCollectionModel::with(['shop', 'payments'])->find($payment->rent_collection_id);
-
-    //         $remainingAmount = 0;
-    //         $collectionData = null;
-
-    //         if ($collection) {
-    //             $basicRent    = (float)$collection->basic_rent;
-    //             $maintenance  = (float)($collection->shop?->cleaning_cost ?? 0);
-    //             $otherCharge  = (float)$collection->other_charge;
-    //             $electricity  = (float)($collection->electricity?->electricity_cost ?? 0);
-    //             $grossDue     = $basicRent + $maintenance + $otherCharge + $electricity;
-
-    //             $approvedPaid = (float)$collection->payments
-    //                 ->where('approval_status', 1)
-    //                 ->sum('payment_amount');
-
-    //             $remainingAmount = max(0, $grossDue - $approvedPaid);
-
-    //             $collectionData = [
-    //                 'id'               => $collection->id,
-    //                 'collection_year'  => $collection->collection_year,
-    //                 'collection_month' => $collection->collection_month,
-    //                 'remaining_amount' => $remainingAmount,
-    //             ];
-    //         }
-
-    //         return response()->json([
-    //             'status'     => true,
-    //             'data'       => $payment,
-    //             'collection' => $collectionData,
-    //         ]);
-    //     } catch (\Exception $e) {
-    //         return response()->json([
-    //             'status'  => false,
-    //             'message' => 'Unable to fetch payment details: ' . $e->getMessage()
-    //         ], 500);
-    //     }
-    // }
-
     /**
      * Update payment record.
      */
@@ -979,35 +775,29 @@ class DashboardController extends Controller
             'receipt'          => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:5120',
             'remarks'          => 'nullable|string|max:1000',
         ]);
-
         try {
             DB::beginTransaction();
-
             $payment = RentPayment::findOrFail($id);
-
             // Amount field mapping (DB column payment_amount / paid_amount)
             $payment->payment_amount   = $request->paid_amount;
             $payment->payment_date     = $request->payment_date;
             $payment->payment_mode     = $request->payment_mode;
             $payment->reference_number = $request->reference_number;
             $payment->remarks          = $request->remarks;
-
+            $payment->approval_status  = 0;
             // Agar user ne naya proof/receipt upload kiya ho
             if ($request->hasFile('receipt')) {
-                // Purani file delete karein agar exist karti ho
-                if (!empty($payment->payment_proof)) {
-                    $oldPath = str_replace(asset('storage/'), '', $payment->payment_proof);
-                    Storage::disk('public')->delete($oldPath);
+                $directory = public_path('uploads');
+                if (!is_dir($directory)) {
+                    mkdir($directory, 0755, true);
                 }
-
-                $path = $request->file('receipt')->store('rent_receipts', 'public');
-                $payment->payment_proof = asset('storage/' . $path);
+                $file = $request->file('receipt');
+                $fileName = time() . '_' . $file->getClientOriginalName();
+                $file->move($directory, $fileName);
+                $payment->payment_proof =  asset('uploads/' . $fileName);
             }
-
             $payment->save();
-
             DB::commit();
-
             return response()->json([
                 'status'        => true,
                 'collection_id' => $payment->rent_collection_id,
