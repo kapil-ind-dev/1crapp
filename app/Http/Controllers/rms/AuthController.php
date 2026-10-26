@@ -38,6 +38,7 @@ class AuthController extends Controller
                     ->orWhere('mobile', $username);
             })
             ->where('status', 1)
+            ->whereNull('deleted_at')
             ->first();
         
         if (!$tenant) {
@@ -59,6 +60,6 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         Session::forget('tenent_login');
-        return redirect()->to('rms/login')->with('success', 'Logged out successfully!');
+        return redirect()->to('/')->with('success', 'Logged out successfully!');
     }
 }

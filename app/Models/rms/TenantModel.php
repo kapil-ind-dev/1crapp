@@ -9,6 +9,7 @@ class TenantModel extends Model
     use SoftDeletes;
     protected $table = 'rms_tenants';
     protected $fillable = [
+        'id',
         'agent_id',
         'name',
         'father_or_spouse_name',

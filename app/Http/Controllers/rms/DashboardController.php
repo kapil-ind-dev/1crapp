@@ -630,23 +630,30 @@ class DashboardController extends Controller
     {
         $user = Session::get('tenent_login');
         $tenant = TenantModel::find($user['id']);
+        $agentId = app('currentAgent')->id??8;
         // Uniqueness is checked only when the value is actually being changed,
         // and only inside the same project. This avoids false errors when the
         // same person has more than one tenant row (e.g. multiple shops).
-        $emailRules = ['required', 'email', 'max:255'];
+        $emailRules = ['required', 'email'];
         if ($request->email !== $tenant->email) {
             $emailRules[] = Rule::unique('rms_tenants', 'email')
-                ->where('project_id', $tenant->project_id)
-                ->ignore($tenant->id);
+                ->ignore($tenant->id)
+                ->where('agent_id', $agentId)
+                ->whereNull('deleted_at');
         }
+
         $mobileRules = ['required', 'digits:10'];
+
         if ($request->mobile !== $tenant->mobile) {
             $mobileRules[] = Rule::unique('rms_tenants', 'mobile')
-                ->where('project_id', $tenant->project_id)
-                ->ignore($tenant->id);
+                ->ignore($tenant->id)
+                ->where('agent_id', $agentId)
+                ->whereNull('deleted_at');
         }
         $data = $request->validate([
             'name'   => ['required', 'string', 'max:255'],
+            'designation'   => ['nullable', 'string', 'max:255'],
+            'company'   => ['nullable', 'string', 'max:255'],
             'email'  => $emailRules,
             'mobile' => $mobileRules,
         ]);
