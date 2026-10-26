@@ -671,44 +671,44 @@ $hlayout = DB::table('header_settings')->where('agent_id', app('currentAgent')->
 <section class="shadow" id="myHeader">
 	<div class="newhearpagess">
         @if(optional($hlayout)->show_top_bar)
-        @if(optional($hlayout)->template == 'standard' || optional($hlayout)->template == 'announcement'|| optional($hlayout)->template == 'professional'|| optional($hlayout)->template == 'cr_professional')
-		<div class="top-news">
-			<div class="container">
-				<div class="news-wrap">
-					<div class="boths_dts">
-						<div class="left-btn">
-							<svg viewBox="0 0 24 24" fill="none">
-								<circle cx="12" cy="12" r="11" fill="#ff5d73" />
-								<polygon points="10,8 17,12 10,16" fill="#fff" />
-							</svg>
-							<span>Documentary</span>
-						</div>
-						<div class="news-title">⚡ News & Updates</div>
-					</div>
-					<div class="marquee-area">
-						<div class="marquee-content">
-							<span>Empowering Communities!</span>
-							<span class="dot"></span>
-							<span>Stay Connected and Informed</span>
-							<span class="dot"></span>
-							<span>Empowering Communities!</span>
-							<span class="dot"></span>
-							<span>Stay Connected and Informed</span>
-							<span class="dot"></span>
-							<span>More...</span>
-						</div>
-					</div>
-					<div class="help-btn">
-						<svg viewBox="0 0 24 24" fill="none">
-							<circle cx="12" cy="12" r="10" stroke="#0a3f7a" stroke-width="2" />
-							<path d="M12 7v5l3 2" stroke="#0a3f7a" stroke-width="2" stroke-linecap="round" />
-						</svg>
-						Instant Help !
-					</div>
-				</div>
-			</div>
-		</div>
-        @endif
+            @if(optional($hlayout)->template == 'standard' || optional($hlayout)->template == 'announcement'|| optional($hlayout)->template == 'professional'|| optional($hlayout)->template == 'cr_professional')
+            <div class="top-news">
+                <div class="container">
+                    <div class="news-wrap">
+                        <div class="boths_dts">
+                            <div class="left-btn">
+                                <svg viewBox="0 0 24 24" fill="none">
+                                    <circle cx="12" cy="12" r="11" fill="#ff5d73" />
+                                    <polygon points="10,8 17,12 10,16" fill="#fff" />
+                                </svg>
+                                <span>Documentary</span>
+                            </div>
+                            <div class="news-title">⚡ News & Updates</div>
+                        </div>
+                        <div class="marquee-area">
+                            <div class="marquee-content">
+                                <span>Empowering Communities!</span>
+                                <span class="dot"></span>
+                                <span>Stay Connected and Informed</span>
+                                <span class="dot"></span>
+                                <span>Empowering Communities!</span>
+                                <span class="dot"></span>
+                                <span>Stay Connected and Informed</span>
+                                <span class="dot"></span>
+                                <span>More...</span>
+                            </div>
+                        </div>
+                        <div class="help-btn">
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <circle cx="12" cy="12" r="10" stroke="#0a3f7a" stroke-width="2" />
+                                <path d="M12 7v5l3 2" stroke="#0a3f7a" stroke-width="2" stroke-linecap="round" />
+                            </svg>
+                            Instant Help !
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endif
         @endif
 		<div class="container">
 			<div class="foundation-header">
@@ -731,31 +731,22 @@ $hlayout = DB::table('header_settings')->where('agent_id', app('currentAgent')->
                         </div>
                         @endif
                         @if(optional($hlayout)->show_actions)
-					  <div class="action-buttons">
-                            @if(url('/') != 'https://skrm.1crapp.com')
-                            <a href="#" class="btn waves-effect waves-light">
-                                {{ optional($hlayout)->primary_button_text }}
-                                <svg viewBox="0 0 24 24">
-                                    <path
-                                        d="M12 12c2.8 0 5-2.2 5-5s-2.2-5-5-5-5 2.2-5 5 2.2 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z"
-                                    ></path>
-                                </svg>
-                            </a>
-                            <a href="{{ url('rms/login') }}" class="btn waves-effect waves-light">
-                                {{ optional($hlayout)->secondary_button_text }}
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M20 7h-4V5a4 4 0 0 0-8 0v2H4v12h16V7zM10 5a2 2 0 1 1 4 0v2h-4V5z"></path>
-                                </svg>
-                            </a>
-                            @else
-                            <a href="{{ url('login') }}" class="btn waves-effect waves-light">
-                                {{ optional($hlayout)->secondary_button_text }}
-                                <svg viewBox="0 0 24 24">
-                                    <path d="M20 7h-4V5a4 4 0 0 0-8 0v2H4v12h16V7zM10 5a2 2 0 1 1 4 0v2h-4V5z"></path>
-                                </svg>
-                            </a>
-                            @endif
-                        </div>
+                            <div class="action-buttons">
+                                <a href="{{ optional($hlayout)->primary_url??url('register') }}" class="btn waves-effect waves-light">
+                                    {{ optional($hlayout)->primary_button_text }}
+                                    <svg viewBox="0 0 24 24">
+                                        <path
+                                            d="M12 12c2.8 0 5-2.2 5-5s-2.2-5-5-5-5 2.2-5 5 2.2 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z"
+                                        ></path>
+                                    </svg>
+                                </a>
+                                <a href="{{ optional($hlayout)->secondary_url??url('login') }}" class="btn waves-effect waves-light">
+                                    {{ optional($hlayout)->secondary_button_text }}
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M20 7h-4V5a4 4 0 0 0-8 0v2H4v12h16V7zM10 5a2 2 0 1 1 4 0v2h-4V5z"></path>
+                                    </svg>
+                                </a>
+                            </div>
                         @endif
 					 </div>
 					<div class="both_mngessss">
