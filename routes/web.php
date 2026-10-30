@@ -271,6 +271,7 @@ Route::group(['middleware' => 'guest'], function () {
 });
 
 
+Route::get('/plans', [SubscriptionController::class, 'plans'])->name('plans');
 // pnt
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/reviews', function () {

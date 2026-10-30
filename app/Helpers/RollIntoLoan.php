@@ -553,10 +553,8 @@ if (!function_exists('calculateLoanAmount')) {
 
                 case 'Improvement Cost':
                 case 'Price and Improvement Cost':
-                    // You can throw an exception, log, or skip with a warning
-                    // For now, we'll skip these
                     \Log::warning("Loan {$index}: Improvement Cost calculation not implemented.");
-                    continue;
+                    continue 2;
 
                 case 'Basic Sale Price':
                     $baseAmount = $salePrice;
@@ -566,12 +564,10 @@ if (!function_exists('calculateLoanAmount')) {
                 case 'Custom Amount':
                     $loanAmount = $financingPercent;
                     break;
-                    // \Log::warning("Loan {$index}: Custom amount calculation not implemented.");
-                    // continue;
 
                 default:
                     \Log::warning("Loan {$index}: Unknown loan type '{$loanType}'.");
-                    continue;
+                    continue 2;
             }
 
             // Calculate loan amount

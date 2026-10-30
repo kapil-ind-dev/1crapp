@@ -26,12 +26,35 @@ use App\Mail\BecomeAgent;
 use App\Models\LeadMagnetModel;
 use App\Models\LeadMagenetModel1;
 
+use App\Models\AccessModule;
+
 use Razorpay\Api\Api;
 use Razorpay\Api\Errors\SignatureVerificationError;
 
 
 class SubscriptionController extends Controller
 {
+    
+   public function plans()
+    {
+        $plan_type = PlanTypeModel::where('status', 1)
+            ->orderBy('total_months', 'asc')
+            ->get();
+
+        $plans = SubscriptionPlan::with(['rolePermissions'])
+            ->where('status', 1)
+            ->orderBy('priority', 'asc')
+            ->get();
+
+        // Eager load nested module tree
+        $modules = AccessModule::with('childrenRecursive')
+            ->whereNull('parent_id')
+            ->orderBy('sort_order', 'asc')
+            ->orderBy('name', 'asc')
+            ->get();
+
+        return view('web.pages.plans', compact('modules', 'plan_type', 'plans'));
+    }
     
     public function price(){
         $user = Auth()->user();
