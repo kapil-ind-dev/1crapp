@@ -146,7 +146,7 @@
                                             <option value="">Select</option>
                                             <option value="video" {{ (isset($details->media_type) && $details->media_type == 'video') ? 'selected' : '' }}>Video</option>
                                             <option value="image" {{ (isset($details->media_type) && $details->media_type == 'image') ? 'selected' : '' }}>Image</option>
-                                            <option value="link"  {{ (isset($details->media_type) && $details->media_type == 'link') ? 'selected' : '' }}>Embed Link</option>
+                                            <option value="link"  {{ (isset($details->media_type) && $details->media_type == 'link') ? 'selected' : '' }}>Embed Code</option>
                                         </select>
                                     </div>
                                 </div>
@@ -159,6 +159,36 @@
                                             class="inp_araea" 
                                             name="media_path" 
                                             value="{{ isset($details->media_path) ? $details->media_path : '' }}">
+                                            
+                                    </div>
+                                    @if(isset($details->media_path) && !empty($details->media_path))
+                                        <div class="mt-2">
+                                            {{-- ✅ IMAGE --}}
+                                            @if(($details->media_type ?? '') == 'image' && !empty($details->media_path))
+                                                <img src="{{ asset($details->media_path) }}" width="120" style="border-radius:8px;">
+
+                                            {{-- ✅ VIDEO --}}
+                                            @elseif(($details->media_type ?? '') == 'video' && !empty($details->media_path))
+                                                <video width="200" controls style="border-radius:8px;">
+                                                    <source src="{{ asset($details->media_path) }}">
+                                                    Your browser does not support video.
+                                                </video>
+
+                                            {{-- ✅ LINK (YouTube / Embed) --}}
+                                            @elseif(($details->media_type ?? '') == 'link' && !empty($details->media_embeded_code))
+                                                 {!! $details->media_embeded_code !!}
+                                            @endif
+
+                                        </div>
+
+                                    @endif
+                                </div>
+                                <!-- LINK INPUT -->
+                                <div class="col-lg-5" id="media_embedCode" style="display:none;">
+                                    <div class="form-group">
+                                        <label>Media Embed Code</label>
+                                        <textarea placeholder="Enter Embed Code" class="txt_araea" name="media_embeded_code">{{ isset($details->media_embeded_code) ? $details->media_embeded_code : '' }}</textarea>
+                                        
                                     </div>
                                     @if(isset($details->media_path) && !empty($details->media_path))
                                         <div class="mt-2">
@@ -214,7 +244,7 @@
                                                 </video>
 
                                             {{-- ✅ LINK (YouTube / Embed) --}}
-                                            @elseif(($details->media_type ?? '') == 'link' && !empty($details->media_path))
+                                            @elseif(($details->media_type ?? '') == 'link' && !empty($details->media_embeded_code))
                                                 <!-- <iframe 
                                                     width="250" 
                                                     height="140" 
@@ -223,7 +253,7 @@
                                                     allowfullscreen
                                                     style="border-radius:8px;">
                                                 </iframe> -->
-                                                {!! $details->media_path !!}
+                                                {!! $details->media_embeded_code !!}
                                             @endif
 
                                         </div>
@@ -374,7 +404,7 @@
                                 </div>
                             </div>
                         </div>
-                         <div class="al_frm_bx" id="password-section">
+                          <?php /*<div class="al_frm_bx" id="password-section">
                             <h5>Company Details</h5>
                             <div class="row">
                                 
@@ -395,7 +425,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Company Phone</label>
-                                        <input type="text" minLength="6" maxLength="12" placeholder="Enter Company Phone" class="inp_araea" name="company_phone" value="{{ isset($details->company_phone) ? $details->company_phone : '' }}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
+                                        // <input type="text" minLength="6" maxLength="12" placeholder="Enter Company Phone" class="inp_araea" name="company_phone" value="{{ isset($details->company_phone) ? $details->company_phone : '' }}" />
                                         <small id="user_msg"></small>
                                     </div>
                                 </div>
@@ -420,7 +450,6 @@
                                         <input type="file" 
                                             class="inp_araea" 
                                             name="company_logo" 
-                                            accept="image*/"
                                             id="company_logo">
                                     </div>
                                     @if(isset($details) && !empty($details->company_logo))
@@ -431,13 +460,13 @@
                                 </div>
                             </div>
                         </div>
-                         <div class="al_frm_bx" id="password-section">
+                        <div class="al_frm_bx" id="password-section">
                             <h5>Your Lead Magnet Branding and Color</h5>
                             <div class="row">
                                 
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label>Header & Footer Background, countdown icon tick color & Download Arrow</label>
+                                        <label>Countdown icon tick color & Download Arrow</label>
                                         <input type="color" placeholder="Choose Header & Footer Background, countdown icon tick color & Download Arrow" class="inp_araea" name="header_footer_bg_color" value="{{ isset($details->header_footer_bg_color) ? $details->header_footer_bg_color : '' }}"/>
                                         <small id="user_msg"></small>
                                     </div>
@@ -451,7 +480,7 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label>Header & Footer Text Color</label>
+                                        <label>Text Color</label>
                                         <input type="color" placeholder="Choose Header & Footer Text Color" class="inp_araea" name="header_footer_text_color" value="{{ isset($details->header_footer_text_color) ? $details->header_footer_text_color : '' }}"/>
                                         <small id="user_msg"></small>
                                     </div>
@@ -464,7 +493,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> */ ?>
                          <div class="al_frm_bx" id="password-section">
                             <div class="row">
                                 
@@ -572,6 +601,7 @@ flatpickr("#countdown_datetime", {
     });
 function setMediaInput(type) {
 
+    let media_embedCode   = document.getElementById('media_embedCode');
     let linkBox   = document.getElementById('media_link');
     let uploadBox = document.getElementById('media_upload');
     let fileInput = document.getElementById('media_file');
@@ -579,9 +609,10 @@ function setMediaInput(type) {
     // Reset
     linkBox.style.display = 'none';
     uploadBox.style.display = 'none';
+    media_embedCode.style.display = 'none';
 
     if(type === 'link'){
-        linkBox.style.display = 'block';
+        media_embedCode.style.display = 'block';
     }
 
     if(type === 'image'){

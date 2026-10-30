@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>{{ $content->title }}</title>
+    <title>{{ optional($content)->title }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css'>
@@ -85,19 +85,19 @@
     <div class="email-container">
         <div class="email-content">
             <div class="email-header">
-                <img src="{{ $content->logo }}" alt="1CR Logo">
-                <h1>{{ $content->title }}</h1>
+                <img src="{{ optional($content)->logo }}" alt="1CR Logo">
+                <h1>{{ optional($content)->title }}</h1>
             </div>
             <div class="email-body">
                 <p>Hello {{ $data['name']??'' }},</p>
-                {!! $content->top_content !!}
+                {!! optional($content)->top_content !!}
                 <div class="code">
                     <p><strong style="font-size: 130%">{{ $data['code'] }}</strong></p>
                 </div>
-                {!! $content->bottom_content !!}
+                {!! optional($content)->bottom_content !!}
             </div>
             <div class="email-footer">
-                <p>{!! $content->copyright_text !!}</p>
+                <p>{!! optional($content)->copyright_text !!}</p>
             </div>
         </div>
     </div>

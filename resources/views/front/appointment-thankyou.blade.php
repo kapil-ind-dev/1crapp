@@ -510,7 +510,7 @@ margin-right: 10px;
 .red_bg {background: #fe4848;}
 .parpal_bg {background: #aa00b3;}
 .skyc_bg {background: #00aef0;}
-
+.new_ar_tring.cal_bkk_typ .digitalss_c .usr_sm_logoss {    width: 120px;    height: 72px;    margin: 0 auto;    overflow: hidden;}.new_ar_tring.cal_bkk_typ .digitalss_c .usr_sm_logoss img{    width: 100%;    height: 100%;	object-fit:cover;}
 
 @media (min-width: 481px) and (max-width: 767px) {
 .what_tst .qu_bx_partss {padding: 10px 10px 10px !important;}
@@ -587,7 +587,7 @@ margin-right: 10px;
 #countdown ul li {margin-right: 7px; padding: 15px 5px;}
 
 .iv-player_responsive_padding {padding: 250% 0 0 0 !important;}
-.new_ar_tring h3 label.custom-checkbox span.full_araa {font-size: 20px;}
+    .new_ar_tring h3 label.custom-checkbox span.full_araa {        font-size: 17px;        line-height: 24px;    }
 .v_part_liststs.opt_in_pg.call_bk_typ {padding: 15px;}
 .v_part_liststs.opt_in_pg.call_bk_typ .cl_bk_typ h4 {font-size: 18px;}
 .v_part_liststs.opt_in_pg.call_bk_typ .dhr_partss h3 {font-size: 20px;}
@@ -609,10 +609,10 @@ margin-right: 10px;
 	
 	
         <div class="digitalss_c">
-            @if($data->logo)
-                <img class="usr_lgo" src="{{ $data->logo }}" alt="" />	
+            @if($data->logo)                <div class="usr_sm_logoss">
+                 <img class="usr_lgo" src="{{ $data->logo }}" alt="" />                </div>				
             @else	  
-                <img class="usr_lgo" src="{{ url('home/img/logo 1.png')}}" alt="" />
+                <div class="usr_sm_logoss">				 <img class="usr_lgo" src="{{ url('home/img/logo 1.png')}}" alt="" />				</div>
             @endif	
 		  <h6 style="color:{{ $data->sub_title_color}}; ">{{ $data->sub_title }}</h4>
 		</div>

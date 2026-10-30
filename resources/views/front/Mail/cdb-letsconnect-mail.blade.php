@@ -16,7 +16,9 @@
                 <!-- HEADER -->
                 <tr>
                     <td style="background:#01508f; padding:20px; text-align:center;">
-                        <img src="{{ url('') }}/{{ $logo ?? 'img/1crlogo.png' }}" style="width:80px;">
+                        @if($logo_visible)
+                            <img src="{{ asset($logo ?? 'img/1crlogo.png') }}" style="width:80px; height:80px;">
+                        @endif
                         <h2 style="color:#ffffff; margin:10px 0 0;">
                             {{ $title ?? 'Let`s Connect Enquiry' }}
                         </h2>
@@ -97,13 +99,18 @@
 
                 <!-- FOOTER -->
                 <tr>
-                    <td style="background:#f5f5f5; text-align:center; padding:15px; font-size:12px; color:#999;">
-                        © {{ date('Y') }} 1CR APP. All rights reserved.
-                    </td>
+                    @if($brand_status != 1)
+                        <td style="background:#f5f5f5; text-align:center; padding:15px; font-size:12px; color:#999;">
+                            © {{ date('Y') }} 1CR APP. All rights reserved.
+                        </td>
+                    @endif
                 </tr>
+                
 
             </table>
-
+            @if($brand_status == 1)
+                @include('front.Mail.1crapp-brand')
+            @endif
         </td>
     </tr>
 </table>

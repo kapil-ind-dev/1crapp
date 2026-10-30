@@ -1,0 +1,1 @@
+<h1>income-from-capital-gains</h1>

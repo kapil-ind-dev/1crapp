@@ -22,6 +22,8 @@ use App\Models\UserCompanyDetails;
 use App\Models\UserWallet;
 use App\Models\AgentReferrralSetting;
 use App\Models\CdbPlanModel;
+use App\Models\CDOModel;
+use App\Models\MembershipApplication;
 use Illuminate\Validation\ValidationException;
 use App\Mail\UpdatePasswordMail;
 use Illuminate\Support\Facades\Cache;
@@ -103,7 +105,7 @@ class AuthController extends Controller
         }
         // Check if user exists by email or username
         $user = DB::table('users')
-            ->where('email', $request->email)
+            ->where(['email'=> $request->email, 'agent_id'=> app('currentAgent')->id])
             ->orWhere('user_name', $request->email)
             ->first();
 
@@ -215,11 +217,27 @@ class AuthController extends Controller
             if ($is_referral) {
                 $this->referral_bonus($user);
             }
+            // 1CR Foundation -> Manage Membership -> Membership Applications
+            MembershipApplication::createFromUser($user);
             DB::commit();
         } catch (\Exception $e) {
             return $e->getMessage();
             DB::rollback();
             return redirect()->route('register')->with('fail', 'Customer details are not valid');
+        }
+        
+        // Assign Tag and list
+        DB::beginTransaction();
+        try {
+            $form = DB::table('tbl_form')->where('created_by', app('currentAgent')->id)->where('enable_signup', 1)->first();
+            // dd($form);
+            if($form){
+                DB::table('tbl_user_list')->updateOrInsert(['user_id' => $user->id, 'list_id' => $form->list_id],[]);
+                DB::table('tbl_user_tags')->updateOrInsert(['user_id' => $user->id, 'tag_id' => $form->tag_id],[]);
+            }
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
         }
         try {
             if (\Auth::attempt([
@@ -363,7 +381,7 @@ class AuthController extends Controller
         ]);
         $token = Str::random(32);
         $code = rand(10000, 99999);
-        $user1 = User::where('email', $request->email)->first();
+        $user1 = User::where(['email'=> $request->email, 'agent_id' => app('currentAgent')->id])->first();
         if ($user1) {
             $user = User::find($user1->id);
             $user->otp = $code;
@@ -465,7 +483,7 @@ class AuthController extends Controller
             }
 
             // Check if the user exists in your database
-            $user = User::where(['email'=> $facebookUser->getEmail(), 'agent_id' => app('currentAgent')->id])->first();
+            $user = User::where(['email'=> $facebookUser->getEmail(), 'agent_id' => Cache::get('agent_id')])->first();
             // dd($facebookUser);
             if (is_null($facebookUser->getEmail())) {
                 // Email is not available
@@ -505,6 +523,18 @@ class AuthController extends Controller
 
                 // Send welcome email (uncomment to enable)
                 // Mail::to($user->email)->send(new RegistrationSuccessfullyMail($maildata));
+            }
+            DB::beginTransaction();
+            try {
+                $form = DB::table('tbl_form')->where('created_by', Cache::get('agent_id'))->where('enable_signup', 1)->first();
+                // dd($form);
+                if($form){
+                    DB::table('tbl_user_list')->updateOrInsert(['user_id' => $user->id, 'list_id' => $form->list_id],[]);
+                    DB::table('tbl_user_tags')->updateOrInsert(['user_id' => $user->id, 'tag_id' => $form->tag_id],[]);
+                }
+                DB::commit();
+            } catch (\Exception $e) {
+                DB::rollback();
             }
 
             // Log in the user
@@ -549,7 +579,7 @@ class AuthController extends Controller
             }
 
             // Check if the user exists in your database
-            $user = User::where(['email'=> $googleUser->getEmail(), 'agent_id' => app('currentAgent')->id])->first();
+            $user = User::where(['email'=> $googleUser->getEmail(), 'agent_id' => Cache::get('agent_id')])->first();
             // dd($googleUser);
             if (is_null($user)) {
                 // Register new user
@@ -571,7 +601,20 @@ class AuthController extends Controller
                     DB::commit();
                 } catch (\Exception $e) {
                     DB::rollback();
-                    return redirect()->route('register')->with('fail', 'Customer details are not valid');
+                    return redirect()->to(Cache::get('preurl'))->with('fail', 'Customer details are not valid');
+                }
+                
+                DB::beginTransaction();
+                try {
+                    $form = DB::table('tbl_form')->where('created_by', Cache::get('agent_id'))->where('enable_signup', 1)->first();
+                    // dd($form);
+                    if($form){
+                        DB::table('tbl_user_list')->updateOrInsert(['user_id' => $user->id, 'list_id' => $form->list_id],[]);
+                        DB::table('tbl_user_tags')->updateOrInsert(['user_id' => $user->id, 'tag_id' => $form->tag_id],[]);
+                    }
+                    DB::commit();
+                } catch (\Exception $e) {
+                    DB::rollback();
                 }
                 // $maildata = array();
                 // $maildata['name'] = $googleUser->getName();
@@ -594,7 +637,7 @@ class AuthController extends Controller
         // dd($google_client_id);
         $user = User::where('google_id', $client_id)->orWhere('facebook_id', $client_id)->first();
         Auth::login($user);
-        $red_url = Cache::get('preurl'). '/properties/buy-sale/list';
+        $red_url = Cache::get('preurl'). '/user-home';
         return redirect()->to($red_url)->with('success', 'Your registration has been successful.');
     }
 
@@ -653,12 +696,21 @@ class AuthController extends Controller
         $user->middle_name = $names['middle_name'];
         $user->last_name = $names['last_name'];
         // dd($user);
-        return view('dashboard.my-profile',compact('user','cdb_plans'));
+        $cdos = CDOModel::select('name','id')->where(['created_by'=>app('currentAgent')->id,'status'=>1])->get();
+        return view('dashboard.my-profile',compact('user','cdb_plans', 'cdos'));
     }
     public function save_user_details(Request $request){
         $validator = Validator::make($request->all(),[
             'user_name'        => 'required|unique:users,user_name,' . Auth::id(), // Exclude the current user ID
-            'email'           => 'required|email|unique:users,email,' . Auth::id(), // Exclude current user email
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('users', 'email')
+                    ->where(function ($query) {
+                        return $query->where('agent_id', app('currentAgent')->id);
+                    })
+                    ->ignore(Auth::id()),
+            ], // Exclude current user email
             'first_name'=>'required',
             'last_name'=>'required',
             'mobile'=>'required',

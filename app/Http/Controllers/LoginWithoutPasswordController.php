@@ -66,8 +66,8 @@ class LoginWithoutPasswordController extends Controller
         $loginData = array();
 
         $user = User::where('token', $token)->first();
-
         if ($user) {
+            
             if($user->agent_id != app('currentAgent')->id){
                 return redirect()->route('login')->with('fail', '<center>Login details are not valid.</center>');
             }

@@ -22,7 +22,7 @@
     .shadow.othr_pgss_lde .top_menuues {
         margin: 0;
         padding: 5px 0;
-        background: #000;
+        background: "{{ $layouts->layout_bg_color??'#000' }}" !important;
     }
     .shadow.othr_pgss_lde .top_menuues .top_sec_menu.cnt_parts {
         margin: 0 0 0px;
@@ -164,7 +164,6 @@
         margin-bottom: 25px;
     }
     .ftr_new_other .ftr_content .menu_ftrr a {
-        color: #fff;
         margin-right: 20px;
     }
     .ftr_new_other .ftr_content .menu_ftrr a:last-child {
@@ -220,7 +219,7 @@
     .submenu li a {
         display: block;
         padding: 10px 15px;
-        color: #fff;
+        color:  "{{ $layouts->layout_text_color??'#fff' }}"!important;
         white-space: nowrap;
     }
 
@@ -248,7 +247,7 @@
 <body>
 <!--- Header Part ---->
 <section class="shadow othr_pgss_lde" id="myHeader">
-    <div class="top_menuues">
+    <div class="top_menuues" style="background-color:{{ $layouts->layout_bg_color??'#000' }} !important; color:{{ $layouts->layout_text_color??'#fff' }} !important;">
         <div class="container">
 		  <div class="row">
 		   <div class="col-lg-2 col-2">
@@ -274,7 +273,7 @@
                     @endphp
                     @if($chield_menues->isEmpty())
                         <li>
-                            <a href="{{ $menu->page_url }}"
+                            <a href="{{ $menu->page_url }}"  style="color:{{ $layouts->layout_text_color??'#fff' }} !important;"
                             @if($menu->open_new_tab == 1) target="_blank" @endif>
                                 @if($menu->icon)
                                     <i class="fa {{ $menu->icon }}"></i>
@@ -284,7 +283,7 @@
                         </li>
                     @else
                         <li class="has-submenu">
-                            <a href="javascript:void(0)">
+                            <a href="javascript:void(0)" style="color:{{ $layouts->layout_text_color??'#fff' }} !important;">
                                 @if($menu->icon)
                                     <i class="fa {{ $menu->icon }}"></i>
                                 @endif

@@ -260,7 +260,8 @@ table.table.table-bordered.tst_cam_listst tr th span.bothss input.ck_boxx {
 .grea_bg{background:#e9e9e9 !important; font-size: 11px !important;}
 .grea_bg1{background:#e9e9e9 !important;}
 .yellowe_bg{background:#ffdd00 !important;}
-.bluess_bg{background:#6490cb !important;}
+.bluess_bg1 {background: #1c5299 !important; color:#fff !important;}
+.bluess_bg{background:#6490cb !important; color:#fff !important;}
 .reds_bg{background:#f94554 !important;}
 .tx_read{color:#f94554 !important; font-weight:600;}
 .tx_white{color:#fff !important;}
@@ -897,8 +898,8 @@ table.table.table-bordered.tst_cam_listst tr td {
                 <tbody>
 				   
                     <tr>
-                        <td colspan="5" width="76%" class="yellowe_bg tx_left"><img src="https://1crapp.allproject.online/home/img/logo 1.png" width="40" alt="" /> <b>Personal Budget Management : XXXXXX (Ramjee Meena)</b></td>
-                        <td class="yellowe_bg">
+                        <td colspan="5" width="76%" class="bluess_bg1 tx_left"><img src="https://1crapp.allproject.online/home/img/logo 1.png" width="40" alt="" /> <b>Personal Budget Management : XXXXXX (Ramjee Meena)</b></td>
+                        <td class="bluess_bg1">
 						 <a href="javascript:void(0);" class="abt_dnwn"><i class="fa fa-share-alt"></i> Share</a> &
 						 <a href="javascript:void(0);" class="abt_dnwn"><i class="fa fa-cloud-download"></i> Download</a>
 						</td>
@@ -1091,7 +1092,7 @@ table.table.table-bordered.tst_cam_listst tr td {
                                 </tr>
                                 <tr>
                                     <td class="tx_left"><b >Total Magic Money</b></td>
-                                    <td class="tx_left" ><span class="yellowe_bg p-2"><b id="total_magic_amount_data">₹0.00</b></span></td>           									
+                                    <td class="tx_left" ><span class="bluess_bg1 p-2"><b id="total_magic_amount_data">₹0.00</b></span></td>           									
                                 </tr>
                                 <tr>
                                     <td class="tx_left bg-primary"><b>Total Surplus/Deficit</b></td>                                    
@@ -1125,12 +1126,26 @@ table.table.table-bordered.tst_cam_listst tr td {
         
 		</div>
     
-	   <div class="tanksss">
+	   <!---<div class="tanksss">
 	    <div class="ftr_thknsss">
 	     <div class="lgo_partss"><img src="https://1crapp.allproject.online/home/img/logo 1.png" alt=""></div>
 	     <p>Prepared using 1CRAPP.COM , Just with Few Click You Too Can Create it.. lt's Free! <a href="javascript:void(0);" class="ex_btn_areaa">Explore More <i class="fa fa-chevron-circle-right"></i></a></p>
 	    </div>
-	    </div>
+	    </div>--->
+		
+		
+		
+				<div class="ftr_content text-center py-4" style="background-color:#000000;">
+        <div class="lgo">
+                <a href="https://kapil.1crapp.com"><img class="logo" src="https://admin.1crapp.com/img/1779197054895525347.png" alt="Logo"></a>
+            </div>
+        <div class="menu_ftrr text-light mt-1">
+        Fastest-Simple Yet Powerful Tool for Indian Realtors Business Automation.
+    </div>
+    <div class="crt_arar mt-2">
+                    <a href="https://1crapp.com/register" target="_blank"><button class="btn " style="background-color:#ed0c2e; color:#ffffff;">Try 1CRAPP Now For Free !</button></a>
+            </div>
+    </div>
 	</div>
 </section>
    

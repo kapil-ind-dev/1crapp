@@ -52,6 +52,7 @@ return in_array(strtolower($feature->path), $activeCDBModules);
             @endforeach
         </ul>
         <form action="{{ route('upgrade-cdb-plan') }}" method="POST">
+        <!--<form action="{{ route('checkout') }}" method="POST">-->
             @csrf
             <input type="hidden" name="razorpay_payment_id" id="razorpay_payment_id">
             <input type="hidden" name="razorpay_order_id" id="razorpay_order_id">
@@ -59,10 +60,12 @@ return in_array(strtolower($feature->path), $activeCDBModules);
             <input type="hidden" id="order_id" value="">
             <input type="hidden" name="plan_id" value="{{ $c_plan->id }}">
             <input type="hidden" name="plan_type" class="plan-type" value="2">
+            <input type="hidden" name="plan_for" value="cdb">
             <input type="hidden" name="amount" class="razorpay-amount" value="{{ $payment_fees }}">
         
             <div class="str_bnt_area">
-                 <a href="javascript:void(0)" @if($active_user_plan && $c_plan->monthly_price <= optional($active_user_plan)->monthly_price &&  \Carbon\Carbon::parse($user->valid_upto)->isFuture()) onclick="downgradePlan('{{ $c_plan->title }}')" @else onclick="paynow(this)" @endif>
+                 <a href="javascript:void(0)" @if($active_user_plan && $c_plan->monthly_price <= optional($active_user_plan)->monthly_price &&  \Carbon\Carbon::parse($user->valid_upto)->isFuture()) 
+                 onclick="downgradePlan('{{ $c_plan->title }}')" @else onclick="this.closest('form').submit();" @endif>
                     @if($have_cdb_plan == 1) Upgrade @else Sign Up @endif For {{ $c_plan->title }}
                 </a>
             </div>

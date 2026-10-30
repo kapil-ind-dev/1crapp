@@ -1,4 +1,3 @@
-
 <!--// post login-->
 @if($page_data->layout == 2)
     @include('front.custom-layout.header')
@@ -104,12 +103,12 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
     // Initial display
-    document.querySelectorAll('.tab-content').forEach((content, index) => {
-        if (index == 0) {
-            content.style.display = 'block';
-        } else {
-            content.style.display = 'none';
-        }
-    });
+    // document.querySelectorAll('.tab-content').forEach((content, index) => {
+    //     if (index == 0) {
+    //         content.style.display = 'block';
+    //     } else {
+    //         content.style.display = 'none';
+    //     }
+    // });
 });
 </script>

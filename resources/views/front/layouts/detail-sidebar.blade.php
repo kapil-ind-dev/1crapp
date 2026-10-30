@@ -6,6 +6,7 @@
             $imgurl= url('img') . '/' . $imageideos[0];
         }
     }
+    // dd($MainProperty);
  ?>
  <style>
     .propty_item_liststs .croosss {
@@ -24,11 +25,11 @@
 
     display: inline-block;
     width: 100%;
-    max-height: 620px;
-    min-height: 100px;
-    overflow: auto;
+    max-height: initial;
+    min-height: initial;
+    overflow: initial;
     z-index: 100;
-    overflow-y: auto;
+    overflow-y: initial;
     background-color: #fff;
     border: 1px solid rgba(207,219,226,.5);
     border-radius: 4px!important;
@@ -36,6 +37,21 @@
     -moz-box-shadow: 0 4px 12px rgba(0,0,0,.05);
     box-shadow: 0 4px 12px rgb(0 0 0 / 5%);
 }
+
+
+.propty_item_liststs .croosss i {
+    -webkit-text-stroke: 1px #f00;
+    cursor: pointer;
+    position: relative;
+    top: 3px;
+    left: 1px;
+}
+
+.contensss_list ul {
+    list-style: none;
+    padding: 0;
+}
+
 .lists_tablssts .unddrlstt h6 {
     font-weight: normal;
     font-size: 14px;
@@ -86,6 +102,72 @@
     padding: 3px 10px;
 }
 
+.contensss_list .propety_lststs p.tool-worksheet {display:none;}
+.propty_item_liststs .mgs_areaa a.gobackess {
+    position: absolute;
+	display:block;
+    top: 3px;
+    right: 3px;
+    background: #1c5299;
+    color: #fff;
+    font-weight: 600;
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 4px;
+}
+.propty_item_liststs .mgs_areaa a.gobackess i {
+    font-size: 16px;
+    position: relative;
+    top: 1px;
+    left: -2px;
+}
+
+.contensss_list .copyyy_txt h5.onclicks span.dots_clicks{top: 0px; position: absolute; right: 0;}
+
+@media (min-width: 320px) and (max-width:767px) {
+#property_anaylsis_pages .container.mt-5 {
+    margin-top: 10px !important;
+}	
+	
+	
+.contensss_list .propety_lststs p.tool-title {font-weight: 700; color: #1c5299; margin: 0 0 5px; font-size:15px; display:flex; gap:7px; justify-content:left; align-items:center;}
+.contensss_list .propety_lststs ul.tool-list {display: none;}
+.contensss_list .propety_lststs ul.tool-list.active{display:block; background: #f5f5f5; padding: 7px; list-style: none; border: #1c5299 solid 1px;}
+
+.contensss_list .propety_lststs p.tool-research {font-weight: 700; color: #1c5299; margin: 0 0 5px; font-size:15px; display:flex; gap:7px; justify-content:left; align-items:center;}
+.contensss_list .propety_lststs ul.tool-research-list {display: none;}
+.contensss_list .propety_lststs ul.tool-research-list.active{display:block; background: #f5f5f5; padding: 7px; list-style: none; border: #1c5299 solid 1px;}
+
+.contensss_list .propety_lststs p.tool-analysis {font-weight: 700; color: #1c5299; margin: 0 0 5px; font-size:15px; display:flex; gap:7px; justify-content:left; align-items:center;}
+.contensss_list .propety_lststs ul.tool-analysis-list {display: none;}
+.contensss_list .propety_lststs ul.tool-analysis-list.active{display:block; background: #f5f5f5; padding: 7px; list-style: none; border: #1c5299 solid 1px;}
+
+.contensss_list .propety_lststs p.tool-worksheet {font-weight: 700; color: #1c5299; margin: 0 0 5px; text-transform: uppercase; font-size:15px; display:flex; gap:7px; justify-content:left; align-items:center;}
+.contensss_list .propety_lststs ul.tool-worksheet-list {display: none;}
+.contensss_list .propety_lststs ul.tool-worksheet-list.active{display:block; background: #f5f5f5; padding: 7px; list-style: none; border: #1c5299 solid 1px;}
+
+.contensss_list  span.tool-BSproprtyy {font-weight: 700; color: #1c5299; margin:0px; text-transform:uppercase; font-size:15px; display:flex !important; gap:7px; justify-content:left; align-items:center;}
+.contensss_list .tool-BSproprtyy-list {display: none;}
+.contensss_list .tool-BSproprtyy-list.active{display:block; background: #f5f5f5; padding: 7px; list-style: none; border: #1c5299 solid 1px;}
+
+
+
+
+.contensss_list .bothss_area {
+    position: relative;
+}
+.contensss_list .bothss_area .copyyy_txt h5.onclicks {
+    position: absolute;
+    width: auto;
+    right: 0;
+    top: 0;
+    margin: 0;
+}
+.contensss_list .bothss_area .und_cntss_listst {
+    margin: 0;
+}
+}
+
  </style>
 <div class="col-lg-3">
             <div class="propty_item_liststs">
@@ -98,11 +180,13 @@
                 <div class="mgs_areaa">
                     <img src="{{ $imgurl }}" alt="" />
                     <span class="reltalls">{{ $MainProperty->prop_type }}</span>
+					<a href="{{ url('properties').'/'.$MainProperty->prop_parent_type.'/list' }}" class="gobackess" ><i class="fa fa-angle-left"></i> Go Back</a>
                 </div>
                 <div class="contensss_list">
-                    <div class="copyyy_txt">
+				   <div class="bothss_area">
+                     <div class="copyyy_txt">
                         <h5 class="onclicks">
-                            {{ $MainProperty->prop_name }} <span class="dots_clicks"><i class="fa fa-caret-down"></i></span>
+                            <span class="mobile_view">{{ $MainProperty->prop_name }}</span> <span class="dots_clicks"><i class="fa fa-caret-down"></i></span>
                         </h5>
                         <div class="clicckshowd">
                             <h5><a href="javascript:void(0);">Share Report</a></h5>
@@ -118,9 +202,11 @@
                             </ul>
                             <p class="dltts"><a href="javascript:void(0);">Delete</a></p>
                         </div>
-                    </div>
+                     </div>
 
-                    <div class="und_cntss_listst">
+                     <div class="und_cntss_listst">
+					    <span class="tool-BSproprtyy desktop_view">{{ $MainProperty->prop_name }} <span class="iccn desktop_view"><i class="fa fa-angle-down"></i></span></span>
+						<div class="tool-BSproprtyy-list">
                         <p>{{ $MainProperty->prop_street }}</p>
                         <p>{{ $MainProperty->prop_add_city }}, {{ $MainProperty->prop_add_state }}, {{ $MainProperty->prop_zip }}</p>
                        <!--  <p>
@@ -129,10 +215,12 @@
                         <p class="pricss_lstts">
                             <span class="blue bold">₹{{ number_format($MainProperty->prop_purchasePrice) }} </span> <!-- <span class="red"><span class="bold">-233.5%</span> Cap Rate </span> -->
                         </p>
-                    </div>
+						</div>
+                     </div>
+					</div>
                     <div class="propety_lststs">
-                        <ul>
-
+					    <p class="tool-worksheet">Details Worksheet <span class="iccn desktop_view"><i class="fa fa-angle-down"></i></span></p>
+                        <ul class="tool-worksheet-list">
                             <li>
                                 <a href="{{ route('properties.description', ['category' => str_replace('_', '-', $MainProperty->prop_parent_type),'id' => base64_encode($MainProperty->prop_id)]) }}">
                                     <span class="i_conss"><i class="fa fa-home"></i></span> Property Description
@@ -165,8 +253,8 @@
                     </div>
 
                     <div class="propety_lststs">
-                        <p>ANALYSIS</p>
-                        <ul>
+                        <p class="tool-analysis">ANALYSIS <span class="iccn desktop_view"><i class="fa fa-angle-down"></i></span></p>
+                        <ul class="tool-analysis-list">
                             <li>
                                 <a href="{{ route('property.summary', ['category' => str_replace('_', '-', $MainProperty->prop_parent_type),'id' => base64_encode($MainProperty->prop_id)]) }}">
                                     <span class="i_conss"><i class="fa fa-pie-chart"></i></span> Property Analysis
@@ -180,8 +268,8 @@
                         </ul>
                     </div>
                     <div class="propety_lststs">
-                        <p>RESEARCH</p>
-                        <ul>
+                        <p class="tool-research">RESEARCH <span class="iccn desktop_view"><i class="fa fa-angle-down"></i></span></p>
+                        <ul class="tool-research-list">
                             <li>
                                 <a href="{{ route('properties.recent-sales-comps', ['category' => str_replace('_', '-', $MainProperty->prop_parent_type),'id' => base64_encode($MainProperty->prop_id)]) }}">
                                     <span class="i_conss"><i class="fa fa-usd"></i></span> Sales Comps &amp; ARV
@@ -214,13 +302,8 @@
                     </div>
 
                     <div class="propety_lststs">
-                        <p>TOOLS</p>
-                        <ul>
-                           <!--  <li>
-                                <a href="javascript:void(0);">
-                                    <span class="i_conss"><i class="fa fa-calendar"></i></span> Offer Calculator
-                                </a>
-                            </li> -->
+                        <p class="tool-title">TOOLS <span class="iccn desktop_view"><i class="fa fa-angle-down"></i></span></p>
+                        <ul class="tool-list">
                             <li>
                             <a href="{{ route('properties.reports-and-sharing', ['category' => str_replace('_', '-', $MainProperty->prop_parent_type),'id' => base64_encode($MainProperty->prop_id)]) }}">
                                     <span class="i_conss"><i class="fa fa-file-text"></i></span> Reports &amp; Sharing
@@ -231,13 +314,6 @@
                                     <span class="i_conss"><i class="fa fa-file-text"></i></span>{{ strtoupper(implode('', array_map(fn($w) => $w[0], explode('-', $MainProperty->prop_parent_type)))) }} Term-Sheet 
                                 </a>
                             </li>
-
-
-                           <!--  <li>
-                                <a href="javascript:void(0);">
-                                    <span class="i_conss"><i class="fa fa-university"></i></span> Find Local Lenders
-                                </a>
-                            </li> -->
                         </ul>
                     </div>
                 </div>
@@ -245,3 +321,33 @@
 
         </div>
 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+		<script>
+		$(document).ready(function(){
+
+			if ($(window).width() <= 768) {
+
+				$('.tool-title').click(function(){
+					$(this).next('.tool-list').slideToggle().toggleClass('active');
+				});
+
+				$('.tool-research').click(function(){
+					$(this).next('.tool-research-list').slideToggle().toggleClass('active');
+				});
+
+				$('.tool-analysis').click(function(){
+					$(this).next('.tool-analysis-list').slideToggle().toggleClass('active');
+				});
+
+				$('.tool-worksheet').click(function(){
+					$(this).next('.tool-worksheet-list').slideToggle().toggleClass('active');
+				});
+
+				$('.tool-BSproprtyy').click(function(){
+					$(this).next('.tool-BSproprtyy-list').slideToggle().toggleClass('active');
+				});
+
+			}
+
+		});
+		</script>

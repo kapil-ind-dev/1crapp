@@ -164,7 +164,7 @@
     $getStarted = \App\Models\CalltoActionModel::where(['section'=> 1, 'created_by'=> app('currentAgent')->id])->where('status', 1)->first();
 @endphp
 @if($getStarted)
-<section class="get_nd_blogss mt-0">
+<section class="get_nd_blogss hom_pgess_area">
  <div class="container">
   <div class="get_strs">
    <h4><a href="{{ $getStarted->left_link_url ?? 'javascript:void(0)' }}" target="{{ $getStarted->left_link_new_tab ? '_blank' : '_self' }}">
@@ -218,7 +218,9 @@
 	  <!--- Box Parts --->
 	  <div class="col-lg-4">
 	   <div class="qu_box_parts">
-	     <img src="{{ ASSETS_PATH.$q_a->image }}" alt="" />
+	     <div class="qulity_lgos">
+	      <img src="{{ ASSETS_PATH.$q_a->image }}" alt="" />
+		 </div> 
 		 <h4>{{ $q_a->title }}</h4>
 		 <p>{{ $q_a->description }}</p>
 	   </div>
@@ -329,7 +331,9 @@
                 <div class="item">
                     <div class="qu_box_parts">
                         <!-- Display Image dynamically -->
-                        <img src="{{ ASSETS_PATH.$item->image }}" alt="{{ $item->title }}" />
+						 <div class="qulity_lgos">
+                         <img src="{{ ASSETS_PATH.$item->image }}" alt="{{ $item->title }}" />
+						 </div>
                         <h4>{{ $item->title }}</h4>
                         <p>{{ $item->description }}</p>
                     </div>
@@ -353,7 +357,9 @@
                 <div class="col-lg-4">
                     <div class="qu_box_parts">
                         <!-- Check if image exists, then display it -->
-                        <img src="{{ ASSETS_PATH.$easytouse->image }}" alt="{{ $easytouse->title }}" />
+						<div class="qulity_lgos">
+                         <img src="{{ ASSETS_PATH.$easytouse->image }}" alt="{{ $easytouse->title }}" />
+						</div> 
                         <h4>{{ $easytouse->title }}</h4>
                         <p>{{ $easytouse->description }}</p>
                     </div>

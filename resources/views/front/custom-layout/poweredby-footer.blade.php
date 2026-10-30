@@ -1,15 +1,16 @@
-@if(app('currentAgent')->id != 8)
-<div class="ftr_content text-center py-4" style="background-color:#000000;">
-    @php
+@if(app('currentAgent')->id != 8 || request()->is('lead-magnet') || request()->is('lets-connect/*'))
+ @php
     $branding = DB::table('branding_setting')->select('*')->where('user_id', 8)->first();
-    @endphp
+@endphp
+<div class="ftr_content text-center py-4" style="background-color:{{ $branding->footer_bg_color }}; color:{{ $branding->footer_text_color }};">
+   
     <div class="lgo">
         @if($branding && $branding->logo)
-        <a href="{{ url('/') }}"><img class="logo" src="{{ $branding->logo }}" alt="Logo" /></a>
+        <a href="{{ $branding->btn_link }}" @if($branding->btn_new_tab == 1) target="_blank" @endif><img class="logo" src="{{ $branding->logo }}" alt="Logo" /></a>
         @endif
     </div>
     @if($branding)
-    <div class="menu_ftrr text-light mt-1">
+    <div class="menu_ftrr mt-1">
         {{ $branding->message }}
     </div>
     <div class="crt_arar mt-1">

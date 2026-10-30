@@ -7,6 +7,55 @@
 #brd_none_b {border-bottom: none !important;}
 #brd_none {border: none !important;}
 
+.als_show_ar .tooltip p {
+    background: #fff;
+    margin: 0;
+    padding: 8px 10px;
+    font-weight: 600;
+    font-size: 11px;
+}
+.als_show_ar .tooltip p a{
+    color: #1c5299;
+    font-weight: 600;
+	font-size: 12px;
+}
+table.table.table-bordered.tst_cam_listst tr td.fnt_size.tx_bluess.questt.als_show_ar a i.icon {
+    font-size: 11px;
+    position: relative;
+    top: 2px;
+    margin: 0 2px;
+}
+table.table.table-bordered.tst_cam_listst tr td.fnt_size.tx_bluess.questt.als_show_ar .con-tooltip.top {
+    padding-left: 0;
+    padding-right: 0;
+}
+table.table.table-bordered.tst_cam_listst tr td.fnt_size.tx_bluess.questt.als_show_ar .con-tooltip.top p.icoo {
+width: 12px;
+    height: 12px;
+    position: relative;
+    top: 2px;
+}
+table.table.table-bordered.tst_cam_listst tr td.fnt_size.tx_bluess.questt.als_show_ar .con-tooltip.top p.icoo i {
+    line-height: 11px;
+    font-size: 12px;
+}
+table.table.table-bordered.tst_cam_listst tr td.fnt_size.tx_bluess.questt.als_show_ar {
+    position: relative;
+}
+table.table.table-bordered.tst_cam_listst tr td.fnt_size.tx_bluess.questt.als_show_ar span.amt_outsss {
+    position: relative;
+    top: 2px;
+}
+table.table.table-bordered.tst_cam_listst tr td.fnt_size.tx_bluess.questt.als_show_ar .bothhs_areeea {
+    position: relative;
+    top: 7px;
+}
+
+table.table.table-bordered.tst_cam_listst tr td.fnt_size.actionss a{margin-right:3px}
+table.table.table-bordered.tst_cam_listst tr td.fnt_size.actionss a:last-child{margin-right:0px}
+table.table.table-bordered.tst_cam_listst tr td.fnt_size.actionss a i {font-size: 12px;}
+
+
 .p_mitters canvas#foo {height: 70px !important;}
 span.tetx_manags {white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 80px; display: block; text-align: left;}
 table.table.table-bordered.tst_cam_listst tr td {line-height: 19px; padding: 8px 4px;}
@@ -31,7 +80,8 @@ table.table.table-bordered.tst_cam_listst tr td {line-height: 19px; padding: 8px
 .questt.als_show_ar .con-tooltip.top .tooltip {
     position: fixed;
     top: initial;
-    bottom: 13px;
+    bottom: 7px;
+    left: -6px;
 }
 .questt.als_show_ar .con-tooltip.top .tooltip:after {
     bottom: -7px;
@@ -83,6 +133,11 @@ table.table.table-bordered.tst_cam_listst tr td {line-height: 19px; padding: 8px
 .all_suportss .modal-content.all_frm_list .both_cotentsss button.saveess:focus{outline:none;}
 .ad_plashshe {
     cursor: pointer;
+}
+
+.bluess_bg {
+    background: #1c5299 !important;
+	color:#fff !important;
 }
 
 @media (min-width: 481px) and (max-width: 767px) {
@@ -162,11 +217,11 @@ table.table.table-bordered.tst_cam_listst tr td {text-wrap-mode: nowrap;}
             <table class="table table-bordered tst_cam_listst">
                 <tbody>
                     <tr>
-                        <td width="15%" colspan="6" class="yellowe_bg">My Properties</td>
-                        <td width="40%" class="yellowe_bg"><a href="javascript:void(0);"><i class="fa fa-share-alt"></i></a> Share & Download
+                        <td width="15%" colspan="6" class="bluess_bg">My Properties</td>
+                        <td width="40%" class="bluess_bg"><a href="javascript:void(0);"><i class="fa fa-share-alt"></i></a> Share & Download
 						 <a href="javascript:void(0);" class="sm_right_vdooos"  data-toggle="modal" data-target="#videotutorialmodal"><img src="https://1crapp.allproject.online/img/video-tutorial-new.png"> </a>
 						</td>
-                        <td width="15%" class="yellowe_bg  add_paymmntss"><a href="{{ route('add-portfolio-property') }}" target="_blank">+ Add Property </a></td>
+                        <td width="15%" class="bluess_bg  add_paymmntss"><a href="{{ route('add-portfolio-property') }}" target="_blank">+ Add Property </a></td>
                     </tr>
 
                     <tr>
@@ -267,7 +322,7 @@ table.table.table-bordered.tst_cam_listst tr td {text-wrap-mode: nowrap;}
                                         Avallable In PSU Employees Property Market (PPM)?
                                     </td>
 
-                                    <td class="p-0 grea_bg" width="30%">
+                                    <td class="p-0 grea_bg" width="22%">
                                         <table class="table table-bordered tst_cam_listst mb-0" style="border: none;">
                                             <tr>
                                                 <td class="grea_bg lin_heihtss" style="border:none; border-left:#e9e9e9 solid 1px;">Property</td>
@@ -276,10 +331,9 @@ table.table.table-bordered.tst_cam_listst tr td {text-wrap-mode: nowrap;}
                                                 <td class="p-0" style="border: none; border-left:#e9e9e9 solid 1px;" style="border: none;">
                                                     <table class="table table-bordered tst_cam_listst mb-0" style="border: none;">
                                                         <tr>
-                                                            <td class="grea_bg lin_heihtss1" width="25%">Property Name</td>
-                                                            <td class="grea_bg" width="25%">Type</td>
-                                                            <td class="grea_bg" width="25%">On the name of</td>
-                                                            <td class="grea_bg" width="25%">Location</td>
+                                                            <td class="grea_bg lin_heihtss1" width="33.333%">Property Name</td>
+                                                            <td class="grea_bg" width="33.333%">On the name of</td>
+                                                            <td class="grea_bg" width="33.333%">Location</td>
                                                         </tr>
                                                     </table>
                                                 </td>
@@ -287,34 +341,34 @@ table.table.table-bordered.tst_cam_listst tr td {text-wrap-mode: nowrap;}
                                         </table>
                                     </td>
 
-                                    <td class="grea_bg">
+                                    <td class="grea_bg" width="6%">
                                         Purchase Date
                                     </td>
 
-                                    <td class="grea_bg">
+                                    <td class="grea_bg" width="8%">
                                         Purchase cost (Total)
                                     </td>
 									
-									<td class="grea_bg">
+									<td class="grea_bg" width="8%">
                                         Paid Payment
                                     </td>
 
-                                    <td class="grea_bg">
+                                    <td class="grea_bg" width="8%">
                                         Merket Price (CMV)
                                     </td>
 
-                                    <td class="p-0 grea_bg" width="25%">
+                                    <td class="p-0 grea_bg" width="24%">
                                         <table class="table table-bordered tst_cam_listst mb-0">
                                             <tr>
-                                                <td class="grea_bg">Returns</td>
+                                                <td class="grea_bg lin_heihtss">Returns</td>
                                             </tr>
                                             <td class="p-0 grea_bg">
                                                 <table class="table table-bordered tst_cam_listst mb-0">
                                                     <tr>
-                                                        <td class="grea_bg" width="33.333%">Balance Debit</td>
-                                                        <td class="grea_bg" width="33.333%">Accunnulated Enquty</td>
-                                                        <td class="grea_bg" width="33.333%">Annual Cash Flow</td>
-                                                        <td class="grea_bg" width="33.333%">Action</td>
+                                                        <td class="grea_bg" width="22.333%">Balance Debit</td>
+                                                        <td class="grea_bg" width="26.333%">Accunnulated Enquty</td>
+                                                        <td class="grea_bg" width="25.333%">Annual Cash Flow</td>
+                                                        <td class="grea_bg" width="14.333%">Action</td>
                                                     </tr>
                                                 </table>
                                             </td>
@@ -359,39 +413,42 @@ table.table.table-bordered.tst_cam_listst tr td {text-wrap-mode: nowrap;}
                                         <label class="switch" for="property_status_{{ $property->property_id }}"></label>
                                     </td>
 
-                                    <td class="p-0 brd_none" width="30%">
+                                    <td class="p-0 brd_none" width="22%">
                                         <table class="table table-bordered tst_cam_listst mb-0">
                                             <tr>
-                                                <td class="fnt_size" width="25%"><span class="tetx_manags">{{ $property->project_name }}</span></td>
-                                                <td class="fnt_size" width="25%"><span class="tetx_manags">{{ $property->property_type }} - {{ optional($property->details)->category_type }}</span></td>
-                                                <td class="fnt_size" width="25%"><span class="tetx_manags">{{ $property->owner_name }}</span></td>
-                                                <td class="fnt_size" width="25%"><span class="tetx_manags">{{ $property->location }}</span></td>
+                                                <td class="fnt_size" width="33.333%"><span class="tetx_manags">{{ $property->project_name }}</span></td>
+                                                <!--<td class="fnt_size" width="25%"><span class="tetx_manags">{{ $property->property_type }} - {{ optional($property->details)->category_type }}</span></td>-->
+                                                <td class="fnt_size" width="33.333%"><span class="tetx_manags">{{ $property->owner_name }}</span></td>
+                                                <td class="fnt_size" width="33.333%"><span class="tetx_manags">{{ $property->location }}</span></td>
                                             </tr>
                                         </table>
                                     </td>
-                                    <td class="fnt_size">{{ $property->details?date('d-m-Y', strtotime(optional($property->details)->date_of_booking)):'-' }}</td>
+                                    <td class="fnt_size" width="6%">{{ $property->details?date('d-m-Y', strtotime(optional($property->details)->date_of_booking)):'-' }}</td>
                                     
-                                    <td class="fnt_size tx_bluess">
-									{{ \App\Models\PropertyMarketPriceModel::where('property_market_id', $property->id)->sum('amount') }} <br> ( {{ $property->payments_count ?? 0 }} ) <a href="{{ route('payment-details',$property->property_id) }}" target="_blank"><i class="icon fa fa-external-link push-down-1"></i></a>
+                                    <td class="fnt_size tx_bluess" width="8%">
+									{{ \App\Models\PropertyMarketPriceModel::where('property_market_id', $property->id)->sum('amount') }} <br>
 									<!--<span class="ad_plashshe"><i class="fa fa-plus-circle"></i></span>--->
 									</td>
 
 
-									<td class="fnt_size tx_bluess questt als_show_ar ">
-									 <div class="con-tooltip top">
+									<td class="fnt_size tx_bluess questt als_show_ar" width="8%">
+									 <span class="amt_outsss">{{ $property->payments_count ?? 0 }}</span>
+									  <a href="{{ route('payment-details',$property->property_id) }}" target="_blank"><i class="icon fa fa-external-link push-down-1"></i></a>
+									  <div class="con-tooltip top">
                                                 <p class="icoo"><i class="fa fa-question"></i></p>
                                                 <div class="tooltip">
-                                                    <p>Your Gross Purchase Price amount does not match with the total entry you made in payment details page. kindly check. <a href="javascript:void(0);">Click Here</a></p>
+                                                    <p>The Gross Purchase Price does not match the total amount entered in the Payment Details section. Please review and Edit/Add or Correct the payment entries <a href="{{ route('payment-details',$property->property_id) }}" target="_blank">Click Here</a></p>
                                                 </div>
-                                            </div>
+                                  
+									 </div>		
 									</td>
                                    
 
-                                    <td class="fnt_size">
+                                    <td class="fnt_size" width="8%">
 									 {{ optional($property->details)->current_market_value }}
 									 <span class="ad_plashshe" data-toggle="modal" data-target="#current_market_value"><i class="fa fa-plus-circle"></i></span>
 									</td>
-                                    <td class="p-0 brd_none" width="25%">
+                                    <td class="p-0 brd_none" width="24%">
                                         <table class="table table-bordered tst_cam_listst mb-0">
                                             <tr>
                                                 <td class="fnt_size" width="20.333%">{{ optional($property->details)->current_debt_balance }} <span class="ad_plashshe" data-toggle="modal" data-target="#balance_debt_date"><i class="fa fa-plus-circle"></i></span></td>
@@ -403,16 +460,16 @@ table.table.table-bordered.tst_cam_listst tr td {text-wrap-mode: nowrap;}
 												  {{ optional($property->details)->annual_cash_flow }}
 												  <span class="ad_plashshe" data-toggle="modal" data-target="#annual_cash_flow_date"><i class="fa fa-plus-circle"></i></span>
 												 </td> 
-                                                <td class="fnt_size tx_bluess" width="23.333%"><a href="{{ route('download.property.pdf', $property->id) }}" target="_blank" >
+                                                <td class="fnt_size tx_bluess actionss" width="14.333%">
+												<a href="{{ route('download.property.pdf', $property->id) }}" target="_blank" >
                                                     <i class="fa fa-download"></i>
                                                 </a>
                                                 <a href="{{ route('add-portfolio-property.edit', $property->id) }}" target="_blank" >
                                                     <i class="fa fa-edit"></i>
                                                 </a>
-                                               <a href="{{ route('delete.marketplace', $property->id) }}" 
-   onclick="return confirm('Are you sure you want to delete this property?')">
-   <i class="fa fa-trash"></i> 
-</a>
+                                                <a href="{{ route('delete.marketplace', $property->id) }}" onclick="return confirm('Are you sure you want to delete this property?')">
+												   <i class="fa fa-trash"></i> 
+												</a>
                                             </td> 
                                                 
 
@@ -510,21 +567,21 @@ table.table.table-bordered.tst_cam_listst tr td {text-wrap-mode: nowrap;}
 
 
 								 <tr>
-                                    <td class="arow_rt_parts">&nbsp;</td>
-                                    <td colspan="5" class="arow_rt_parts tx_read">Gross Total =</td>
+                                    <td class="arow_rt_parts" style="background:#1c5299 !important; color:#fff !important;">&nbsp;</td>
+                                    <td colspan="5" class="arow_rt_parts tx_read" style="background:#1c5299 !important; color:#fff !important;">Gross Total =</td>
 
-                                    <td class="arow_rt_parts tx_read" id="gross_total">{{ $total_amount }}</td>
-                                    <td class="arow_rt_parts tx_read">{{ $totalGrossCurrentMarketValue }}</td>
+                                    <td class="arow_rt_parts tx_read" id="gross_total" style="background:#1c5299 !important; color:#fff !important;">{{ $total_amount }}</td>
+                                    <td class="arow_rt_parts tx_read" style="background:#1c5299 !important; color:#fff !important;">{{ $totalGrossCurrentMarketValue }}</td>
 
 
 
                                     <td class="p-0 brd_none">
                                         <table class="table table-bordered tst_cam_listst mb-0">
                                             <tr>
-                                                <td class="arow_rt_parts tx_read" width="20.333%">{{ $totalGrossCurrentDebtBalance }}</td>
-                                                <td class="arow_rt_parts tx_read" width="23.333%">{{ $totalGrossAccumulatedBalance }}</td>
-                                                <td class="arow_rt_parts tx_read" width="23.333%">{{ $totalGrossAnnualCashFlow }}</td>
-                                                <td class="arow_rt_parts tx_read" width="23.333%"></td>
+                                                <td class="arow_rt_parts tx_read" width="20.333%" style="background:#1c5299 !important; color:#fff !important;">{{ $totalGrossCurrentDebtBalance }}</td>
+                                                <td class="arow_rt_parts tx_read" width="23.333%" style="background:#1c5299 !important; color:#fff !important;">{{ $totalGrossAccumulatedBalance }}</td>
+                                                <td class="arow_rt_parts tx_read" width="23.333%" style="background:#1c5299 !important; color:#fff !important;">{{ $totalGrossAnnualCashFlow }}</td>
+                                                <td class="arow_rt_parts tx_read" width="14.333%" style="background:#1c5299 !important; color:#fff !important;"></td>
                                             </tr>
                                         </table>
                                     </td>
@@ -537,12 +594,29 @@ table.table.table-bordered.tst_cam_listst tr td {text-wrap-mode: nowrap;}
             </table>
         </div>
 
-	   <div class="tanksss">
+	  <!--- <div class="tanksss">
 	    <div class="ftr_thknsss">
 	     <div class="lgo_partss"><img src="https://1crapp.allproject.online/home/img/logo 1.png" alt=""></div>
 	     <p>Prepared using 1CRAPP.COM , Just with Few Click You Too Can Create it.. lt's Free! <a href="javascript:void(0);" class="ex_btn_areaa">Explore More <i class="fa fa-chevron-circle-right"></i></a></p>
 	    </div>
-	    </div>
+	    </div>--->
+		
+		
+		
+		
+		<div class="ftr_content text-center py-4" style="background-color:#000000;">
+        <div class="lgo">
+                <a href="https://kapil.1crapp.com"><img class="logo" src="https://admin.1crapp.com/img/1779197054895525347.png" alt="Logo"></a>
+            </div>
+        <div class="menu_ftrr text-light mt-1">
+        Fastest-Simple Yet Powerful Tool for Indian Realtors Business Automation.
+    </div>
+    <div class="crt_arar mt-2">
+                    <a href="https://1crapp.com/register" target="_blank"><button class="btn " style="background-color:#ed0c2e; color:#ffffff;">Try 1CRAPP Now For Free !</button></a>
+            </div>
+    </div>
+		
+		
 	</div>
 </section>
  <!-- Modal -->
@@ -599,7 +673,7 @@ table.table.table-bordered.tst_cam_listst tr td {text-wrap-mode: nowrap;}
                                     <div class="rit_raea">
                                         <div class="bntt_cn">
                                             <a href="javascript:void(0);" class="close" data-dismiss="modal" aria-label="Close" >Cancel</a>
-                                            <button type="submit" class="actsss yellowe_bg tx_blak">Update</button>
+                                            <button type="submit" class="actsss bluess_bg tx_blak">Update</button>
                                             <!-- <button type="submit" class="actsss">Save & Exit</button> -->
                                         </div>
                                     </div>

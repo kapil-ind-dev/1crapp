@@ -19,7 +19,6 @@ $data = JoinAsAffiliateModel::where(['status'=> 1, 'created_by'=>app('currentAge
 
  <section class="tital_mg_cntss">
  <img src="{{ url('home/img/top_al_pgss.png')}}" class="bg_al_cntxt" alt="" />
-  
   <div class="midils_contnts">
    <div class="medilss"><h4>Jion Reffer Or Promote And Earn</h4>
     <a href="{{ url('') }}">Home</a> &gt; <span>Affiliate</span>
@@ -116,10 +115,8 @@ $data = JoinAsAffiliateModel::where(['status'=> 1, 'created_by'=>app('currentAge
 
         <p>{{ $data->video_subtitle2 ?? 'Just by 3 simple steps' }}</p>
 
-        <div class="you_tb_arra">
-            <iframe width="100%" height="350"
-                src="{{ $data->video_url ?? '' }}"
-                allowfullscreen></iframe>
+        <div class="you_tb_arra set_dk_mbss">
+            <iframe width="100%" height="350" src="{{ $data->video_url ?? '' }}" allowfullscreen></iframe>
         </div>
     </div>
 </section>

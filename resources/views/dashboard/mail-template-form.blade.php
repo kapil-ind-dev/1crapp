@@ -1,4 +1,8 @@
 @include('front.layouts.user-header')
+@php 
+    use App\Models\CdbPlanModel;
+    $package = CdbPlanModel::where(['id'=> auth()->user()->package_id])->first();
+@endphp
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <style>
@@ -73,11 +77,21 @@
                                     </div>
                                 </div>
                                 
-                                <div class="col-lg-6">
+                                <div class="col-lg-4">
                                     <div class="form-group">
                                         <label>CC Mail</label>
-                                        <input type="email" placeholder="Enter CC Mail" class="inp_araea" name="cc_mailid" value="{{ isset($details->cc_mailid) ? $details->cc_mailid : '' }}" required="" />
+                                        <input type="text" placeholder="Enter CC Mail" class="inp_araea" name="cc_mailid" value="{{ isset($details->cc_mailid) ? $details->cc_mailid : '' }}" required="" />
                                         <small id="user_msg" class="form-text text-muted">multiple emails support (comma separated)</small>
+                                    </div>
+                                </div>
+                                
+                                 <div class="col-lg-2 swich_bntts">
+                                    <label>CC Mail Status</label>
+                                    <div class="block_araea">
+                                        <label class="switch">
+                                            <input type="checkbox" name="cc_status" value="1" @if(isset($details->cc_status) && $details->cc_status == 1) checked @endif/>
+                                            <small></small>
+                                        </label>
                                     </div>
                                 </div>
                                 <div class="col-lg-6" >
@@ -100,7 +114,7 @@
                                     </div>
                                 </div>
                                 <!-- FILE INPUT -->
-                                <div class="col-lg-6" >
+                                <div class="col-lg-4" >
                                     <div class="form-group">
                                         <label>Upload Logo</label>
                                         <input type="file" 
@@ -115,7 +129,24 @@
                                         </div>
                                     @endif
                                 </div>
-
+                                 <div class="col-lg-2 swich_bntts">
+                                    <label>Visible</label>
+                                    <div class="block_araea">
+                                        <label class="switch">
+                                            <input type="checkbox" name="logo_visible" value="1" @if(isset($details->logo_visible) && $details->logo_visible == 1) checked @endif/>
+                                            <small></small>
+                                        </label>
+                                    </div>
+                                </div>
+                                 <div class="col-lg-6 swich_bntts">
+                                    <label>1CRApp Brand</label>
+                                    <div class="block_araea">
+                                        <label class="switch">
+                                            <input type="checkbox" name="brand_status" value="1" @if(isset($details->brand_status) && $details->brand_status == 1) checked @endif/>
+                                            <small></small>
+                                        </label>
+                                    </div>
+                                </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>Status </label>
@@ -136,4 +167,15 @@
         </div>
     </div>
 </section>
+<script>
+@if(!isset($package) || $package->is_free == 1)
+    $(document).on('change', 'input[name="brand_status"]', function () {
+        var path = "{{ route('price') }}";
+        var msg = `Please <a href="`+path+`" target="_blank" class="text-primary">UPGRADE <i aria-hidden="true" class="fas fa-external-link-alt"></i></a> your plan to change this setting.`;
+        $('#subscribeMessage').html(msg).css('color', 'black');
+        $('#subscribeModal').modal('show');
+        $(this).prop('checked', true);
+    });
+@endif
+</script>
 @include('front.layouts.footer')

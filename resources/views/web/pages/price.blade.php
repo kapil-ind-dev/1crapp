@@ -92,6 +92,19 @@ text-decoration:none;
 .str_bnt_area a:hover{
 background:#3d5bd1;
 }
+.str_bnt_area button{
+display:inline-block;
+padding:12px 25px;
+background:#4e73df;
+color:#fff;
+border-radius:5px;
+font-weight:600;
+text-decoration:none;
+}
+
+.str_bnt_area button:hover{
+background:#3d5bd1;
+}
 .list-unstyled {
   text-align: left;
   max-height: 400px;

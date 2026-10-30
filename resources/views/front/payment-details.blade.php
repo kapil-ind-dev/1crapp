@@ -249,6 +249,7 @@ table.table.table-bordered.tst_cam_listst tr th span.bothss input.ck_boxx {
 
 .grea_bg{background:#e9e9e9 !important; font-size: 11px !important;}
 .yellowe_bg{background:#ffdd00 !important;}
+.bluess_bg {background: #1c5299 !important; color:#fff !important;}
 .reds_bg{background:#f94554 !important;}
 .tx_read{color:#f94554 !important; font-weight:600;}
 .tx_white{color:#fff !important;}
@@ -641,7 +642,7 @@ input[type="checkbox"].toggle + label:hover:before {
                                     <div class="rit_raea">
                                         <div class="bntt_cn">
                                             <a href="javascript:void(0);" data-dismiss="modal" aria-label="Close" >Cancel</a>
-                                            <button type="submit" class="actsss yellowe_bg tx_blak">Save & Add Next</button>
+                                            <button type="submit" class="actsss bluess_bg tx_blak">Save & Add Next</button>
                                             <!-- <button type="submit" class="actsss">Save & Exit</button> -->
                                         </div>
                                     </div>
@@ -688,16 +689,16 @@ input[type="checkbox"].toggle + label:hover:before {
 
     <!-- Ownership and Location Row -->
     <tr>
-        <td class="yellowe_bg">Ownership</td>
-        <td class="yellowe_bg">{{ $property->owner_name ?? 'Ramawtar' }}</td>
-        <td class="yellowe_bg">Location</td>
-        <td colspan="3" class="yellowe_bg">{{ $property->location ?? 'Noida' }}</td>
-        <td class="yellowe_bg">
+        <td class="bluess_bg">Ownership</td>
+        <td class="bluess_bg">{{ $property->owner_name ?? 'Ramawtar' }}</td>
+        <td class="bluess_bg">Location</td>
+        <td colspan="3" class="bluess_bg">{{ $property->location ?? 'Noida' }}</td>
+        <td class="bluess_bg">
             <a href="javascript:void(0);" class="sm_right_vdooos siz_vdoo" data-toggle="modal" data-target="#videotutorialmodal">
                 <img src="https://1crapp.allproject.online/img/video-tutorial-new.png" alt="Video">
             </a>
         </td>
-        <td colspan="3" class="yellowe_bg add_paymmntss">
+        <td colspan="3" class="bluess_bg add_paymmntss">
             <a href="javascript:void(0);" data-toggle="modal" data-target="#addpaymentss">+ Add Payment</a>
         </td>
     </tr>
@@ -778,12 +779,24 @@ input[type="checkbox"].toggle + label:hover:before {
 		
 
     
-	   <div class="tanksss">
+	  <!-- <div class="tanksss">
 	    <div class="ftr_thknsss">
 	     <div class="lgo_partss"><img src="https://1crapp.allproject.online/home/img/logo 1.png" alt=""></div>
 	     <p>Prepared using 1CRAPP.COM , Just with Few Click You Too Can Create it.. lt's Free! <a href="javascript:void(0);" class="ex_btn_areaa">Explore More <i class="fa fa-chevron-circle-right"></i></a></p>
 	    </div>
-	    </div>
+	    </div>--->
+		
+				<div class="ftr_content text-center py-4" style="background-color:#000000;">
+        <div class="lgo">
+                <a href="https://kapil.1crapp.com"><img class="logo" src="https://admin.1crapp.com/img/1779197054895525347.png" alt="Logo"></a>
+            </div>
+        <div class="menu_ftrr text-light mt-1">
+        Fastest-Simple Yet Powerful Tool for Indian Realtors Business Automation.
+    </div>
+    <div class="crt_arar mt-2">
+                    <a href="https://1crapp.com/register" target="_blank"><button class="btn " style="background-color:#ed0c2e; color:#ffffff;">Try 1CRAPP Now For Free !</button></a>
+            </div>
+    </div>
 		
 		
 	  

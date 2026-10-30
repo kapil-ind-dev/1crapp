@@ -42,6 +42,7 @@ class LeadMagnetModel extends Model
         'bullet_status',
         'media_type',
         'media_path',
+        'media_embeded_code',
         'media_visible',
         'countdown_datetime',
         'countdown_visible',

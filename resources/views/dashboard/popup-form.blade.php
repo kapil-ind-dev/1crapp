@@ -120,11 +120,7 @@
                                 <div class="col-lg-5" >
                                     <div class="form-group">
                                         <label>Popup Image/Video </label>
-                                        <input type="file" 
-                                            class="inp_araea" 
-                                            name="file_path" 
-                                            accept="image/*,video/*"
-                                            id="logo">
+                                        <input type="file" class="inp_araea browss" name="file_path" accept="image/*,video/*" id="logo" />                                        <small id="emailHelp" class="form-text text-muted">Please Upload Images Size 369 x 286</small>
                                     </div>
                                     @if(isset($details) && !empty($details->file_path))
                                         <div class="mt-2">

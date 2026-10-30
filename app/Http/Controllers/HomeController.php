@@ -24,6 +24,7 @@ use App\Models\Payment;
 use App\Models\LeadMagnetModel;
 use App\Models\CdbMailTemp;
 use App\Models\CdbPopupForm;
+use App\Models\LetsConnectMenuModel; 
 use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
@@ -161,10 +162,15 @@ class HomeController extends Controller
         ));
     }
 
-    public function letsconnect($page_url){
-        // $res = $this->testLetsConnectMail();
-        // dd($res);
-        $page = LeadMagnetModel::where(['page_url' => $page_url, 'is_public' => '1'])
+    public function letsconnect($user_id, $page_url){
+        $mamber_id = '1CRAPP-'.$user_id;
+        $userid = DB::table('users')->where('memberid', $mamber_id)->value('id')??null;
+        $layouts = DB::table('tbl_letsconnects_layout')->where('created_by', $userid)->first()??null;
+        // dd($layouts);
+        $headermenus = LetsConnectMenuModel::with('children')->where(['created_by'=> $userid, 'type'=>'1'])->get();
+        $footermenus = LetsConnectMenuModel::with('children')->where(['created_by'=> $userid, 'type'=>'2'])->get();
+        
+        $page = LeadMagnetModel::where(['page_url' => $page_url, 'is_public' => '1', 'agent_id'=> app('currentAgent')->id, 'user_id'=>$userid])
         ->select('tbl_lead_magnet.*', 'lead_magenet1.company_name', 'lead_magenet1.company_email', 'lead_magenet1.company_email_type', 'lead_magenet1.company_phone', 'lead_magenet1.company_phone_type', 'lead_magenet1.company_address', 'lead_magenet1.company_website', 'lead_magenet1.company_logo', 'lead_magenet1.header_footer_bg_color', 'lead_magenet1.button_bg_color', 'lead_magenet1.header_footer_text_color', 'lead_magenet1.button_text_color')
         ->leftjoin('lead_magenet1', 'lead_magenet1.lead_magnet_id', 'tbl_lead_magnet.id')
         ->first();
@@ -174,20 +180,27 @@ class HomeController extends Controller
         if($page->public_type == 'post-login' && !auth()->check()){
             return redirect()->route('login')->with('error', 'Please login to access this page.');
         }
-        $formdata = CdbPopupForm::where('user_id', auth()->id())->first();
+        $formdata = CdbPopupForm::where('user_id', $userid)->first();
+        $company = DB::table('user_company_details')->where('user_id', $userid)->first()??null;
         // dd($formdata);
-        return view('front.lets-connect', compact('page', 'formdata'));
+        return view('front.lets-connect', compact('page', 'formdata', 'layouts', 'headermenus', 'footermenus', 'company'));
     }
     public function lead_magnet(){
         $page = LeadMagnetModel::where(['user_id' => auth()->id()])
         ->select('tbl_lead_magnet.*', 'lead_magenet1.company_name', 'lead_magenet1.company_email', 'lead_magenet1.company_email_type', 'lead_magenet1.company_phone', 'lead_magenet1.company_phone_type', 'lead_magenet1.company_address', 'lead_magenet1.company_website', 'lead_magenet1.company_logo', 'lead_magenet1.header_footer_bg_color', 'lead_magenet1.button_bg_color', 'lead_magenet1.header_footer_text_color', 'lead_magenet1.button_text_color')
         ->leftjoin('lead_magenet1', 'lead_magenet1.lead_magnet_id', 'tbl_lead_magnet.id')
         ->first();
+        
+        $layouts = DB::table('tbl_letsconnects_layout')->where('created_by', auth()->id())->first()??null;
+        $headermenus = LetsConnectMenuModel::with('children')->where(['created_by'=> auth()->id(), 'type'=>'1'])->get();
+        $footermenus = LetsConnectMenuModel::with('children')->where(['created_by'=> auth()->id(), 'type'=>'2'])->get();
         $formdata = CdbPopupForm::where('user_id', auth()->id())->first();
         if(!$page){
             return redirect()->route('lead-magnet-form')->with('error', 'Please create a lead magnet page first.');
         }
-        return view('dashboard.lead-magnet-view', compact('page', 'formdata'));
+        $company = DB::table('user_company_details')->where('user_id', auth()->id())->first()??null;
+        // dd($company);
+        return view('dashboard.lead-magnet-view', compact('page', 'formdata', 'layouts', 'headermenus', 'footermenus', 'company'));
     }
     public function lead_magnet_form(){
         $details = LeadMagnetModel::where('user_id', auth()->id())
@@ -216,25 +229,28 @@ class HomeController extends Controller
                 'message' => 'nullable|string',
             ]);
 
-            DB::table('cdb_lets_connect')->insert([
-                'form_id' => base64_decode($request->form_id),
-                'name' => $request->name,
-                'email' => $request->email,
-                'phone' => $request->phone,
-                'message' => $request->message,
-                'ip_address' => $request->ip(),
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
-            ]);
+            // DB::table('cdb_lets_connect')->insert([
+            //     'form_id' => base64_decode($request->form_id),
+            //     'name' => $request->name,
+            //     'email' => $request->email,
+            //     'phone' => $request->phone,
+            //     'message' => $request->message,
+            //     'ip_address' => $request->ip(),
+            //     'created_at' => Carbon::now(),
+            //     'updated_at' => Carbon::now()
+            // ]);
             $form_details = CdbPopupForm::where('id', base64_decode($request->form_id))->first();
             $mail_data = CdbMailTemp::where('id', $form_details->mail_temp_id)->first();
             if ($mail_data && $mail_data->status == 1) {
-
+                // if($mail_data->brand_status == 1){
+                    
+                // }
                 $data = [
                     'title' => $mail_data->title,
                     'celebration_text' => $mail_data->celebration_text,
                     'content' => $mail_data->content, // template content
                     'logo' => $mail_data->logo,
+                    'logo_visible' => $mail_data->logo_visible,
 
                     // ✅ dynamic enquiry data
                     'name' => $request->name,
@@ -242,7 +258,8 @@ class HomeController extends Controller
                     'phone' => $request->phone,
                     'user_message' => $request->message,
                     'attachment' => $mail_data->attachment,
-                    'attachment_text' => $mail_data->attachment_text
+                    'attachment_text' => $mail_data->attachment_text,
+                    'brand_status' => $mail_data->brand_status
                 ];
                 // dd($data);
                 // return view('front.Mail.cdb-letsconnect-mail', $data);
@@ -255,9 +272,9 @@ class HomeController extends Controller
                             ->subject($mail_data->subject);
 
                     // ✅ CC Email
-                    if (!empty($cc_email)) {
+                    if (($mail_data->cc_status == 1) && !empty($cc_email)) {
                         // multiple emails support (comma separated)
-                        $message->cc(explode(',', $cc_email));
+                        $message->cc(array_filter(array_map('trim', explode(',', $cc_email))));
                     }
 
                     // ✅ Attachment
@@ -315,6 +332,7 @@ class HomeController extends Controller
                 'celebration_text' => $mail_data->celebration_text,
                 'content' => $mail_data->content,
                 'logo' => $mail_data->logo,
+                'logo_visible' => $mail_data->logo_visible,
                 'name' => $lead->name,
                 'email' => $lead->email,
                 'phone' => $lead->phone,
@@ -329,7 +347,7 @@ class HomeController extends Controller
                 $message->to($lead->email) // ❗ FIXED (was request email)
                         ->subject($mail_data->subject);
                 // ✅ CC
-                if (!empty($cc_email)) {
+                if (($mail_data->cc_status == 1) && !empty($cc_email)) {
                     $message->cc(array_map('trim', explode(',', $cc_email)));
                 }
                 // ✅ Attachment
@@ -360,7 +378,7 @@ class HomeController extends Controller
         $request->validate([
             'id' => 'required|integer|exists:cdb_lets_connect,id',
         ]);
-        try {
+        // try {
             $lead = DB::table('cdb_lets_connect')->where('id', $request->id)->first();
             if (!$lead) {
                 return response()->json(['error' => 'Lead not found'], 404);
@@ -376,6 +394,7 @@ class HomeController extends Controller
                 'celebration_text' => $mail_data->celebration_text,
                 'content' => $mail_data->content,
                 'logo' => $mail_data->logo,
+                'logo_visible' => $mail_data->logo_visible,
                 'name' => $lead->name,
                 'email' => $lead->email,
                 'phone' => $lead->phone,
@@ -385,14 +404,14 @@ class HomeController extends Controller
             $html = view('front.Mail.cdb-letsconnect-mail', $data)->render();
             return response()->json(['status' => 'success', 'data' => $html], 200);
 
-        } catch (\Exception $e) {
-            \Log::error('Mail Preview Error', [
-                'message' => $e->getMessage(),
-                'line' => $e->getLine(),
-                'file' => $e->getFile(),
-            ]);
-            return response()->json(['status' => 'error', 'message' => 'Failed to load mail preview. Please try again.'], 500);
-        }
+        // } catch (\Exception $e) {
+        //     \Log::error('Mail Preview Error', [
+        //         'message' => $e->getMessage(),
+        //         'line' => $e->getLine(),
+        //         'file' => $e->getFile(),
+        //     ]);
+        //     return response()->json(['status' => 'error', 'message' => 'Failed to load mail preview. Please try again.'], 500);
+        // }
 
     }
     public function get_whatsapp_link(Request $request)
@@ -592,7 +611,7 @@ class HomeController extends Controller
             }
      
             $file = $request->file('logo');
-            $filename = time() . '_' . $file->getClientOriginalName();
+            $filename = time() . '.' . $file->getClientOriginalExtension();
             $file->move($uploadPath, $filename);
      
             $logoPath = 'uploads/lead_magnets/' . $filename; // store relative path in DB
@@ -609,9 +628,12 @@ class HomeController extends Controller
                 'content' => $request->content,
                 'status' => $request->status,
                 'logo' => $logoPath,
+                'logo_visible' => $request->logo_visible??0,
                 'attachment_text' => $request->attachment_text,
                 'attachment' => $request->attachment,
                 'cc_mailid' => $request->cc_mailid,
+                'cc_status' => $request->cc_status??0,
+                'brand_status' => $request->brand_status??0,
             ]
         );
 
@@ -751,7 +773,10 @@ class HomeController extends Controller
             fputcsv($file, $columns);
 
             DB::table('cdb_lets_connect')
-                ->orderBy('id', 'desc')
+                ->select('cdb_lets_connect.*')
+                ->orderBy('cdb_lets_connect.id', 'desc')
+                ->join('cdb_popup_form', 'cdb_popup_form.id', '=', 'cdb_lets_connect.form_id')
+                ->where('cdb_popup_form.user_id', auth()->id())
                 ->chunk(500, function ($rows) use ($file, $status) {
 
                     foreach ($rows as $row) {
@@ -772,4 +797,6 @@ class HomeController extends Controller
 
         return response()->stream($callback, 200, $headers);
     }
+    
+    
 }

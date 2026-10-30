@@ -58,9 +58,9 @@
       @if($data->title_visible == 1)
          <h2>{{ $data->title }}</h2>
       @endif
-    <form action="{{ url('/') }}/admin/api/save-leads" method="post" id="leadForm">
+    <form action="{{ url('/') }}/admin/api/api/save-leads" method="post">
     <input type="hidden" name="form_id" value="{{  base64_encode($data->id) }}" />
-    <input type="hidden" name="form_type" value="appointment" />
+    <!--<input type="hidden" name="form_type" value="appointment" />-->
        <div class="form-group">
           <i class="fa fa-user"></i>
           <i class="fas fa-user"></i>

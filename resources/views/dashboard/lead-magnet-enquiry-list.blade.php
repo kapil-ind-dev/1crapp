@@ -235,12 +235,8 @@ $statusClass = [
 
         </div>
     </div>
-    <div id="Step1Modal"  class="closeModalClass"
-        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:99999; justify-content:center; align-items:center;">
-
+    <div id="Step1Modal"  class="closeModalClass" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:99999; justify-content:center; align-items:center;">
         <div style="background:#fff; padding:20px; border-radius:10px; position:relative; text-align:center; border:2px solid #0e3992;">
-
-            
             <div style="display:flex; justify-content:space-between; align-items:center;">
                 <h3 style="margin-bottom:10px; color:#000;">Preview Mail</h3>
                 <span onclick="closePopupModal()" style="position:absolute; right:10px; top:10px; cursor:pointer; font-size:18px;">✖</span>
@@ -248,7 +244,6 @@ $statusClass = [
             <hr>
             <div id="mail-preview" style="text-align:left; margin-bottom:15px; color:#333; max-height:300px; overflow-y: auto;">
                 <!-- Mail preview will be loaded here -->
-
             </div>
             <form id="sendLinkForm" action="{{ route('lead.resend-mail') }}" method="post">
                 @csrf
@@ -258,7 +253,6 @@ $statusClass = [
                     Send
                 </button>
             </form>
-
         </div>
     </div>
     <div id="Step2Modal"  class="closeModalClass"

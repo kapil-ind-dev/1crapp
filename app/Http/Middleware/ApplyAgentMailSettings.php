@@ -13,7 +13,7 @@ class ApplyAgentMailSettings
         $agent = app('currentAgent');
 
         if ($agent) {
-            $mailConfig = SmtpSetting::where('user_id', $agent->id)->first();
+            $mailConfig = SmtpSetting::where(['user_id'=> $agent->id, 'type'=>'free'])->first();
             if ($mailConfig) {
                 Config::set('mail.mailers.smtp.host', $mailConfig->host);
                 Config::set('mail.mailers.smtp.port', $mailConfig->port);

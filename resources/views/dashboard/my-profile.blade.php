@@ -1,6 +1,11 @@
+
 @include('front.layouts.user-header')
 
 <style>
+body {font-family: 'Nunito Sans', sans-serif !important;}
+.container {padding:0px !important;}
+.shadow.sticky{left:0 !important;}
+
 .shadow.othr_pgss_lde .top_menuues {
     margin: 0;
     padding: 5px 5px;
@@ -368,6 +373,11 @@
 }
 
 @media (min-width: 481px) and (max-width: 767px) {
+		.main_header_area.animated .nav-header {display: flex;}	
+	.container {padding: 0px 15px !important;}
+	.nav-toggle:before {left: 0;}
+	
+	
     .what_tst .qu_bx_partss {
         padding: 10px 10px 10px !important;
     }
@@ -465,11 +475,15 @@
     }
 }
 
-@media (min-width: 320px) and (max-width: 480px) {
-    .mess_form_fildss {
-        margin-bottom: 30px;
-    }
 
+
+@media (min-width: 320px) and (max-width: 480px) {
+	.main_header_area.animated .nav-header {display: flex;}	
+	.container {padding: 0px 15px !important;}
+	.nav-toggle:before {left: 0;}
+	
+	
+    .mess_form_fildss {margin-bottom: 30px;}
     #countdown {
         margin: 0px 0 0;
     }
@@ -970,10 +984,10 @@
 				<div class="col-lg-3">
                     @include('dashboard.includes.sidebar')
 				</div>
-				<div class="col-lg-9">
+				<div class="col-lg-9">			
 					<div class="binng_araes my_proffs">
 						<div class="al_frm_bx">
-							<form action="{{ route('save-user-details') }}" method="post" enctype="multipart/form-data">
+							<form action="{{ route('save-user-details') }}" method="post" enctype="multipart/form-data" onsubmit="return validateDetails()" name="f1">
 								@csrf
 								<h5>User Information</h5>
 								@if($errors->any())
@@ -1020,38 +1034,38 @@
 									<div class="col-lg-4">
 										<div class="form-group">
 											<label>Fist Name<span class="red">*</span></label>
-											<input type="text" placeholder="Enter Your First Name" class="inp_araea" id="first_name" name="first_name" value="{{ $user->first_name }}" required="" />
+											<input type="text" placeholder="Enter Your First Name" class="inp_araea" id="first_name" name="first_name" value="{{ $user->first_name }}" required="" oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')"/>
 										</div>
 									</div>
 									<div class="col-lg-4">
 										<div class="form-group">
 											<label>Middle Name</label>
-											<input type="text" placeholder="EnterYour Middle Name" class="inp_araea" id="middle_name" name="middle_name" value="{{ $user->middle_name }}"  />
+											<input type="text" placeholder="EnterYour Middle Name" class="inp_araea" id="middle_name" name="middle_name" value="{{ $user->middle_name }}"  oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')"/>
 										</div>
 									</div>
 									<div class="col-lg-4">
 										<div class="form-group">
 											<label>Last Name<span class="red">*</span></label>
-											<input type="text" placeholder="Enter Your Last Name" class="inp_araea" id="last_name" name="last_name" value="{{ $user->last_name }}" required="" />
+											<input type="text" placeholder="Enter Your Last Name" class="inp_araea" id="last_name" name="last_name" value="{{ $user->last_name }}" required="" oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')"/>
 										</div>
 									</div>
 									<div class="col-lg-4">
 										<div class="form-group">
 											<label>Phone<span class="red">*</span></label>
-                                            <input type="text" id="mobile_code" class="inp_araea country_code" placeholder="Enter Your Phone Number" value="{{ $user->mobile }}" name="mobile" required=""/>
+                                            <input type="text" id="mobile_code" class="inp_araea country_code" placeholder="Enter Your Phone Number" value="{{ $user->mobile }}" name="mobile" required="" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
 											<span class="ad_linkss"><a href="javascript:void(0);">+Add Phone</a></span>
 										</div>
 									</div>
 									<div class="col-lg-4">
 										<div class="form-group">
 											<label>Official Email</label>
-											<input type="text" placeholder="Enter Official Email ID" class="inp_araea" id="official_email" name="official_email" value="{{ $user->official_email }}"  />
+											<input type="email" placeholder="Enter Official Email ID" class="inp_araea" id="official_email" name="official_email" value="{{ $user->official_email }}" />
 										</div>
 									</div>
 									<div class="col-lg-4">
 										<div class="form-group">
 											<label>Personal Website</label>
-											<input type="text" placeholder="www.1cr.com" class="inp_araea" id="personal_website" name="personal_website" value="{{ $user->personal_website }}"/>
+											<input type="url" placeholder="www.1crapp.com" class="inp_araea" id="personal_website" name="personal_website" value="{{ $user->personal_website }}"/>
 										</div>
 									</div>
 									<!------ Copy Address ---->
@@ -1116,13 +1130,13 @@
 											<div class="col-lg-4">
 												<div class="form-group">
 													<label>ZIP Postal Code:</label>
-													<input type="text" placeholder="ZIP Postal" class="inp_araea" id="zip" name="zip" value="{{ $user->zip }}"  />
+													<input type="text" placeholder="ZIP Postal" minLength="6" maxLength="6" class="inp_araea" id="zip" name="zip" value="{{ $user->zip }}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" />
 												</div>
 											</div>
 											<div class="col-lg-4">
 												<div class="form-group">
 													<label>Phone <span class="red">*</span></label>
-													<input type="text" placeholder="Enter Your Phone No." class="inp_araea country_code" name="phone" id="phone" value="{{ $user->phone }}"  />
+													<input type="text" placeholder="Enter Your Phone No." class="inp_araea country_code" name="phone" id="phone" value="{{ $user->phone }}"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
 												</div>
 											</div>
 										</div>
@@ -1140,19 +1154,19 @@
 											<div class="col-lg-3">
 												<div class="form-group">
 													<label>Self</label>
-													<input type="date" placeholder="Self" class="inp_araea" id="dob" name="dob" value="{{ $user->dob }}" />
+													<input type="date" placeholder="Self" class="inp_araea" id="dob" name="dob" value="{{ $user->dob }}" max="{{ now()->subYears(12)->format('Y-m-d') }}"/>
 												</div>
 											</div>
 											<div class="col-lg-3">
 												<div class="form-group">
 													<label>Spouse</label>
-													<input type="date" placeholder="Spouse" class="inp_araea" id="spouse_dob" name="spouse_dob" value="{{ $user->spouse_dob }}"  />
+													<input type="date" placeholder="Spouse" class="inp_araea" id="spouse_dob" name="spouse_dob" value="{{ $user->spouse_dob }}" max="{{ now()->subYears(12)->format('Y-m-d') }}" />
 												</div>
 											</div>
 											<div class="col-lg-3">
 												<div class="form-group">
 													<label>Anniversary</label>
-													<input type="date" placeholder="Anniversary" class="inp_araea" id="anniversary" name="anniversary" value="{{ $user->anniversary }}"  />
+													<input type="date" placeholder="Anniversary" class="inp_araea" id="anniversary" name="anniversary" value="{{ $user->anniversary }}" max="{{ now()->format('Y-m-d') }}"/>
 												</div>
 											</div>
 										</div>
@@ -1162,8 +1176,10 @@
 										<div class="form-group">
 											<label>Working in</label>
 											<select class="slt_areaa"  id="worked_in" name="worked_in">
-												<option value="">Select</option>
-												<option value="1" <?php if($user->worked_in == 1){ echo 'selected'; }?>>Indian oil corporetion</option>
+                                                <option value="" selected disabled>Select</option>
+                                                @foreach($cdos as $cdo)
+                                                <option value="{{ $cdo->id }}" <?php if($user->worked_in == $cdo->id){ echo 'selected'; } ?>>{{ $cdo->name }}</option>
+                                                @endforeach
 											</select>
 										</div>
 									</div>
@@ -1209,7 +1225,7 @@
 							</form>
 						</div>
 						<div class="al_frm_bx" id="company-section">
-							<form  action="{{ route('save-company-details') }}" method="post" enctype="multipart/form-data">
+							<form  action="{{ route('save-company-details') }}" method="post" enctype="multipart/form-data" onsubmit="return validateCompanyDetails()" name="f2">
 								@csrf
 								<h5>Company Details</h5>
 								@if($errors->any())
@@ -1238,7 +1254,7 @@
 													<div class="ons_frmss half_widths">
 														<div class="form-group">
 															<label>Company Email</label>
-															<input type="text" placeholder="Enter Company Email" class="inp_araea" name="company_email" value="{{ $user->company_email }}" />
+															<input type="email" placeholder="Enter Company Email" class="inp_araea" name="company_email" value="{{ $user->company_email }}" />
 															<select class="slt_areaa" name="company_email_type">
 																<option value="1">Work</option>
 															</select>
@@ -1249,7 +1265,7 @@
 													<div class="ons_frmss half_widths">
 														<div class="form-group">
 															<label>Company Phone</label>
-															<input type="text" placeholder="Enter Company Phone" class="inp_araea country_code" name="company_phone" value="{{ $user->company_phone }}"  />
+															<input type="text" placeholder="Enter Company Phone" class="inp_araea" name="company_phone" value="{{ $user->company_phone }}"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
 															<select class="slt_areaa"  name="company_phone_type">
 																<option value="1">Work</option>
 															</select>
@@ -1289,7 +1305,7 @@
 									</div>
 									<div class="col-lg-12">
 										<div class="lnk_s_bntt">
-											<button type="submit" value="submit" class="bntss blue_bg">Update Company Details</button>
+											<button type="submit" class="bntss blue_bg">Update Company Details</button>
 										</div>
 									</div>
 								</div>
@@ -1492,6 +1508,7 @@
 		</div>
 	</section>
 @include('front.layouts.footer')
+
 <script>
 	function copyReferralLink() {
 		// alert('hello')
@@ -1574,15 +1591,12 @@ function getCity(id, callback=null) {
 $country = isset($user->country) ? $user->country : '';
 $state = isset($user->state) ? $user->state : '';
 $city = isset($user->city) ? $user->city : '';
-
 ?>
 function selectCountry() {
     let element = document.getElementById('cp-country');
     element.value = '<?=$country?>';
-
     getState('<?=$country?>', function() {
         selectState();
-
         });
 }
 function selectState() {
@@ -1597,7 +1611,6 @@ function selectCity() {
     let element = document.getElementById('cp-city');
     element.value = '<?=$city?>';
 }
-
 </script>
 <script>
 	function copyInfo1() {
@@ -1850,6 +1863,32 @@ function selectCity() {
         var fullNumber = iti.getNumber();
         $('.country_code').val(fullNumber); // Replace field value with the full number
     });
+</script>
+
+<script>
+    function validateDetails() {
+        let website = document.f1.personal_website.value.trim();
+        if (website != "") {
+            const regex = /^(https?:\/\/)?(www\.)?([a-zA-Z0-9-]+\.)+(com|in|org|net|edu|gov|co\.in|ac\.in|io|co)$/i;
+            if (!regex.test(website)) {
+                alert("Please enter a valid website URL (e.g. https://example.com or www.example.in)");
+                return false;
+            }
+        }
+        return true;
+    }
+    function validateCompanyDetails() {
+        let company_website = document.querySelector('input[name="company_website"]').value.trim();
+        if (company_website != "") {
+            const regex = /^(https?:\/\/)?(www\.)?([a-zA-Z0-9-]+\.)+(com|in|org|net|edu|gov|co\.in|ac\.in|io|co)$/i;
+            if (!regex.test(company_website)) {
+                alert("Please enter a valid website URL (e.g. https://example.com or www.example.in)");
+                return false;
+            }
+        }
+    
+        return true;
+    }
 </script>
 
 

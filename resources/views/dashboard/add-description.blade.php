@@ -4,6 +4,29 @@
 @include('front.layouts.header')
 
 <style>
+.all_frm_list.half_areea_boxx {
+    padding: 20px 20px;
+    border-radius: 10px;
+}
+.all_frm_list.half_areea_boxx .form-group label {
+    display: block;
+    margin: 0 0 2px;
+    font-size: 13px;
+}
+.all_frm_list.half_areea_boxx .row.bothmngess .col-lg-6.col-12.left {
+    padding-right: 5px;
+}
+.all_frm_list.half_areea_boxx .row.bothmngess .col-lg-6.col-12.right {
+    padding-left: 5px;
+}
+
+.all_frm_list.half_areea_boxx select#psizetype {
+    width: 90px;
+    padding: 10px 15px 10px 8px;
+    margin: 1px -1px 0 0px;
+    font-size: 13px;
+}
+
     .part_boxx_areaa {
         box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
         background-color: #fff;
@@ -259,262 +282,273 @@
                             </div>
                         </div>
                         <!-- End Property -->
+						
+						
+						<div class="row">
+						 <div class="col-lg-6">
+						   <!-- Address -->
+							<div class="Address">
 
-                        <!-- Address -->
-                        <div class="Address">
+								<div class="hd_res_listsss">
+									<h2 style="float: left;"> Address <span class="rit_mg"><img src="img/files.png" alt="" /></span></h2>
+									<button type="button" class="btn btn-primary  " onClick="copyPropertyAddress()" style=" float: right;"><i class="fa fa-copy"></i> <span id="cp-text">Copy Address</span></button>
+								</div>
+								<div class="all_frm_list half_areea_boxx" id="manags_boxss">
+									<div class="row">
+										<div class="col-lg-6 col-12">
+											<div class="form-group managsss1">
+												<label>Unit Number(Optional):</label>
+												<input type="text" name="unit_number" id="cp-unit_number" placeholder="Unit Number" value="<?= isset($PropertyAddress->prop_unitno) ? $PropertyAddress->prop_unitno : '' ?>" />
+											</div>
+										</div>
 
-                            <div class="hd_res_listsss">
-                                <h2 style="float: left;"> Address <span class="rit_mg"><img src="img/files.png" alt="" /></span></h2>
-                                <button type="button" class="btn btn-primary  " onClick="copyPropertyAddress()" style=" float: right;"><i class="fa fa-copy"></i> <span id="cp-text">Copy Address</span></button>
-                            </div>
-                            <div class="all_frm_list" id="manags_boxss">
-                                <div class="row">
-                                    <div class="col-lg-6 col-12">
-                                        <div class="form-group managsss1">
-                                            <label>Unit Number(Optional):</label>
-                                            <input type="text" name="unit_number" id="cp-unit_number" placeholder="Unit Number" value="<?= isset($PropertyAddress->prop_unitno) ? $PropertyAddress->prop_unitno : '' ?>" />
-                                        </div>
-                                    </div>
+										<div class="col-lg-6 col-12">
+											<div class="form-group managsss1">
+												<label>Tower Number(Optional) :</label>
+												<input type="text" name="tower_number" id="cp-tower_number" placeholder="Tower Number" value="<?= isset($PropertyAddress->prop_tower_no) ? $PropertyAddress->prop_tower_no : '' ?>" />
+											</div>
+										</div>
 
-                                    <div class="col-lg-6 col-12">
-                                        <div class="form-group managsss1">
-                                            <label>Tower Number(Optional) :</label>
-                                            <input type="text" name="tower_number" id="cp-tower_number" placeholder="Tower Number" value="<?= isset($PropertyAddress->prop_tower_no) ? $PropertyAddress->prop_tower_no : '' ?>" />
-                                        </div>
-                                    </div>
+										<div class="col-lg-6 col-12">
+											<div class="form-group managsss1">
+												<label>Project Name(Optional) :</label>
+												<input type="text" name="project_name" id="cp-project_name" placeholder="Project Name" value="<?= isset($PropertyAddress->prop_project_name) ? $PropertyAddress->prop_project_name : '' ?>" />
+											</div>
+										</div>
 
-                                    <div class="col-lg-6 col-12">
-                                        <div class="form-group managsss1">
-                                            <label>Project Name(Optional) :</label>
-                                            <input type="text" name="project_name" id="cp-project_name" placeholder="Project Name" value="<?= isset($PropertyAddress->prop_project_name) ? $PropertyAddress->prop_project_name : '' ?>" />
-                                        </div>
-                                    </div>
+										<div class="col-lg-6 col-12">
+											<div class="form-group managsss1">
+												<label>Building Name(Optional):</label>
+												<input type="text" name="building_name" id="cp-building_name" placeholder="Building Name" value="<?= isset($PropertyAddress->prop_building_name) ? $PropertyAddress->prop_building_name : '' ?>" />
+											</div>
+										</div>
 
-                                    <div class="col-lg-6 col-12">
-                                        <div class="form-group managsss1">
-                                            <label>Building Name(Optional):</label>
-                                            <input type="text" name="building_name" id="cp-building_name" placeholder="Building Name" value="<?= isset($PropertyAddress->prop_building_name) ? $PropertyAddress->prop_building_name : '' ?>" />
-                                        </div>
-                                    </div>
+										<div class="col-lg-6 col-12">
+											<div class="form-group managsss1">
+												<label>Sector / Street No. / Address:</label>
+												<input type="text" name="street" id="cp-address" placeholder="Street Address" value="<?= isset($PropertyAddress->prop_street) ? $PropertyAddress->prop_street : '' ?>" />
+											</div>
+										</div>
 
-                                    <div class="col-lg-6 col-12">
-                                        <div class="form-group managsss1">
-                                            <label>Sector / Street No. / Address:</label>
-                                            <input type="text" name="street" id="cp-address" placeholder="Street Address" value="<?= isset($PropertyAddress->prop_street) ? $PropertyAddress->prop_street : '' ?>" />
-                                        </div>
-                                    </div>
+										<div class="col-lg-6 col-12">
+											<div class="form-group managsss1">
+												<label>Country:</label>
+												<select name="pcountry" id="cp-country" onchange="getState(this.value)" required class="slt_areaa_ful">
+													<option value="">N/A</option>
+													@foreach($countryList as $list)
+													<option
+														value="{{ $list->id }}"
+														{{ (old('pcountry', $PropertyAddress->prop_country ?? '') == $list->id) ? 'selected' : '' }}>
+														{{ $list->name }}
+													</option>
+													@endforeach
+												</select>
+											</div>
+										</div>
 
-                                    <div class="col-lg-6 col-12">
-                                        <div class="form-group managsss1">
-                                            <label>Country:</label>
-                                            <select name="pcountry" id="cp-country" onchange="getState(this.value)" required class="slt_areaa_ful">
-                                                <option value="">N/A</option>
-                                                @foreach($countryList as $list)
-                                                <option
-                                                    value="{{ $list->id }}"
-                                                    {{ (old('pcountry', $PropertyAddress->prop_country ?? '') == $list->id) ? 'selected' : '' }}>
-                                                    {{ $list->name }}
-                                                </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
+										<div class="col-lg-6 col-12">
+											<div class="form-group managsss1">
+												<label>State/Region:</label>
+												<select name="state" id="cp-state" onchange="getCity(this.value)" required class="slt_areaa_ful"></select>
+											</div>
+										</div>
 
-                                    <div class="col-lg-6 col-12">
-                                        <div class="form-group managsss1">
-                                            <label>State/Region:</label>
-                                            <select name="state" id="cp-state" onchange="getCity(this.value)" required class="slt_areaa_ful"></select>
-                                        </div>
-                                    </div>
+										<div class="col-lg-6 col-12">
+											<div class="form-group managsss1">
+												<label>City:</label>
+												<select name="city" id="cp-city" required class="slt_areaa_ful"></select>
+											</div>
+										</div>
 
-                                    <div class="col-lg-6 col-12">
-                                        <div class="form-group managsss1">
-                                            <label>City:</label>
-                                            <select name="city" id="cp-city" required class="slt_areaa_ful"></select>
-                                        </div>
-                                    </div>
+										<div class="col-lg-6 col-12">
+											<div class="form-group managsss1">
+												<label>ZIP/Postal Code:</label>
+												<input type="text" name="zip" id="cp-zip" placeholder="ZIP/Postal Code" value="<?= isset($PropertyAddress->prop_zip) ? $PropertyAddress->prop_zip : '' ?>" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" />
+											</div>
+										</div>
 
-                                    <div class="col-lg-6 col-12">
-                                        <div class="form-group managsss1">
-                                            <label>ZIP/Postal Code:</label>
-                                            <input type="text" name="zip" id="cp-zip" placeholder="ZIP/Postal Code" value="<?= isset($PropertyAddress->prop_zip) ? $PropertyAddress->prop_zip : '' ?>" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" />
-                                        </div>
-                                    </div>
+										<div class="col-lg-6 col-12">
+											<div class="form-group managsss1">
+												<label>Property Google Location:</label>
+												<input type="text" name="plocationlink" id="cp-plocationlink" placeholder="Paste Enbeded Share link(Ex:- https://maps.app.goo.gl/JSbQSpLmKjax8Ghx5)" value="<?= isset($PropertyAddress->prop_google_location) ? $PropertyAddress->prop_google_location : '' ?>" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" />
+											</div>
+										</div>
 
-                                    <div class="col-lg-6 col-12">
-                                        <div class="form-group managsss1">
-                                            <label>Property Google Location:</label>
-                                            <input type="text" name="plocationlink" id="cp-plocationlink" placeholder="Paste Enbeded Share link(Ex:- https://maps.app.goo.gl/JSbQSpLmKjax8Ghx5)" value="<?= isset($PropertyAddress->prop_google_location) ? $PropertyAddress->prop_google_location : '' ?>" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" />
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div style="opacity:0;hieght:0px;" id="hiddenaddress"></div>
-
-
-                            </div>
-                        </div>
-                        <!-- End Address -->
-
-                        <!-- Description -->
-                        <div class="Description">
-                            <div class="hd_res_listsss">
-                                <h2 style="float:left;">Description <span class="rit_mg"><img src="img/files.png" alt="" /></span></h2>
-                                <button type="button" class="btn btn-primary  " onClick="copyPropertyDescription()" style=" float: right;"><i class="fa fa-copy"></i> <span id="desc-copy-msg">Copy Description</span></button>
-                            </div>
-                            <div class="all_frm_list">
-                                <div class="row">
-                                    <div class="col-lg-6 col-12">
-                                        <div class="form-group managsss1">
-                                            <label>Category:</label>
-                                            <select name="pcategory" id="pcategory" onChange="setOption(this.value); disableOptionsIndusAgri(this.value);" class="slt_areaa_ful">
-                                            <?php $desc_category = isset($PropertyDescription->desc_category) ? $PropertyDescription->desc_category : ''; ?>
-                                                <option value="">N/A</option>
-                                                <option value="Residentail" <?= $desc_category == 'Residentail' ? 'selected' : '' ?>>Residentail</option>
-                                                <option value="Commercial" <?= $desc_category == 'Commercial' ? 'selected' : '' ?>>Commercial</option>
-                                                <option value="Agriculture" <?= $desc_category == 'Agriculture' ? 'selected' : '' ?>>Agriculture</option>
-                                                <option value="Industrial" <?= $desc_category == 'Industrial' ? 'selected' : '' ?>>Industrial</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6 col-12">
-                                        <div class="row">
-                                            <div class="col-lg-6 col-12">
-                                                <div class="form-group managsss1">
-                                                    <label>Parking:</label>
-                                                    <select name="parking" id="parking" class="slt_areaa_ful" required onchange="setNoOfParking(this.value)">
-                                                    <?php $desc_parking = isset($PropertyDescription->desc_parking) ? $PropertyDescription->desc_parking : ''; ?>
-                                                        <option value="" selected>Select</option>
-                                                        <option value="Yes" <?= $desc_parking == 'Yes' ? 'selected' : '' ?>>Yes</option>
-                                                        <option value="No" <?= $desc_parking == 'No' ? 'selected' : '' ?>>No</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-6 col-12">
-                                                <div class="form-group managsss1">
-                                                    <label>No. of Parking</label>
-                                                    <select name="no_of_parking" id="no_of_parking" class="slt_areaa_ful" <?= $desc_parking == 'Yes' ? '' : 'disabled' ?> required>
-                                                    <?php $no_of_parking = isset($PropertyDescription->no_of_parking) ? $PropertyDescription->no_of_parking : ''; ?>
-                                                        <option value="" selected>Select</option>
-                                                        <?php for ($i = 1; $i <= 5; $i++): ?>
-                                                            <option value="<?= $i ?>" <?= $no_of_parking == $i ? 'selected' : '' ?>>
-                                                                <?= $i ?>
-                                                            </option>
-                                                        <?php endfor; ?>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6 col-12">
-                                        <div class="form-group managsss1">
-                                            <label>Type:</label>
-                                            <select name="pcategorytype" id="pcategorytype" class="slt_areaa_ful pcategorytype">
-                                                <option value="">N/A</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6 col-12">
-                                        <div class="form-group managsss1 lot_sz">
-                                            <label>Size:</label>
-                                            <input type="text" name="lot" placeholder="Size" value="<?= isset($PropertyDescription->desc_lot) ? $PropertyDescription->desc_lot : '' ?>" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" />
-
-                                            <select name="psizetype" id="psizetype" class="pusntttss" required>
-                                            <?php $desc_lot_type = isset($PropertyDescription->desc_lot_type) ? $PropertyDescription->desc_lot_type : ''; ?>
-                                                <option selected value="">Select</option>
-                                                <option value="Square Feet" <?= $desc_lot_type == 'Square Feet' ? 'selected' : '' ?>>Square Feet</option>
-                                                <option value="Square Yard" <?= $desc_lot_type == 'Square Yard' ? 'selected' : '' ?>>Square Yard</option>
-                                                <option value="Meter Feet" <?= $desc_lot_type == 'Meter Feet' ? 'selected' : '' ?>>Square Meter</option>
-                                                <option value="Bigha" <?= $desc_lot_type == 'Bigha' ? 'selected' : '' ?>>Bigha</option>
-                                                <option value="Acres" <?= $desc_lot_type == 'Acres' ? 'selected' : '' ?>>Acres</option>
-                                                <option value="Hectre" <?= $desc_lot_type == 'Hectre' ? 'selected' : '' ?>>Hectre</option>
-
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6 col-12">
-                                        <div class="form-group managsss1">
-                                            <label>Units Type:</label>
-                                            <select name="ptype" id="ptype" class="slt_areaa_ful">
-                                            <?php $selectedPtype = isset($PropertyDescription->desc_type) ? $PropertyDescription->desc_type : ''; ?>
-                                                <option value="">N/A</option>
-                                                <option value="1" <?= $selectedPtype == '1' ? 'selected' : '' ?>>1 BHK</option>
-                                                <option value="2" <?= $selectedPtype == '2' ? 'selected' : '' ?>>2 BHK</option>
-                                                <option value="3" <?= $selectedPtype == '3' ? 'selected' : '' ?>>3 BHK</option>
-                                                <option value="4" <?= $selectedPtype == '4' ? 'selected' : '' ?>>4 BHK</option>
-                                                <option value="5" <?= $selectedPtype == '5' ? 'selected' : '' ?>>5 BHK</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6 col-12">
-                                        <div class="form-group managsss1">
-                                            <label>Status:</label>
-                                            <select name="pstatus" id="pstatus" class="slt_areaa_ful" required>
-                                            <?php $pstatus = isset($PropertyDescription->pstatus) ? $PropertyDescription->pstatus : ''; ?>
-                                                <option value="" selected disabled>Select</option>
-                                                <option value="Ready To Move" {{ old('pstatus', $pstatus ?? '') == 'Ready To Move' ? 'selected' : '' }}>Ready To Move</option>
-                                                <option value="Underconstruction" {{ old('pstatus', $pstatus ?? '') == 'Underconstruction' ? 'selected' : '' }}>Underconstruction</option>
-                                            </select>
-                                        </div>
-                                    </div>
+									</div>
+									<div style="opacity:0;hieght:0px;" id="hiddenaddress"></div>
 
 
-                                    <div class="col-lg-6 col-12">
-                                        <div class="form-group managsss1">
-                                            <label>No. of bedrooms</label>
-                                            <select name="bedrooms" id="bedrooms" class="slt_areaa_ful">
-                                            <?php $selectedbedrooms = isset($PropertyDescription->bedrooms) ? $PropertyDescription->bedrooms : ''; ?>
-                                                @for ($i = 1; $i <= 10; $i++)
-                                                    <option value="{{ $i }}" {{ old('bedrooms', $selectedbedrooms ?? '') == $i ? 'selected' : '' }}>
-                                                        {{ $i }}
-                                                    </option>
-                                                @endfor
+								</div>
+							</div>
+							<!-- End Address -->
+						 </div>
+						 <div class="col-lg-6">
+						   <!-- Description -->
+							<div class="Description">
+								<div class="hd_res_listsss">
+									<h2 style="float:left;">Description <span class="rit_mg"><img src="img/files.png" alt="" /></span></h2>
+									<button type="button" class="btn btn-primary  " onClick="copyPropertyDescription()" style=" float: right;"><i class="fa fa-copy"></i> <span id="desc-copy-msg">Copy Description</span></button>
+								</div>
+								<div class="all_frm_list half_areea_boxx">
+									<div class="row">
+										<div class="col-lg-6 col-12">
+											<div class="form-group managsss1">
+												<label>Category:</label>
+												<select name="pcategory" id="pcategory" onChange="setOption(this.value); disableOptionsIndusAgri(this.value);" class="slt_areaa_ful">
+												<?php $desc_category = isset($PropertyDescription->desc_category) ? $PropertyDescription->desc_category : ''; ?>
+													<option value="">N/A</option>
+													<option value="Residentail" <?= $desc_category == 'Residentail' ? 'selected' : '' ?>>Residentail</option>
+													<option value="Commercial" <?= $desc_category == 'Commercial' ? 'selected' : '' ?>>Commercial</option>
+													<option value="Agriculture" <?= $desc_category == 'Agriculture' ? 'selected' : '' ?>>Agriculture</option>
+													<option value="Industrial" <?= $desc_category == 'Industrial' ? 'selected' : '' ?>>Industrial</option>
+												</select>
+											</div>
+										</div>
 
-                                            </select>
-                                        </div>
-                                    </div>
+										<div class="col-lg-6 col-12">
+											<div class="row bothmngess">
+												<div class="col-lg-6 col-12 left">
+													<div class="form-group managsss1">
+														<label>Parking:</label>
+														<select name="parking" id="parking" class="slt_areaa_ful" required onchange="setNoOfParking(this.value)">
+														<?php $desc_parking = isset($PropertyDescription->desc_parking) ? $PropertyDescription->desc_parking : ''; ?>
+															<option value="" selected>Select</option>
+															<option value="Yes" <?= $desc_parking == 'Yes' ? 'selected' : '' ?>>Yes</option>
+															<option value="No" <?= $desc_parking == 'No' ? 'selected' : '' ?>>No</option>
+														</select>
+													</div>
+												</div>
 
-                                    <div class="col-lg-6 col-12">
-                                        <div class="form-group managsss1">
-                                            <label>No. of barthrooms</label>
-                                            <select name="bathrooms" id="bathrooms" class="slt_areaa_ful">
-                                            <?php $selectedbathrooms = isset($PropertyDescription->bathrooms) ? $PropertyDescription->bathrooms : ''; ?>
-                                                @for ($i = 1; $i <= 10; $i++)
-                                                    <option value="{{ $i }}" {{ old('bathrooms', $selectedbathrooms ?? '') == $i ? 'selected' : '' }}>
-                                                        {{ $i }}
-                                                    </option>
-                                                @endfor
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-12">
-                                        <div class="form-group managsss1">
-                                            <label>Year Built:</label>
-                                            <input type="text" name="year" placeholder="Year Built" value="<?= isset($PropertyDescription->desc_year) ? $PropertyDescription->desc_year : '' ?>" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" />
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-12">
-                                        <div class="form-group managsss1">
-                                            <label>Transaction Type(Optional):</label>
-                                            <select name="ptransactiontype" id="ptransactiontype" class="slt_areaa_ful">
-                                                <option value="">None</option>
-                                                <option value="Direct">Direct</option>
-                                                <option value="Through Agent">Through Agent</option>
-                                                <option value="From Owner">From Owner</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="hiddenDescription" style="display:none;"></div>
-                        </div>
-                        <!-- End Description -->
+												<div class="col-lg-6 col-12 right">
+													<div class="form-group managsss1">
+														<label>No. of Parking</label>
+														<select name="no_of_parking" id="no_of_parking" class="slt_areaa_ful" <?= $desc_parking == 'Yes' ? '' : 'disabled' ?> required>
+														<?php $no_of_parking = isset($PropertyDescription->no_of_parking) ? $PropertyDescription->no_of_parking : ''; ?>
+															<option value="" selected>Select</option>
+															<?php for ($i = 1; $i <= 5; $i++): ?>
+																<option value="<?= $i ?>" <?= $no_of_parking == $i ? 'selected' : '' ?>>
+																	<?= $i ?>
+																</option>
+															<?php endfor; ?>
+														</select>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="col-lg-6 col-12">
+											<div class="form-group managsss1">
+												<label>Type:</label>
+												<select name="pcategorytype" id="pcategorytype" class="slt_areaa_ful pcategorytype">
+													<option value="">N/A</option>
+												</select>
+											</div>
+										</div>
+
+										<div class="col-lg-6 col-12">
+											<div class="form-group managsss1 lot_sz">
+												<label>Size:</label>
+												<input type="text" name="lot" placeholder="Size" value="<?= isset($PropertyDescription->desc_lot) ? $PropertyDescription->desc_lot : '' ?>" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" />
+
+												<select name="psizetype" id="psizetype" class="pusntttss" required>
+												<?php $desc_lot_type = isset($PropertyDescription->desc_lot_type) ? $PropertyDescription->desc_lot_type : ''; ?>
+													<option selected value="">Select</option>
+													<option value="Square Feet" <?= $desc_lot_type == 'Square Feet' ? 'selected' : '' ?>>Square Feet</option>
+													<option value="Square Yard" <?= $desc_lot_type == 'Square Yard' ? 'selected' : '' ?>>Square Yard</option>
+													<option value="Meter Feet" <?= $desc_lot_type == 'Meter Feet' ? 'selected' : '' ?>>Square Meter</option>
+													<option value="Bigha" <?= $desc_lot_type == 'Bigha' ? 'selected' : '' ?>>Bigha</option>
+													<option value="Acres" <?= $desc_lot_type == 'Acres' ? 'selected' : '' ?>>Acres</option>
+													<option value="Hectre" <?= $desc_lot_type == 'Hectre' ? 'selected' : '' ?>>Hectre</option>
+
+												</select>
+											</div>
+										</div>
+
+										<div class="col-lg-6 col-12">
+											<div class="form-group managsss1">
+												<label>Units Type:</label>
+												<select name="ptype" id="ptype" class="slt_areaa_ful">
+												<?php $selectedPtype = isset($PropertyDescription->desc_type) ? $PropertyDescription->desc_type : ''; ?>
+													<option value="">N/A</option>
+													<option value="1" <?= $selectedPtype == '1' ? 'selected' : '' ?>>1 BHK</option>
+													<option value="2" <?= $selectedPtype == '2' ? 'selected' : '' ?>>2 BHK</option>
+													<option value="3" <?= $selectedPtype == '3' ? 'selected' : '' ?>>3 BHK</option>
+													<option value="4" <?= $selectedPtype == '4' ? 'selected' : '' ?>>4 BHK</option>
+													<option value="5" <?= $selectedPtype == '5' ? 'selected' : '' ?>>5 BHK</option>
+												</select>
+											</div>
+										</div>
+
+										<div class="col-lg-6 col-12">
+											<div class="form-group managsss1">
+												<label>Status:</label>
+												<select name="pstatus" id="pstatus" class="slt_areaa_ful" required>
+												<?php $pstatus = isset($PropertyDescription->pstatus) ? $PropertyDescription->pstatus : ''; ?>
+													<option value="" selected disabled>Select</option>
+													<option value="Ready To Move" {{ old('pstatus', $pstatus ?? '') == 'Ready To Move' ? 'selected' : '' }}>Ready To Move</option>
+													<option value="Underconstruction" {{ old('pstatus', $pstatus ?? '') == 'Underconstruction' ? 'selected' : '' }}>Underconstruction</option>
+												</select>
+											</div>
+										</div>
+
+
+										<div class="col-lg-6 col-12">
+											<div class="form-group managsss1">
+												<label>No. of bedrooms</label>
+												<select name="bedrooms" id="bedrooms" class="slt_areaa_ful">
+												<?php $selectedbedrooms = isset($PropertyDescription->bedrooms) ? $PropertyDescription->bedrooms : ''; ?>
+													@for ($i = 1; $i <= 10; $i++)
+														<option value="{{ $i }}" {{ old('bedrooms', $selectedbedrooms ?? '') == $i ? 'selected' : '' }}>
+															{{ $i }}
+														</option>
+													@endfor
+
+												</select>
+											</div>
+										</div>
+
+										<div class="col-lg-6 col-12">
+											<div class="form-group managsss1">
+												<label>No. of barthrooms</label>
+												<select name="bathrooms" id="bathrooms" class="slt_areaa_ful">
+												<?php $selectedbathrooms = isset($PropertyDescription->bathrooms) ? $PropertyDescription->bathrooms : ''; ?>
+													@for ($i = 1; $i <= 10; $i++)
+														<option value="{{ $i }}" {{ old('bathrooms', $selectedbathrooms ?? '') == $i ? 'selected' : '' }}>
+															{{ $i }}
+														</option>
+													@endfor
+												</select>
+											</div>
+										</div>
+										<div class="col-lg-6 col-12">
+											<div class="form-group managsss1">
+												<label>Year Built:</label>
+												<input type="text" name="year" placeholder="Year Built" value="<?= isset($PropertyDescription->desc_year) ? $PropertyDescription->desc_year : '' ?>" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" />
+											</div>
+										</div>
+										<div class="col-lg-6 col-12">
+											<div class="form-group managsss1">
+												<label>Transaction Type(Optional):</label>
+												<select name="ptransactiontype" id="ptransactiontype" class="slt_areaa_ful">
+													<option value="">None</option>
+													<option value="Direct">Direct</option>
+													<option value="Through Agent">Through Agent</option>
+													<option value="From Owner">From Owner</option>
+												</select>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div id="hiddenDescription" style="display:none;"></div>
+							</div>
+							<!-- End Description -->
+						 </div>
+						</div>
+						
+
+                        
+
+                        
 
 
                         <!-- Property Photos & Video -->

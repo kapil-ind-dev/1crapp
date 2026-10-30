@@ -1182,7 +1182,21 @@ h6#singallls {
     flex-wrap: inherit;
 }
 
-@media (min-width: 320px) and (max-width: 480px) {
+.btn_fillds {width: 100%;}
+
+@media (min-width: 320px) and (max-width: 767px) {
+.mb_data_summryy .lsting_proprty {text-align: center; margin-top: 10px;}
+#property_anaylsis_pages .prp_analyes .mb_data_summryy .magan_y_no {width: 100%; text-align: center;}		
+.mb_data_summryy .text-uppercase.font-size-12.gray.property-quick-stats-label {font-size: 12px;}	
+.mb_data_summryy .panel-body {padding: 10px;}
+.mb_data_summryy .blue.property-quick-stats-value span.bold {font-size: 12px;}
+.property_desc.als_show_ar table tr td {text-wrap-mode: nowrap;}
+
+.btn_fillds {width: 100%;}
+.btn_fillds .toollist {display: none; margin-top:20px;}
+.btn_fillds p.spbtnnte.tooltitle.desktop_view {margin:0 auto; max-width:90%; width:100%; border:#1c539a solid 2px; text-align:center; padding:10px 0px; color:#1c539a;
+    font-weight:700; font-size:15px; border-radius:4px; margin-bottom:15px;}	
+	
 .proprt_box_sec h3.manag_cnt_areaa span.right_edt {
     position: relative;
     right: -10px;
@@ -1452,6 +1466,37 @@ left: -71px;
     width: 171px;
 }
 
+
+
+
+.property_report_page {width: 100%;}
+.property_report_page .bottom_partss {padding-top:30px;}
+.property_report_page .bottom_partss .lg_part_lg {text-align: center;}
+.property_report_page .bottom_partss .lg_part_lg img {width: 150px;}
+.property_report_page .bottom_partss .ct_contents {display:flex; align-items:center; justify-content:center; height:100%; width:100%; font-size:15px;}
+
+
+.thnkss_al_partss {
+    border: #fff solid 1px;
+    text-align: center;
+    padding: 20px;
+}
+.thnkss_al_partss .lgo_partss {
+    max-width: 210px;
+    margin: 0 auto;
+    width: 100%;
+    margin-bottom: 30px;
+}
+.thnkss_al_partss .lgo_partss img {
+    width: 100%;
+    max-width: 210px;
+}
+.thnkss_al_partss h4 {
+    margin: 0 0 20px;
+    font-size: 30px;
+    font-weight: 800;
+}
+
 </style>
 
 <!-- Modal -->
@@ -1478,7 +1523,7 @@ left: -71px;
              @include('front.layouts.detail-sidebar')
             <!--start full details -->
             <div class="col-12 col-sm-9 property_desc als_show_ar prp_analyes">
-			   <div class="row mb-4">
+			   <div class="row mb-4 mb_data_summryy">
 			    <div class="col-lg-5">
 				 <div class="lsting_proprty">
                     <h3>Buy, Refinance & Hold Analysis</h3>
@@ -1651,9 +1696,11 @@ left: -71px;
 
 
 				<!----- Box Area ---->
-				 <div class="col-md-12">
+				<div class="btn_fillds">
+				 <p class="spbtnnte tooltitle desktop_view">Snapshot of Returns <i class="fa fa-angle-down"></i></p>
+				 <div class="col-md-12 toollist">
                             <div class="row">
-                                <div class="col-lg-4 col-12">
+                                <div class="col-lg-4 col-sm-6 col-6">
                                     <div class="panel panel-default">
                                         <div class="panel-body padding-h-20 padding-v-15 text-center">
                                             <div class="text-uppercase font-size-12 gray property-quick-stats-label">Cash Needed</div>
@@ -1663,7 +1710,7 @@ left: -71px;
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-12">
+                               <div class="col-lg-4 col-sm-6 col-6">
                                     <div class="panel panel-default">
                                         <div class="panel-body padding-h-20 padding-v-15 text-center">
                                             <div class="text-uppercase font-size-12 gray property-quick-stats-label">Cash Flow</div>
@@ -1674,7 +1721,7 @@ left: -71px;
                                     </div>
                                 </div>
 
-								<div class="col-lg-4 col-12">
+								<div class="col-lg-4 col-sm-6 col-6">
                                     <div class="panel panel-default">
                                         <div class="panel-body padding-h-20 padding-v-15 text-center">
                                             <div class="text-uppercase font-size-12 gray property-quick-stats-label">Cap Rate</div>
@@ -1685,7 +1732,7 @@ left: -71px;
                                     </div>
                                 </div>
 								
-								<div class="col-lg-4 col-12">
+								<div class="col-lg-4 col-sm-6 col-6">
                                     <div class="panel panel-default">
                                         <div class="panel-body padding-h-20 padding-v-15 text-center">
                                             <div class="text-uppercase font-size-12 gray property-quick-stats-label">ROI</div>
@@ -1695,7 +1742,7 @@ left: -71px;
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-12">
+                                <div class="col-lg-4 col-sm-6 col-6">
                                     <div class="panel panel-default">
                                         <div class="panel-body padding-h-20 padding-v-15 text-center">
                                             <div class="text-uppercase font-size-12 gray property-quick-stats-label">GRM</div>
@@ -1706,7 +1753,7 @@ left: -71px;
                                     </div>
                                 </div>
 
-                                <div class="col-lg-4 col-12">
+                                <div class="col-lg-4 col-sm-6 col-6">
                                     <div class="panel panel-default">
                                         <div class="panel-body padding-h-20 padding-v-15 text-center">
                                             <div class="text-uppercase font-size-12 gray property-quick-stats-label">COC</div>
@@ -1717,6 +1764,7 @@ left: -71px;
                                     </div>
                                 </div>
                             </div>
+                        </div>
                         </div>
                 <!----- End Box Area ---->
 
@@ -4784,6 +4832,42 @@ left: -71px;
 
 
 
+	 <div class="property_report_page">
+ <div class="bottom_partss">
+    <div class="container">
+	  <div class="row">
+	   <div class="col-lg-5">
+	    <div class="ct_contents">Prepared BY : 1CR APP Consultants</div>
+	   </div>
+	   <div class="col-lg-2">
+	    <div class="lg_part_lg"><img src="https://kapil.1crapp.com/img/logo 1.png" alt=""></div>
+	   </div>
+	   <div class="col-lg-5">
+	    <div class="ct_contents">G-01, Green View, Jaipur, Rajasthan 201307</div>
+	   </div>
+	  </div>
+	  
+	    <div class="thnkss_al_partss">
+		   <h4>Thank You Very Much!</h4>
+		</div>
+	  
+	  
+	  <div class="ftr_content text-center py-4" style="background-color:#000000;">
+        <div class="lgo">
+                <a href="https://kapil.1crapp.com"><img class="logo" src="https://admin.1crapp.com/img/1779197054895525347.png" alt="Logo"></a>
+            </div>
+        <div class="menu_ftrr text-light mt-1">
+        Fastest-Simple Yet Powerful Tool for Indian Realtors Business Automation.
+    </div>
+    <div class="crt_arar mt-1">
+                    <a href="https://1crapp.com/register" target="_blank"><button class="btn " style="background-color:#ed0c2e; color:#ffffff;">Try 1CRAPP Now For Free !</button></a>
+            </div>
+    </div>
+	</div>
+ </div>
+ </div>
+
+
 
 	   </div>
     </div>
@@ -4888,6 +4972,14 @@ left: -71px;
 <script src="js/line_chart.js"></script>
 <script src='https://bernii.github.io/gauge.js/dist/gauge.min.js'></script>
 
+
+		<script>
+		$(document).ready(function(){
+			$('.tooltitle').click(function(){
+				$(this).next('.toollist').slideToggle().toggleClass('active');
+			});
+		});
+		</script>
 
 <script>
 $(document).ready(function(){
@@ -5229,7 +5321,7 @@ $(document).ready(function(){
 
     </script>
 
-<script>
+<!---<script>
        var $el = $(".onclicks");
         var $ee = $(".clicckshowd");
         $el.click(function(e){
@@ -5242,7 +5334,7 @@ $(document).ready(function(){
           // console.log("yes");
         }
         });
-    </script>
+    </script>--->
 
 
 <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.22.0/dist/apexcharts.min.js" type="text/javascript"></script>

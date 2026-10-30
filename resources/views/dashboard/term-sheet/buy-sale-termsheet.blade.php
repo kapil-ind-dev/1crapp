@@ -466,6 +466,37 @@
     top: 3px;
 }
 }
+
+
+
+
+	.property_report_page {width: 100%;}
+.property_report_page .bottom_partss {padding-top:30px;}
+.property_report_page .bottom_partss .lg_part_lg {text-align: center;}
+.property_report_page .bottom_partss .lg_part_lg img {width: 150px;}
+.property_report_page .bottom_partss .ct_contents {display:flex; align-items:center; justify-content:center; height:100%; width:100%; font-size:15px;}
+
+
+.thnkss_al_partss {
+    border: #fff solid 1px;
+    text-align: center;
+    padding: 20px;
+}
+.thnkss_al_partss .lgo_partss {
+    max-width: 210px;
+    margin: 0 auto;
+    width: 100%;
+    margin-bottom: 30px;
+}
+.thnkss_al_partss .lgo_partss img {
+    width: 100%;
+    max-width: 210px;
+}
+.thnkss_al_partss h4 {
+    margin: 0 0 20px;
+    font-size: 30px;
+    font-weight: 800;
+}
 </style>
 
 <body>
@@ -2328,18 +2359,40 @@
 <!-- End 08. Cost Of Sale  --->
 
 
-<section class="tanksss mt-5">
-<div class="container">
-  <div class="thnkss_al_partss">
-   <div class="lgo_partss"><img src="https://1crapp.com/home/img/logo 1.png" alt=""></div>
-   <h4>Thank You Very Much!</h4>
-  </div>
-  <div class="ftr_thknsss">
-   <div class="lgo_partss"><img src="https://1crapp.com/home/img/logo 1.png" alt=""></div>
-   <p>Prepared using 1CRAPP.COM , Just with Few Click You Too Can Create it.. lt's Free!</p>
-  </div>
+	 <div class="property_report_page">
+ <div class="bottom_partss">
+    <div class="container">
+	  <div class="row">
+	   <div class="col-lg-5">
+	    <div class="ct_contents">Prepared BY : 1CR APP Consultants</div>
+	   </div>
+	   <div class="col-lg-2">
+	    <div class="lg_part_lg"><img src="https://kapil.1crapp.com/img/logo 1.png" alt=""></div>
+	   </div>
+	   <div class="col-lg-5">
+	    <div class="ct_contents">G-01, Green View, Jaipur, Rajasthan 201307</div>
+	   </div>
+	  </div>
+	  
+	    <div class="thnkss_al_partss">
+		   <h4>Thank You Very Much!</h4>
+		</div>
+	  
+	  
+	  <div class="ftr_content text-center py-4" style="background-color:#000000;">
+        <div class="lgo">
+                <a href="https://kapil.1crapp.com"><img class="logo" src="https://admin.1crapp.com/img/1779197054895525347.png" alt="Logo"></a>
+            </div>
+        <div class="menu_ftrr text-light mt-1">
+        Fastest-Simple Yet Powerful Tool for Indian Realtors Business Automation.
+    </div>
+    <div class="crt_arar mt-1">
+                    <a href="https://1crapp.com/register" target="_blank"><button class="btn " style="background-color:#ed0c2e; color:#ffffff;">Try 1CRAPP Now For Free !</button></a>
+            </div>
+    </div>
+	</div>
  </div>
- </section>
+ </div>
 
 
 

@@ -98,33 +98,34 @@
     <!--PEN HEADER-->
     <div class="container mt-5">
         <div class="row">
-            <div class="col-lg-12 mb-5">
-
+            <div class="col-lg-12 mb-5 mb_bntttmm">
                 <div class="row">
                     <div class="col-lg-8">
-                        <div class="lsting_proprty">
+                        <div class="lsting_proprty st_mbl_area">
                             <h3>{{ $property_type }} Properties</h3>
                             <p>Properties you plan to buy hold for long-term cash flow, including short-term rentals.
                             </p>
                         </div>
                     </div>
                     <div class="col-lg-4">
-                        <div class="prp_bntsss">
+                        <div class="prp_bntsss mb_set_areeeass">
                             <ul>
                                 <li><a href="{{ route('property.compare.index') }}"><i class="fa fa-exchange"></i> Compare</a></li>
                                 <li><a  href="javascript:void(0);" onclick="addProperty('{{ $type }}')" class="actss"><i class="fa fa-plus"></i> Add
                                         Property</a></li>
+										
+								<li class="desktop_view"><a  href="javascript:void(0);" class="actss mbss btnclick"><i class="fa fa-plus"></i> More</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
 
-                <form action="{{ url('exportProperty') }}" method="POST">
+                <form action="{{ url('exportProperty') }}" method="POST" class="datata mobile_dt_work">
                 @csrf
 
 
-             <input type="hidden" value="{{$property_type}}" name="property_type" />
-             <input type="hidden" value="{{ $type }}" name="prop_parent_type" />
+                 <input type="hidden" value="{{$property_type}}" name="property_type" />
+                 <input type="hidden" value="{{ $type }}" name="prop_parent_type" />
                 <div class="row mt-5">
                     <div class="col-lg-6">
                         <div class="row">
@@ -156,7 +157,7 @@
                                 </li>
                                 <li><button type="button" class="btn btn-clear list-controls-btn-compact" onclick="$(this).toggleClass('blue'),$('#property-archived').toggle()" >Show Archived</button></li>
 
-                                <li>
+                                <li class="lst_veww">
                                     <span class="srt">Sort By:</span>
                                     <select class="tb_bxxes" id="sortby" onchange="getFilteredList()">
                                         <option value="main_properties.prop_name">Name</option>
@@ -218,7 +219,7 @@
                 @endif
 				
 				
-				<div class="paginatiosss">
+				<div class="paginatiosss mt-4">
 				 <div class="row">
 				  <div class="col-lg-3">
 				   <div class="sho_liststs">
@@ -268,11 +269,48 @@
      .paginatiosss .pgs_listtss ul li a {background:#0e3992; width:20px; height:20px; display:inline-block; text-align:center; font-size:12px; line-height:20px; color:#fff; border-radius: 100px;}
 	 .paginatiosss .pgs_listtss ul li a:hover {background: #1076f8;}
      .paginatiosss .pgs_listtss ul li a.act_ft {background: #1076f8;}
+	 
+	 
+
+	 
+	 
+	 @media (min-width: 320px) and (max-width: 767px) {
+	  .lsting_proprty.st_mbl_area {text-align: center;}
+	  .lsting_proprty.st_mbl_area h3 {font-size: 22px; font-weight: 700; margin: 0 0 3px;}	  
+	  .prp_bntsss.mb_set_areeeass {display: flex; justify-content: center;}
+	  .prp_bntsss.mb_set_areeeass a.actss.mbss {background: #fff; color: #1C5298 !important; padding: 8px 20px !important; font-weight: 700;}
+	  .prp_bntsss.mb_set_areeeass a.actss.mbss:focus{outline:none;}
+	  form.datata.mobile_dt_work .btn_sltss ul {display: flex; gap:5px;}
+	  form.datata.mobile_dt_work .btn_sltss ul li {margin: 0;}
+	  
+	  form.datata.mobile_dt_work .filsts_srch select.tb_bxxes {background: #0e3992; width: 100%; padding: 8px 10px; color: #fff; font-size: 14px; border-radius: 4px;}	  
+	  form.datata.mobile_dt_work .btn_sltss ul li button.ex_prt {padding: 5px 12px; font-size: 14px;}
+	  form.datata.mobile_dt_work .btn_sltss ul li button.btn.btn-clear.list-controls-btn-compact.blue {padding:5px 12px; font-size:14px; border-radius:2px;}
+	  form.datata.mobile_dt_work .btn_sltss ul li.lst_veww {display: block; position: relative; top: -16px;}
+	  form.datata.mobile_dt_work .btn_sltss ul li.lst_veww span.srt {font-size: 12px; font-weight: 700;}
+
+  	  form.datata.mobile_dt_work .btn_sltss ul li.lst_veww select#sortby {background: #e8e8e8; padding: 4px 3px; width: 100%; font-size: 13px; border-radius: 4px; cursor: pointer;}
+	  .col-lg-12.mb-5.mb_bntttmm {margin-bottom: 10px !important;}
+
+	  form.datata.mobile_dt_work {display: none !important;}
+	  form.datata.mobile_dt_work.active {display: block !important;}
+
+
+	 }
 	</style>
 
     @include('front.layouts.footer')
 
     @include('front.layouts.footer_new')
+	
+	
+	<script>
+		$('.btnclick').click(function () {
+            $('.datata').toggleClass('active');
+        });
+	</script>
+	
+	
     <script>
         function deleteProperty(id){
             $('#prop_deleteid').val(id);

@@ -1,5 +1,27 @@
 @include('front.layouts.user-header')
 <style>
+
+.property_photos#pro_v_alss .hd_res_listsss h2 {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 15px;
+    display: flex;
+    width: 100%;
+    position: relative;
+    padding-right: 50px;
+    height: 40px;
+    align-items: center;
+    justify-content: left;
+}
+.property_photos#pro_v_alss .hd_res_listsss h2 span.rit_mg {
+    position: absolute;
+    right: 20px;
+}
+span.rit_mg {
+    float: right;
+}
+
+
 table.table.table-bordered.tst_cam_listst tr th {
     border-top: #dddddd solid 1px;
 }
@@ -723,452 +745,470 @@ a.sm_right_vdooos.siz_vdoo.sm_sizzess {width: 25%;}
 		</div>
 		<!-- End Core Details -->
 		
+		<div class="row">
+		 <div class="col-lg-6">
+		    <!-- Description -->
+			<div class="Description">
+				<div class="hd_res_listsss">
+					<h2 style="float: left;">
+						Description 
+					</h2>
+					<!--<button type="button" class="btn btn-primary" onClick="" style="float: right;"><i class="fa fa-copy"></i> <span id="cp-text">Copy Description</span></button>-->
+				</div>
+				<div class="all_frm_list">
+					<div class="row">
+						<div class="col-lg-6 col-12">
+							<div class="form-group managsss1">
+								<label>Category:</label>
+								<select name="property_type" id="pcategory" onChange="getType(this.value)" required class="slt_areaa_ful">
+									 <option value="" selected disabled>Select Category</option>
+									@foreach($category as $list)
+									 <option value="{{ $list->id }}" {{ old('property_type', $property->property_type ?? '') == $list->id ? 'selected' : '' }}>{{ $list->title }}</option>
+									@endforeach
+								</select>
+								<span class="property_typeError err"></span>
+							</div>
+						</div>
+			
+						<div class="col-lg-6 col-12">
+							<div class="row">
+								<div class="col-lg-6 col-12">
+									<div class="form-group managsss1">
+										<label>Parking:</label>
+										<select name="parking" id="parking" class="slt_areaa_ful">
+											<option value="Yes" {{ old('parking', $details->parking ?? '') == 'Yes' ? 'selected' : '' }}>Yes</option>
+											<option value="No" {{ old('parking', $details->parking ?? '') == 'No' ? 'selected' : '' }}>No</option>
+										</select>
+										<span class="parkingError err"></span>
+									</div>
+								</div>
+			
+								<div class="col-lg-6 col-12">
+									<div class="form-group managsss1">
+										<label>No. of Parking</label>
+										<select name="no_of_parking" id="no_of_parking" class="slt_areaa_ful">
+											<option selected disabled value="">Select</option>
+											@for($i = 1; $i<=10; $i++)
+											<option value="{{ $i }}" {{ old('no_of_parking', $details->no_of_parking ?? '') == $i ? 'selected' : '' }}>{{ $i }}</option>
+											@endfor
+										</select>
+										<span class="no_of_parkingError err"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+			
+						<div class="col-lg-6 col-12">
+							<div class="form-group managsss1">
+								<label>Type:</label>
+								<select name="pcategorytype" id="pcategorytype" class="slt_areaa_ful pcategorytype">
+								   <option value="">-- Select Type --</option>
+								</select>
+								<span class="pcategorytypeError err"></span>
+							</div>
+						</div>
+			
+						<div class="col-lg-6 col-12">
+							<div class="form-group managsss1 lot_sz">
+								<label>Size:</label>
+								<input type="text" name="property_size" placeholder="Size" value="{{ old('property_size', $details->property_size ?? '') }}" />
+								<select name="property_size_type" id="psizetype" class="pusntttss">
+									<option value="Square Feet" {{ old('property_size_type', $details->property_size_type ?? '') == 'Square Feet' ? 'selected' : '' }}>Square Feet</option>
+									<option value="Square Yard" {{ old('property_size_type', $details->property_size_type ?? '') == 'Square Yard' ? 'selected' : '' }}>Square Yard</option>
+									<option value="Meter Feet" {{ old('property_size_type', $details->property_size_type ?? '') == 'Meter Feet' ? 'selected' : '' }}>Square Meter</option>
+									<option value="Bigha" {{ old('property_size_type', $details->property_size_type ?? '') == 'Bigha' ? 'selected' : '' }}>Bigha</option>
+									<option value="Acres" {{ old('property_size_type', $details->property_size_type ?? '') == 'Acres' ? 'selected' : '' }}>Acres</option>
+									<option value="Hectre" {{ old('property_size_type', $details->property_size_type ?? '') == 'Hectre' ? 'selected' : '' }}>Hectre</option>
+								</select>
+								<span class="property_sizeError err"></span>
+							</div>
+						</div>
+			
+						<div class="col-lg-6 col-12">
+							<div class="form-group managsss1">
+								<label>Units Type:</label>
+								<select name="property_unit" id="property_unit" class="slt_areaa_ful">
+									<option value="">N/A</option>
+									<option value="1" {{ old('property_unit', $details->property_unit ?? '') == '1' ? 'selected' : '' }}>1 BHK</option>
+									<option value="2" {{ old('property_unit', $details->property_unit ?? '') == '2' ? 'selected' : '' }}>2 BHK</option>
+									<option value="3" {{ old('property_unit', $details->property_unit ?? '') == '3' ? 'selected' : '' }}>3 BHK</option>
+									<option value="4" {{ old('property_unit', $details->property_unit ?? '') == '4' ? 'selected' : '' }}>4 BHK</option>
+									<option value="5" {{ old('property_unit', $details->property_unit ?? '') == '5' ? 'selected' : '' }}>5 BHK</option>
+								</select>
+								<span class="property_unitError err"></span>
+							</div>
+						</div>
+			
+						<div class="col-lg-6 col-12">
+							<div class="form-group managsss1">
+								<label>Status:</label>
+								<select name="current_status" id="current_status" class="slt_areaa_ful">
+									<option value="Ready To Move" {{ old('current_status', $property->current_status ?? '') == 'Ready To Move' ? 'selected' : '' }}>Ready To Move</option>
+									<option value="Underconstruction" {{ old('current_status', $property->current_status ?? '') == 'Underconstruction' ? 'selected' : '' }}>Underconstruction</option>
+								</select>
+								<span class="current_statusError err"></span>
+							</div>
+						</div>
+			
+						<div class="col-lg-6 col-12">
+							<div class="form-group managsss1">
+								<label>No of bedrooms</label>
+								<select name="bedrooms" id="bedrooms" class="slt_areaa_ful">
+									@for($i = 1; $i <= 5; $i++)
+									<option value="{{ $i }}" {{ old('bedrooms', $details->bedrooms ?? '') == $i ? 'selected' : '' }}>{{ $i }}</option>
+									@endfor
+								</select>
+								<span class="bedroomsError err"></span>
+							</div>
+						</div>
+			
+						<div class="col-lg-6 col-12">
+							<div class="form-group managsss1">
+								<label>No of bathrooms</label>
+								<select name="bathrooms" id="bathrooms" class="slt_areaa_ful">
+									@for($i = 1; $i <= 5; $i++)
+									<option value="{{ $i }}" {{ old('bathrooms', $details->bathrooms ?? '') == $i ? 'selected' : '' }}>{{ $i }}</option>
+									@endfor
+								</select>
+								<span class="bathroomsError err"></span>
+							</div>
+						</div>
+			
+						<div class="col-lg-6 col-12">
+							<div class="form-group managsss1">
+								<label>Year Built:</label>
+								<input type="year" name="built_year" placeholder="Year Built" value="{{ old('built_year', $details->built_year ?? '') }}" />
+							</div>
+							<span class="built_yearError err"></span>
+						</div>
+			
+						<div class="col-lg-6 col-12">
+							<div class="form-group managsss1">
+								<label>Transaction Type(Optional):</label>
+								<select name="transaction_type" id="transaction_type" class="slt_areaa_ful">
+									<option value="">None</option>
+									<option value="Direct" {{ old('transaction_type', $details->transaction_type ?? '') == 'Direct' ? 'selected' : '' }}>Direct</option>
+									<option value="Through Agent" {{ old('transaction_type', $details->transaction_type ?? '') == 'Through Agent' ? 'selected' : '' }}>Through Agent</option>
+									<option value="From Owner" {{ old('transaction_type', $details->transaction_type ?? '') == 'From Owner' ? 'selected' : '' }}>From Owner</option>
+								</select>
+								<span class="transaction_typeError err"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- End Description -->
+		 </div>
+		 <div class="col-lg-6">
+		   <!-- Full Address of The Property -->
+			<div class="Description">
+				<div class="hd_res_listsss">
+					<h2 style="float: left;">
+						Full Address of The Property
+					</h2>
+					<!--<button type="button" class="btn btn-primary" onClick="copyPropertyAddress()" style="float: right;"><i class="fa fa-copy"></i> <span id="cp-text">Copy Description</span></button>-->
+				</div>
+				<div class="all_frm_list">
+					<div class="row">
+						<div class="col-lg-6 col-12">
+							 <div class="form-group managsss1">
+								<label>Unit Number(Optional):</label>
+								<input type="text" name="prop_unit" id="" placeholder="Unit Number" value="{{ old('prop_unit', $details->prop_unit ?? '') }}"  />
+								<span class="prop_unitError err"></span>
+							 </div>
+						</div>
+
+						<div class="col-lg-6 col-12">
+							 <div class="form-group managsss1">
+								<label>Tower Number(Optional):</label>
+								<input type="text" name="tower_no" id="" placeholder="Tower Number" value="{{ old('tower_no', $details->tower_no ?? '') }}"  />
+								<span class="tower_noError err"></span>
+							 </div>
+						</div>
+
+						<div class="col-lg-6 col-12">
+							 <div class="form-group managsss1">
+								<label>Project Name(Optional):</label>
+								<input type="text" name="project_name" id="" placeholder="Project Name" value="{{ old('project_name', $property->property ?? '') }}"  />
+								<span class="project_nameError err"></span>
+							 </div>
+						</div>
+						
+						
+						<div class="col-lg-6 col-12">
+							 <div class="form-group managsss1">
+								<label>Building Name(Optional):</label>
+								<input type="text" name="building_name" id="" placeholder="Building Name" value="{{ old('building_name', $details->building_name ?? '') }}"  />
+								<span class="building_nameError err"></span>
+							 </div>
+						</div>
+
+						<div class="col-lg-6 col-12">
+							 <div class="form-group managsss1">
+								<label>Sector / Street No. /Address:</label>
+								<input type="text" name="street_no" id="" placeholder="Sector Address" value="{{ old('street_no', $details->street_no ?? '') }}"  />
+								<span class="street_noError err"></span>
+							 </div>
+						</div>
+
+						<div class="col-lg-6 col-12">
+							 <div class="form-group managsss1">
+								<label>Country:</label>
+								<select name="prop_country" id="cp-country" onchange="getState(this.value)" class="slt_areaa_ful">
+									<option value="">N/A</option>
+									@foreach($countries as $list)
+									<option
+										value="{{ $list->id }}"
+										{{ (old('prop_country', $details->prop_country ?? '') == $list->id) ? 'selected' : '' }}>
+										{{ $list->name }}
+									</option>
+									@endforeach
+								</select>
+								<span class="prop_countryError err"></span>
+							 </div>
+						</div>
+
+						<div class="col-lg-6 col-12">
+							 <div class="form-group managsss1">
+								<label>State/Region:</label>
+								<select name="prop_state" id="cp-state" onchange="getCity(this.value)" value="{{ old('prop_state', $details->prop_state ?? '') }}" class="slt_areaa_ful"></select>
+								<span class="prop_stateError err"></span>
+							 </div>
+						</div>
+
+						<div class="col-lg-6 col-12">
+							 <div class="form-group managsss1">
+								<label>City:</label>
+								 <select name="prop_city" id="cp-city" class="slt_areaa_ful" value="{{ old('prop_city', $details->prop_city ?? '') }}"></select>
+								<span class="prop_cityError err"></span>
+							 </div>
+						</div>
+
+						<div class="col-lg-6 col-12">
+							 <div class="form-group managsss1">
+								<label>ZIP/Postal Code:</label>
+								<input type="text" name="prop_zip_code" id="" placeholder="ZIP/Postal Code" value="{{ old('prop_zip_code', $details->prop_zip_code ?? '') }}"  />
+								<span class="prop_zip_codeError err"></span>
+							 </div>
+						</div>
+
+						<div class="col-lg-6 col-12">
+							 <div class="form-group managsss1">
+								<label>Property Google Location:</label>
+								<input type="text" name="prop_google_location" id="" placeholder="Paste Enbeded Share" value="{{ old('prop_google_location', $details->prop_google_location ?? '') }}""  />
+								<a href="javascript:void(0);" class="shrliststs"><i class="fa fa-share-alt"></i></a>
+								<span class="prop_google_locationError err"></span>
+							 </div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- End Full Address of The Property -->
+		 </div>
+		</div> 
 		
 		
-		<!-- Description -->
-            <div class="Description">
-            <div class="hd_res_listsss">
-                <h2 style="float: left;">
-                    Description 
-                </h2>
-                <!--<button type="button" class="btn btn-primary" onClick="" style="float: right;"><i class="fa fa-copy"></i> <span id="cp-text">Copy Description</span></button>-->
-            </div>
-            <div class="all_frm_list">
-                <div class="row">
-                    <div class="col-lg-6 col-12">
-                        <div class="form-group managsss1">
-                            <label>Category:</label>
-                            <select name="property_type" id="pcategory" onChange="getType(this.value)" required class="slt_areaa_ful">
-                                 <option value="" selected disabled>Select Category</option>
-                                @foreach($category as $list)
-                                 <option value="{{ $list->id }}" {{ old('property_type', $property->property_type ?? '') == $list->id ? 'selected' : '' }}>{{ $list->title }}</option>
-                                @endforeach
-                            </select>
-                            <span class="property_typeError err"></span>
-                        </div>
-                    </div>
-        
-                    <div class="col-lg-6 col-12">
-                        <div class="row">
-                            <div class="col-lg-6 col-12">
-                                <div class="form-group managsss1">
-                                    <label>Parking:</label>
-                                    <select name="parking" id="parking" class="slt_areaa_ful">
-                                        <option value="Yes" {{ old('parking', $details->parking ?? '') == 'Yes' ? 'selected' : '' }}>Yes</option>
-                                        <option value="No" {{ old('parking', $details->parking ?? '') == 'No' ? 'selected' : '' }}>No</option>
-                                    </select>
-                                    <span class="parkingError err"></span>
-                                </div>
-                            </div>
-        
-                            <div class="col-lg-6 col-12">
-                                <div class="form-group managsss1">
-                                    <label>No. of Parking</label>
-                                    <select name="no_of_parking" id="no_of_parking" class="slt_areaa_ful">
-                                        <option selected disabled value="">Select</option>
-                                        @for($i = 1; $i<=10; $i++)
-                                        <option value="{{ $i }}" {{ old('no_of_parking', $details->no_of_parking ?? '') == $i ? 'selected' : '' }}>{{ $i }}</option>
-                                        @endfor
-                                    </select>
-                                    <span class="no_of_parkingError err"></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-        
-                    <div class="col-lg-6 col-12">
-                        <div class="form-group managsss1">
-                            <label>Type:</label>
-                            <select name="pcategorytype" id="pcategorytype" class="slt_areaa_ful pcategorytype">
-                               <option value="">-- Select Type --</option>
-                            </select>
-                            <span class="pcategorytypeError err"></span>
-                        </div>
-                    </div>
-        
-                    <div class="col-lg-6 col-12">
-                        <div class="form-group managsss1 lot_sz">
-                            <label>Size:</label>
-                            <input type="text" name="property_size" placeholder="Size" value="{{ old('property_size', $details->property_size ?? '') }}" />
-                            <select name="property_size_type" id="psizetype" class="pusntttss">
-                                <option value="Square Feet" {{ old('property_size_type', $details->property_size_type ?? '') == 'Square Feet' ? 'selected' : '' }}>Square Feet</option>
-                                <option value="Square Yard" {{ old('property_size_type', $details->property_size_type ?? '') == 'Square Yard' ? 'selected' : '' }}>Square Yard</option>
-                                <option value="Meter Feet" {{ old('property_size_type', $details->property_size_type ?? '') == 'Meter Feet' ? 'selected' : '' }}>Square Meter</option>
-                                <option value="Bigha" {{ old('property_size_type', $details->property_size_type ?? '') == 'Bigha' ? 'selected' : '' }}>Bigha</option>
-                                <option value="Acres" {{ old('property_size_type', $details->property_size_type ?? '') == 'Acres' ? 'selected' : '' }}>Acres</option>
-                                <option value="Hectre" {{ old('property_size_type', $details->property_size_type ?? '') == 'Hectre' ? 'selected' : '' }}>Hectre</option>
-                            </select>
-                            <span class="property_sizeError err"></span>
-                        </div>
-                    </div>
-        
-                    <div class="col-lg-6 col-12">
-                        <div class="form-group managsss1">
-                            <label>Units Type:</label>
-                            <select name="property_unit" id="property_unit" class="slt_areaa_ful">
-                                <option value="">N/A</option>
-                                <option value="1" {{ old('property_unit', $details->property_unit ?? '') == '1' ? 'selected' : '' }}>1 BHK</option>
-                                <option value="2" {{ old('property_unit', $details->property_unit ?? '') == '2' ? 'selected' : '' }}>2 BHK</option>
-                                <option value="3" {{ old('property_unit', $details->property_unit ?? '') == '3' ? 'selected' : '' }}>3 BHK</option>
-                                <option value="4" {{ old('property_unit', $details->property_unit ?? '') == '4' ? 'selected' : '' }}>4 BHK</option>
-                                <option value="5" {{ old('property_unit', $details->property_unit ?? '') == '5' ? 'selected' : '' }}>5 BHK</option>
-                            </select>
-                            <span class="property_unitError err"></span>
-                        </div>
-                    </div>
-        
-                    <div class="col-lg-6 col-12">
-                        <div class="form-group managsss1">
-                            <label>Status:</label>
-                            <select name="current_status" id="current_status" class="slt_areaa_ful">
-                                <option value="Ready To Move" {{ old('current_status', $property->current_status ?? '') == 'Ready To Move' ? 'selected' : '' }}>Ready To Move</option>
-                                <option value="Underconstruction" {{ old('current_status', $property->current_status ?? '') == 'Underconstruction' ? 'selected' : '' }}>Underconstruction</option>
-                            </select>
-                            <span class="current_statusError err"></span>
-                        </div>
-                    </div>
-        
-                    <div class="col-lg-6 col-12">
-                        <div class="form-group managsss1">
-                            <label>No of bedrooms</label>
-                            <select name="bedrooms" id="bedrooms" class="slt_areaa_ful">
-                                @for($i = 1; $i <= 5; $i++)
-                                <option value="{{ $i }}" {{ old('bedrooms', $details->bedrooms ?? '') == $i ? 'selected' : '' }}>{{ $i }}</option>
-                                @endfor
-                            </select>
-                            <span class="bedroomsError err"></span>
-                        </div>
-                    </div>
-        
-                    <div class="col-lg-6 col-12">
-                        <div class="form-group managsss1">
-                            <label>No of bathrooms</label>
-                            <select name="bathrooms" id="bathrooms" class="slt_areaa_ful">
-                                @for($i = 1; $i <= 5; $i++)
-                                <option value="{{ $i }}" {{ old('bathrooms', $details->bathrooms ?? '') == $i ? 'selected' : '' }}>{{ $i }}</option>
-                                @endfor
-                            </select>
-                            <span class="bathroomsError err"></span>
-                        </div>
-                    </div>
-        
-                    <div class="col-lg-6 col-12">
-                        <div class="form-group managsss1">
-                            <label>Year Built:</label>
-                            <input type="year" name="built_year" placeholder="Year Built" value="{{ old('built_year', $details->built_year ?? '') }}" />
-                        </div>
-                        <span class="built_yearError err"></span>
-                    </div>
-        
-                    <div class="col-lg-6 col-12">
-                        <div class="form-group managsss1">
-                            <label>Transaction Type(Optional):</label>
-                            <select name="transaction_type" id="transaction_type" class="slt_areaa_ful">
-                                <option value="">None</option>
-                                <option value="Direct" {{ old('transaction_type', $details->transaction_type ?? '') == 'Direct' ? 'selected' : '' }}>Direct</option>
-                                <option value="Through Agent" {{ old('transaction_type', $details->transaction_type ?? '') == 'Through Agent' ? 'selected' : '' }}>Through Agent</option>
-                                <option value="From Owner" {{ old('transaction_type', $details->transaction_type ?? '') == 'From Owner' ? 'selected' : '' }}>From Owner</option>
-                            </select>
-                            <span class="transaction_typeError err"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End Description -->
 
 
-		<!-- Full Address of The Property -->
-		<div class="Description">
-			<div class="hd_res_listsss">
-				<h2 style="float: left;">
-					Full Address of The Property
-				</h2>
-				<!--<button type="button" class="btn btn-primary" onClick="copyPropertyAddress()" style="float: right;"><i class="fa fa-copy"></i> <span id="cp-text">Copy Description</span></button>-->
-			</div>
-			<div class="all_frm_list">
-				<div class="row">
-				    <div class="col-lg-6 col-12">
-					     <div class="form-group managsss1">
-                            <label>Unit Number(Optional):</label>
-                            <input type="text" name="prop_unit" id="" placeholder="Unit Number" value="{{ old('prop_unit', $details->prop_unit ?? '') }}"  />
-                            <span class="prop_unitError err"></span>
-                         </div>
-					</div>
+		
+		
+		
+		<div class="row">
+		 <div class="col-lg-6">
+		    <!-- Full Address of the Seller -->
+			<div class="Description">
+				<div class="hd_res_listsss">
+					<h2 style="float: left;">
+						Full Address of the Seller
+					</h2>
+					<!--<button type="button" class="btn btn-primary" onClick="copyPropertyAddress()" style="float: right;"><i class="fa fa-copy"></i> <span id="cp-text">Copy Description</span></button>-->
+				</div>
+				<div class="all_frm_list">
+					<div class="row">
+						<div class="col-lg-6 col-12">
+							 <div class="form-group managsss1">
+								<label>Name</label>
+								<input type="text" name="seller_name" id="" placeholder="Name" value="{{ old('seller_name', $details->seller_name ?? '') }}"  />
+								<span class="seller_nameError err"></span>
+							 </div>
+						</div>
 
-				    <div class="col-lg-6 col-12">
-					     <div class="form-group managsss1">
-                            <label>Tower Number(Optional):</label>
-                            <input type="text" name="tower_no" id="" placeholder="Tower Number" value="{{ old('tower_no', $details->tower_no ?? '') }}"  />
-                            <span class="tower_noError err"></span>
-                         </div>
-					</div>
-
-				    <div class="col-lg-6 col-12">
-					     <div class="form-group managsss1">
-                            <label>Project Name(Optional):</label>
-                            <input type="text" name="project_name" id="" placeholder="Project Name" value="{{ old('project_name', $property->property ?? '') }}"  />
-                            <span class="project_nameError err"></span>
-                         </div>
-					</div>
-					
-					
-				    <div class="col-lg-6 col-12">
-					     <div class="form-group managsss1">
-                            <label>Building Name(Optional):</label>
-                            <input type="text" name="building_name" id="" placeholder="Building Name" value="{{ old('building_name', $details->building_name ?? '') }}"  />
-                            <span class="building_nameError err"></span>
-                         </div>
-					</div>
-
-				    <div class="col-lg-6 col-12">
-					     <div class="form-group managsss1">
-                            <label>Sector / Street No. /Address:</label>
-                            <input type="text" name="street_no" id="" placeholder="Sector Address" value="{{ old('street_no', $details->street_no ?? '') }}"  />
-                            <span class="street_noError err"></span>
-                         </div>
-					</div>
-
-				    <div class="col-lg-6 col-12">
-					     <div class="form-group managsss1">
-                            <label>Country:</label>
-                            <select name="prop_country" id="cp-country" onchange="getState(this.value)" class="slt_areaa_ful">
-                                <option value="">N/A</option>
-                                @foreach($countries as $list)
-                                <option
-                                    value="{{ $list->id }}"
-                                    {{ (old('prop_country', $details->prop_country ?? '') == $list->id) ? 'selected' : '' }}>
-                                    {{ $list->name }}
-                                </option>
-                                @endforeach
-                            </select>
-                            <span class="prop_countryError err"></span>
-                         </div>
-					</div>
-
-				    <div class="col-lg-6 col-12">
-					     <div class="form-group managsss1">
-                            <label>State/Region:</label>
-                            <select name="prop_state" id="cp-state" onchange="getCity(this.value)" value="{{ old('prop_state', $details->prop_state ?? '') }}" class="slt_areaa_ful"></select>
-                            <span class="prop_stateError err"></span>
-                         </div>
-					</div>
-
-				    <div class="col-lg-6 col-12">
-					     <div class="form-group managsss1">
-                            <label>City:</label>
-                             <select name="prop_city" id="cp-city" class="slt_areaa_ful" value="{{ old('prop_city', $details->prop_city ?? '') }}"></select>
-                            <span class="prop_cityError err"></span>
-                         </div>
-					</div>
-
-				    <div class="col-lg-6 col-12">
-					     <div class="form-group managsss1">
-                            <label>ZIP/Postal Code:</label>
-                            <input type="text" name="prop_zip_code" id="" placeholder="ZIP/Postal Code" value="{{ old('prop_zip_code', $details->prop_zip_code ?? '') }}"  />
-                            <span class="prop_zip_codeError err"></span>
-                         </div>
-					</div>
-
-				    <div class="col-lg-6 col-12">
-					     <div class="form-group managsss1">
-                            <label>Property Google Location:</label>
-                            <input type="text" name="prop_google_location" id="" placeholder="Paste Enbeded Share" value="{{ old('prop_google_location', $details->prop_google_location ?? '') }}""  />
-							<a href="javascript:void(0);" class="shrliststs"><i class="fa fa-share-alt"></i></a>
-                            <span class="prop_google_locationError err"></span>
-                         </div>
+						<div class="col-lg-6 col-12">
+							 <div class="form-group managsss1">
+								<label>Sector / Street No. / Address:</label>
+								<input type="text" name="seller_street_name" id="" placeholder="Street Address" value="{{ old('seller_street_name', $details->seller_street_name ?? '') }}"  />
+								<span class="seller_street_nameError err"></span>
+							 </div>
+						</div>
+						
+						
+						<div class="col-lg-6 col-12">
+							 <div class="form-group managsss1">
+								<label>Country:</label>
+								<select name="seller_country_id" id="seller_country_id" onchange="getSellState(this.value)" class="slt_areaa_ful">
+									<option value="">N/A</option>
+									@foreach($countries as $list)
+									<option
+										value="{{ $list->id }}"
+										{{ (old('pcountry', $details->prop_country ?? '') == $list->id) ? 'selected' : '' }}>
+										{{ $list->name }}
+									</option>
+									@endforeach
+								</select>
+								<span class="seller_country_idError err"></span>
+							 </div>
+						</div>
+						
+						<div class="col-lg-6 col-12">
+							 <div class="form-group managsss1">
+								<label>State/Region:</label>
+								<select name="seller_state_id" id="seller_state_id" onchange="getSellerCity(this.value)" value="{{ old('seller_state_id', $details->seller_state_id ?? '') }}"  class="slt_areaa_ful">
+									<option value=""></option>
+								</select>
+								<span class="seller_state_idError err"></span>
+							 </div>
+						</div>
+						
+						<div class="col-lg-6 col-12">
+							 <div class="form-group managsss1">
+								<label>City:</label>
+								<select name="seller_city_id" id="seller_city_id" class="slt_areaa_ful" value="{{ old('seller_city_id', $details->seller_city_id ?? '') }}">
+									<option value=""></option>
+								</select>
+								<span class="seller_city_idError err"></span>
+							 </div>
+						</div>
+						
+						<div class="col-lg-6 col-12">
+							 <div class="form-group managsss1">
+								<label>ZIP/Postal Code:</label>
+								<input type="text" name="seller_zip_code" id="" placeholder="ZIP/Postal Code" value="{{ old('seller_zip_code', $details->seller_zip_code ?? '') }}"  />
+								<span class="seller_zip_codeError err"></span>
+							 </div>
+						</div>
+						
+						<div class="col-lg-6 col-12">
+							 <div class="form-group managsss1">
+								<label>Phone No</label>
+								<input type="text" name="seller_phone" id="" placeholder="Enter Phone No." value="{{ old('seller_phone', $details->seller_phone ?? '') }}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
+								<span class="seller_phoneError err"></span>
+							 </div>
+						</div>
+						
+						<div class="col-lg-6 col-12">
+							 <div class="form-group managsss1">
+								<label>Email id.</label>
+								<input type="email" name="seller_email" id="seller_email" placeholder="Enter Email ID" value="{{ old('seller_email', $details->seller_email ?? '') }}"  />
+								<span class="seller_emailError err"></span>
+							 </div>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<!-- End Full Address of The Property -->
+			<!-- End Full Address of the Seller -->		 
+		 </div>
+		 <div class="col-lg-6">
+		    <!-- Full Address of the Agent (if Applicable) -->
+			<div class="Description">
+				<div class="hd_res_listsss">
+					<h2 style="float: left;">
+						Full Address of the Agent (if Applicable)
+					</h2>
+					<!--<button type="button" class="btn btn-primary" onClick="copyPropertyAddress()" style="float: right;"><i class="fa fa-copy"></i> <span id="cp-text">Copy Description</span></button>-->
+				</div>
+				<div class="all_frm_list">
+					<div class="row">
+						<div class="col-lg-6 col-12">
+							 <div class="form-group managsss1">
+								<label>Name</label>
+								<input type="text" name="agent_name" id="" placeholder="Name" value="{{ old('agent_name', $details->agent_name ?? '') }}"  />
+								<span class="agent_nameError err"></span>
+							 </div>
+						</div>
 
-
-
-		<!-- Full Address of the Seller -->
-		<div class="Description">
-			<div class="hd_res_listsss">
-				<h2 style="float: left;">
-					Full Address of the Seller
-				</h2>
-				<!--<button type="button" class="btn btn-primary" onClick="copyPropertyAddress()" style="float: right;"><i class="fa fa-copy"></i> <span id="cp-text">Copy Description</span></button>-->
-			</div>
-			<div class="all_frm_list">
-				<div class="row">
-				    <div class="col-lg-6 col-12">
-					     <div class="form-group managsss1">
-                            <label>Name</label>
-                            <input type="text" name="seller_name" id="" placeholder="Name" value="{{ old('seller_name', $details->seller_name ?? '') }}"  />
-                            <span class="seller_nameError err"></span>
-                         </div>
-					</div>
-
-				    <div class="col-lg-6 col-12">
-					     <div class="form-group managsss1">
-                            <label>Sector / Street No. / Address:</label>
-                            <input type="text" name="seller_street_name" id="" placeholder="Street Address" value="{{ old('seller_street_name', $details->seller_street_name ?? '') }}"  />
-                            <span class="seller_street_nameError err"></span>
-                         </div>
-					</div>
-					
-					
-					<div class="col-lg-6 col-12">
-					     <div class="form-group managsss1">
-                            <label>Country:</label>
-                            <select name="seller_country_id" id="seller_country_id" onchange="getSellState(this.value)" class="slt_areaa_ful">
-                                <option value="">N/A</option>
-                                @foreach($countries as $list)
-                                <option
-                                    value="{{ $list->id }}"
-                                    {{ (old('pcountry', $details->prop_country ?? '') == $list->id) ? 'selected' : '' }}>
-                                    {{ $list->name }}
-                                </option>
-                                @endforeach
-                            </select>
-                            <span class="seller_country_idError err"></span>
-                         </div>
-					</div>
-					
-					<div class="col-lg-6 col-12">
-					     <div class="form-group managsss1">
-                            <label>State/Region:</label>
-                            <select name="seller_state_id" id="seller_state_id" onchange="getSellerCity(this.value)" value="{{ old('seller_state_id', $details->seller_state_id ?? '') }}"  class="slt_areaa_ful">
-								<option value=""></option>
-							</select>
-                            <span class="seller_state_idError err"></span>
-                         </div>
-					</div>
-					
-					<div class="col-lg-6 col-12">
-					     <div class="form-group managsss1">
-                            <label>City:</label>
-                            <select name="seller_city_id" id="seller_city_id" class="slt_areaa_ful" value="{{ old('seller_city_id', $details->seller_city_id ?? '') }}">
-								<option value=""></option>
-							</select>
-                            <span class="seller_city_idError err"></span>
-                         </div>
-					</div>
-					
-					<div class="col-lg-6 col-12">
-					     <div class="form-group managsss1">
-                            <label>ZIP/Postal Code:</label>
-                            <input type="text" name="seller_zip_code" id="" placeholder="ZIP/Postal Code" value="{{ old('seller_zip_code', $details->seller_zip_code ?? '') }}"  />
-                            <span class="seller_zip_codeError err"></span>
-                         </div>
-					</div>
-					
-					<div class="col-lg-6 col-12">
-					     <div class="form-group managsss1">
-                            <label>Phone No</label>
-                            <input type="text" name="seller_phone" id="" placeholder="Enter Phone No." value="{{ old('seller_phone', $details->seller_phone ?? '') }}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
-                            <span class="seller_phoneError err"></span>
-                         </div>
-					</div>
-					
-					<div class="col-lg-6 col-12">
-					     <div class="form-group managsss1">
-                            <label>Email id.</label>
-                            <input type="email" name="seller_email" id="seller_email" placeholder="Enter Email ID" value="{{ old('seller_email', $details->seller_email ?? '') }}"  />
-                            <span class="seller_emailError err"></span>
-                         </div>
+						<div class="col-lg-6 col-12">
+							 <div class="form-group managsss1">
+								<label>Sector / Street No. / Address:</label>
+								<input type="text" name="agent_street_name" id="agent_street_name" placeholder="Street Address" value="{{ old('agent_street_name', $details->agent_street_name ?? '') }}"  />
+								<span class="agent_street_nameError err"></span>
+							 </div>
+						</div>
+						
+						
+						<div class="col-lg-6 col-12">
+							 <div class="form-group managsss1">
+								<label>Country:</label>
+								<select name="agent_country_id" id="agent_country_id" onchange="getAgentState(this.value)" class="slt_areaa_ful">
+									<option value="">N/A</option>
+									@foreach($countries as $list)
+									<option
+										value="{{ $list->id }}"
+										{{ (old('pcountry', $details->prop_country ?? '') == $list->id) ? 'selected' : '' }}>
+										{{ $list->name }}
+									</option>
+									@endforeach
+								</select>
+								<span class="agent_country_idError err"></span>
+							 </div>
+						</div>
+						
+						<div class="col-lg-6 col-12">
+							 <div class="form-group managsss1">
+								<label>State/Region:</label>
+								<select name="agent_state_id" id="agent_state_id" onchange="getAgentCity(this.value)" class="slt_areaa_ful">
+									<option value=""></option>
+								</select>
+								<span class="agent_state_idError err"></span>
+							 </div>
+						</div>
+						
+						<div class="col-lg-6 col-12">
+							 <div class="form-group managsss1">
+								<label>City:</label>
+								<select name="agent_city_id" id="agent_city_id" class="slt_areaa_ful">
+									<option value=""></option>
+								</select>
+								<span class="agent_city_idError err"></span>
+							 </div>
+						</div>
+						
+						<div class="col-lg-6 col-12">
+							 <div class="form-group managsss1">
+								<label>ZIP/Postal Code:</label>
+								<input type="text" name="agent_zip_code" id="" placeholder="ZIP/Postal Code" value="{{ old('agent_zip_code', $details->agent_zip_code ?? '') }}"  />
+								<span class="agent_zip_codeError err"></span>
+							 </div>
+						</div>
+						
+						<div class="col-lg-6 col-12">
+							 <div class="form-group managsss1">
+								<label>Phone No</label>
+								<input type="text" name="agent_phone" id="" placeholder="Phone No" value="{{ old('agent_phone', $details->agent_phone ?? '') }}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
+								<span class="agent_phoneError err"></span>
+							 </div>
+						</div>
+						
+						<div class="col-lg-6 col-12">
+							 <div class="form-group managsss1">
+								<label>Email id.</label>
+								<input type="text" name="agent_email" id="" placeholder="Enter Email ID" value="{{ old('agent_email', $details->agent_email ?? '') }}"  />
+								<span class="agent_emailError err"></span>
+							 </div>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<!-- End Full Address of the Seller -->
+			<!-- End Full Address of the Agent (if Applicable) -->
+		 </div>
+		</div> 
 
 
-		<!-- Full Address of the Agent (if Applicable) -->
-		<div class="Description">
-			<div class="hd_res_listsss">
-				<h2 style="float: left;">
-					Full Address of the Agent (if Applicable)
-				</h2>
-				<!--<button type="button" class="btn btn-primary" onClick="copyPropertyAddress()" style="float: right;"><i class="fa fa-copy"></i> <span id="cp-text">Copy Description</span></button>-->
-			</div>
-			<div class="all_frm_list">
-				<div class="row">
-				    <div class="col-lg-6 col-12">
-					     <div class="form-group managsss1">
-                            <label>Name</label>
-                            <input type="text" name="agent_name" id="" placeholder="Name" value="{{ old('agent_name', $details->agent_name ?? '') }}"  />
-                            <span class="agent_nameError err"></span>
-                         </div>
-					</div>
 
-				    <div class="col-lg-6 col-12">
-					     <div class="form-group managsss1">
-                            <label>Sector / Street No. / Address:</label>
-                            <input type="text" name="agent_street_name" id="agent_street_name" placeholder="Street Address" value="{{ old('agent_street_name', $details->agent_street_name ?? '') }}"  />
-                            <span class="agent_street_nameError err"></span>
-                         </div>
-					</div>
-					
-					
-					<div class="col-lg-6 col-12">
-					     <div class="form-group managsss1">
-                            <label>Country:</label>
-							<select name="agent_country_id" id="agent_country_id" onchange="getAgentState(this.value)" class="slt_areaa_ful">
-                                <option value="">N/A</option>
-                                @foreach($countries as $list)
-                                <option
-                                    value="{{ $list->id }}"
-                                    {{ (old('pcountry', $details->prop_country ?? '') == $list->id) ? 'selected' : '' }}>
-                                    {{ $list->name }}
-                                </option>
-                                @endforeach
-                            </select>
-                            <span class="agent_country_idError err"></span>
-                         </div>
-					</div>
-					
-					<div class="col-lg-6 col-12">
-					     <div class="form-group managsss1">
-                            <label>State/Region:</label>
-                            <select name="agent_state_id" id="agent_state_id" onchange="getAgentCity(this.value)" class="slt_areaa_ful">
-								<option value=""></option>
-							</select>
-                            <span class="agent_state_idError err"></span>
-                         </div>
-					</div>
-					
-					<div class="col-lg-6 col-12">
-					     <div class="form-group managsss1">
-                            <label>City:</label>
-                            <select name="agent_city_id" id="agent_city_id" class="slt_areaa_ful">
-								<option value=""></option>
-							</select>
-                            <span class="agent_city_idError err"></span>
-                         </div>
-					</div>
-					
-					<div class="col-lg-6 col-12">
-					     <div class="form-group managsss1">
-                            <label>ZIP/Postal Code:</label>
-                            <input type="text" name="agent_zip_code" id="" placeholder="ZIP/Postal Code" value="{{ old('agent_zip_code', $details->agent_zip_code ?? '') }}"  />
-                            <span class="agent_zip_codeError err"></span>
-                         </div>
-					</div>
-					
-					<div class="col-lg-6 col-12">
-					     <div class="form-group managsss1">
-                            <label>Phone No</label>
-                            <input type="text" name="agent_phone" id="" placeholder="Phone No" value="{{ old('agent_phone', $details->agent_phone ?? '') }}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"/>
-                            <span class="agent_phoneError err"></span>
-                         </div>
-					</div>
-					
-					<div class="col-lg-6 col-12">
-					     <div class="form-group managsss1">
-                            <label>Email id.</label>
-                            <input type="text" name="agent_email" id="" placeholder="Enter Email ID" value="{{ old('agent_email', $details->agent_email ?? '') }}"  />
-                            <span class="agent_emailError err"></span>
-                         </div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- End Full Address of the Agent (if Applicable) -->
+		
+
+
+		
+
 
 
 		<!-- Document Of Property, Agents & Seller -->
@@ -1302,6 +1342,209 @@ a.sm_right_vdooos.siz_vdoo.sm_sizzess {width: 25%;}
 				</div>
 			</div>
 		</div>
+		
+		
+		
+		<!-- Property Photos & Video -->
+         <div class="property_photos" id="pro_v_alss">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="hd_res_listsss mt-5">
+                                        <h2>Property Photos <span class="rit_mg"><img src="{{ url('img/glrr.png') }}" alt="" /></span></h2>
+                                    </div>
+                                    <div class="all_frm_list">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="file-upload-adsss">
+                                                    <label for="attachment">
+                                                        <div class="icon_f" role="button" aria-disabled="false"><img src="{{ url('img/image-upload-icon.png') }}" style="width: 100px;" alt="" />
+                                                            <p>Drag And Drop File Here <span>Or Choose From Your Computer</span></p>
+                                                        </div>
+                                                    </label>
+                                                    <input type="file" name="file[]" accept="image/*, video/*" id="attachment" style="visibility: hidden; position: absolute;" multiple />
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div id="files-area">
+                                                    <span id="filesList">
+                                                        <span id="files-names1">
+                                                            <?php if (isset($MainProperty->imageVideo)) {
+                                                                $imageideos = explode(',', $MainProperty->imageVideo);
+                                                                foreach ($imageideos as $imageideo) { ?>
+                                                                    <span class="file-block"><span class="file-delete"><span>+</span></span><span class="name"><?= $imageideo ?></span></span>
+                                                                <?php }
+                                                            } ?>
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-lg-4">
+                                    <div class="hd_res_listsss mt-5">
+                                        <h2>Property Video <span class="rit_mg"><img src="{{ url('img/glrr.png') }}" alt="" /></span></h2>
+                                    </div>
+                                    <div class="all_frm_list">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="file-upload-adsss">
+                                                    <label for="v_attachment">
+                                                        <div class="icon_f" role="button" aria-disabled="false" data-toggle="modal" data-target="#vidiourlss">
+                                                            <img src="{{ url('img/video_pla.png') }}" style="width: 100px;" alt="" />
+                                                            <p>Drag And Drop File Here <span>Or Choose From Your Computer</span></p>
+                                                        </div>
+                                                    </label>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div id="files-area">
+                                                    <span id="filesList">
+                                                        <span id="files-names2">
+                                                            @if(isset($Propertyvideos))
+                                                                @foreach($Propertyvideos as $p_video)
+                                                                <span class="file-block">
+                                                                    <input type="hidden" name="video_title[]" value="{{ $p_video->title }}" id="v_title">
+                                                                    <input type="hidden" name="video_link[]" value="{{ $p_video->link }}" id="v_link">
+                                                                    <span class="file-delete"><span>+</span></span>
+                                                                    <span class="name">{{ $p_video->title }}</span>
+                                                                </span>
+                                                                @endforeach
+                                                            @endif
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="hd_res_listsss mt-5">
+                                        <h2>Additional Details, Information & Resourses <span class="rit_mg"><img src="{{ url('img/glrr.png') }}" alt="" /></span></h2>
+                                    </div>
+                                    <div class="all_frm_list">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="file-upload-adsss">
+                                                    <label for="file_input">
+                                                        <div class="icon_f" role="button" aria-disabled="false"  data-toggle="modal" data-target="#moredetalsuploads">
+                                                            <img src="{{ url('img/unlink_icon.png') }}" style="width: 100px;" alt="" />
+                                                            <p>Drag And Drop File Here <span>Or Choose From Your Computer</span></p>
+                                                        </div>
+                                                    </label>
+                                                    <!---<input type="file" name="other_resources[]" accept="image/*, video/*" id="file_input" style="visibility: hidden; position: absolute;" multiple />--->
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div id="files-area">
+                                                    <span id="filesList">
+                                                        <span id="files-names3">
+                                                            @if(isset($Propertyresource))
+                                                                @foreach($Propertyresource as $p_resource)
+                                                                <span class="file-block">
+                                                                    <input type="hidden" name="resources_title[]" value="{{ $p_resource->title }}" id="rs_title">
+                                                                    <input type="hidden" name="resources_type[]" value="{{ $p_resource->type }}" id="rs_type">
+                                                                    <input type="hidden" name="resources_file_type[]" value="{{ $p_resource->file_type }}" id="rs_file_type">
+                                                                    <input type="hidden" name="resources_link[]" value="{{ $p_resource->link }}" id="rs_link">
+                                                                    <input type="hidden" name="resources_file[]" value="{{ $p_resource->image }}" id="rs_file">
+                                                                    <span class="file-delete"><span>+</span></span>
+                                                                    <span class="name">{{ $p_resource->title }}</span>
+                                                                </span>
+                                                                @endforeach
+                                                            @endif
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+         </div>                        
+        <!-- End Property Photos & Video -->
+		
+		
+		<div class="property_photos" id="pro_v_alss">
+			<div class="row">
+				<div class="col-lg-4">
+					<div class="hd_res_listsss mt-5">
+						<h2>
+							Property document <span class="rit_mg"><img src="{{ url('img/glrr.png') }}" alt="" /></span>
+						</h2>
+					</div>
+					<div class="all_frm_list">
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="file-upload-adsss">
+									<label>
+										<div class="icon_f" role="button" aria-disabled="false">
+											<img src="{{ url('img/image-upload-icon.png') }}" style="width: 100px" alt="" />
+											<p class="mt-2">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+										</div>
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				
+				
+				<div class="col-lg-4">
+					<div class="hd_res_listsss mt-5">
+						<h2>
+							Saller document <span class="rit_mg"><img src="{{ url('img/glrr.png') }}" alt="" /></span>
+						</h2>
+					</div>
+					<div class="all_frm_list">
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="file-upload-adsss">
+									<label>
+										<div class="icon_f" role="button" aria-disabled="false">
+											<img src="{{ url('img/image-upload-icon.png') }}" style="width: 100px" alt="" />
+											<p class="mt-2">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+										</div>
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-lg-4">
+					<div class="hd_res_listsss mt-5">
+						<h2>
+							Agent document <span class="rit_mg"><img src="{{ url('img/glrr.png') }}" alt="" /></span>
+						</h2>
+					</div>
+					<div class="all_frm_list">
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="file-upload-adsss">
+									<label>
+										<div class="icon_f" role="button" aria-disabled="false">
+											<img src="{{ url('img/image-upload-icon.png') }}" style="width: 100px" alt="" />
+											<p class="mt-2">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+										</div>
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		  
+
+		
+		
+		
+		
+		
         <!-- Hidden input to track removed documents -->
 <input type="hidden" name="removed_docs" id="removed_docs" value="">
 
@@ -1358,6 +1601,8 @@ a.sm_right_vdooos.siz_vdoo.sm_sizzess {width: 25%;}
 	  
 	</div>
 </section>
+
+
 
 	 
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>

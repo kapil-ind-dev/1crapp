@@ -44,13 +44,13 @@
 
 <tr>
     <td colspan="4" class="tx_right"><b>Total Magic Money</b></td>
-    <td class="yellowe_bg"><b>₹{{ $total_magic_amount??0.00 }}</b></td>	
+    <td class="bluess_bg1"><b>₹{{ $total_magic_amount??0.00 }}</b></td>	
     									
     <td>&nbsp;</td>									
 </tr> 
 <tr>
     <td colspan="4" class="tx_right"><b>Remaining Spendable Amount</b></td>
-    <td class="yellowe_bg"><b>₹{{ $total_spandable_amount - $total_current_amount }}</b></td>	
+    <td class="bluess_bg1"><b>₹{{ $total_spandable_amount - $total_current_amount }}</b></td>	
     									
     <td>&nbsp;</td>									
 </tr> 

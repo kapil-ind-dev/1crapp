@@ -5,9 +5,92 @@
 .iti--separate-dial-code .iti__selected-flag {color: #0e3992; font-size: 14px;}
 .iti__country {color: #333; font-size: 12px;}
 .login-container.regisstr .onboarding.flu_lnth {
-    height: 740px;
+    height: auto;
     overflow: auto;
 }
+
+.login-container.regisstr .onboarding.flu_lnth.top_data .slide-content {align-items: baseline; height:auto;}
+.login-container.regisstr .login-form.flu_lnth.col-md-6.justify-content-center.d-flex{height: auto;}
+
+.login-form.flu_lnth .medls_araeass{margin-top:0 !important; padding: 40px 0;}
+
+.login-container.regisstr .onboarding.flu_lnth.top_data .slide-content .mg_areeea {
+    max-width: 392px;
+    width: 100%;
+    height: 220px;
+    margin: 0 auto;
+	overflow: hidden;
+	margin-bottom:20px;
+}
+.login-container.regisstr .onboarding.flu_lnth.top_data .slide-content .mg_areeea img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.onboarding.flu_lnth .slide-content .medilss_areaaa .lgo_areaa {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+.onboarding.flu_lnth .slide-content .medilss_areaaa .lgo_areaa a {
+    display: block;
+}
+.onboarding.flu_lnth .slide-content .medilss_areaaa .lgo_areaa a img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.login-form.flu_lnth .medls_araeass .login-form-inner .alert.alert-danger {
+    max-width: 360px;
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 15px;
+    padding: 12px !important;
+    line-height: 20px;
+	font-size: 13px !important;
+}
+.login-form.flu_lnth .medls_araeass .login-form-inner .alert.alert-danger a.text-info {
+    color: #5e0a08 !important;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+.onboarding.flu_lnth .slide-content .medilss_areaaa embed {
+    object-fit: cover;
+	height: 220px;
+}
+.login-container.regisstr .onboarding.flu_lnth.top_data .slide-content p.py-4.btnmss_tx {
+    max-width: 320px;
+	width:100%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    padding: 0 !important;
+}
+.login-container.regisstr .onboarding.flu_lnth.top_data .slide-content .socila_mds {
+    max-width: 200px;
+    width: 100%;
+    height: 60px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+.login-container.regisstr .onboarding.flu_lnth.top_data .slide-content .socila_mds a{
+    display:block;
+}
+.login-container.regisstr .onboarding.flu_lnth.top_data .slide-content .socila_mds a img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.onboarding.flu_lnth .slide-content .cnts_fildsss {
+    width: 100%;
+}
+
+
 @media screen and (max-width: 800px) {
     .login-form.flu_lnth .medls_araeass {padding: 30px 20px; width: 100% !important; margin: 0 0 20px;}
 	.login-form.flu_lnth .medls_araeass .login-form-inner h3 {font-size: 23px;}
@@ -21,11 +104,14 @@
 	.iti__country-list {white-space: normal; width: 100%; max-width: 290px; min-width: 290px;}
     .login-container.regisstr .onboarding.flu_lnth { height: auto !important; overflow: initial; }
     .login-container.regisstr .onboarding.flu_lnth .slide-content {height: auto; }
+		.onboarding.flu_lnth .slide-content .medilss_areaaa {margin-bottom: 25px;}
 }
 </style>
 @php
     $referral = request()->get('referral_code');
 @endphp
+
+<body style="background: #1347a2;">
 <div class="top_hedderrss">
  <div class="container">
   <div class="row">
@@ -43,19 +129,21 @@
 <div class="container-fluid px-0 pdding_0">
 <div class="login-container regisstr">
     <div class="col-md-6">
-        <div class="onboarding flu_lnth text-center">
+        <div class="onboarding flu_lnth text-center top_data">
             <div class="slide-content">
             <div class="medilss_areaaa">
-                @if(isset($signupcms->logo_visible) && $signupcms->logo_visible == 1)<div class="lgo_areaa"><a href="{{ url('') }}"><img width="100" src="{{ $signupcms->company_logo }}" alt="Logo" /></a></div>@endif
+                @if(isset($signupcms->logo_visible) && $signupcms->logo_visible == 1)<div class="lgo_areaa"><a href="{{ url('') }}"><img src="{{ $signupcms->company_logo }}" alt="Logo" /></a></div>@endif
                 @if(isset($signupcms->tagline_visible) && $signupcms->tagline_visible == 1)<h2 class="txt_hdns">{{ $signupcms->tagline_text }}</h2>@endif
                 <!-- <embed src="{{ url('') }}/img/big_buck_bunny_720p_1mb.mp4" /> -->
-                @if(isset($signupcms->file_visible) && $signupcms->file_visible == 1)
+                <div class="mg_areeea">
+				@if(isset($signupcms->file_visible) && $signupcms->file_visible == 1)
                     @if(isset($signupcms->file_type) && $signupcms->file_type == 1)
                         <img src="{{ $signupcms->file_path }}" alt="" />
                     @else
                         <embed src="{{ $signupcms->file_path }}" />
                     @endif
                 @endif
+				</div>
                 @if(isset($signupcms->bullet_visible) && $signupcms->bullet_visible == 1)
                 <div class="cnts_fildsss">
                     <p class="d-flex align-items-start"><i class="fa {{ $signupcms->b1_icon }} mr-2" style="font-size:16px; font-weight: bold;"></i><span>{{ $signupcms->b1_text }}</span></p>
@@ -157,7 +245,7 @@
 				   <div class="or_width"><span class="orss">Or</span></div>
                    <div class="soclls_ico">
 				    <h6>Register Using</h6>
-				    <a href="{{ url('auth/google') }}" class="glgllo"><img class="gloool" src="{{ url('home/img/goolge_sm.png')}}" alt="" />Google</a>
+				    <a href="{{ env('GOOGLE_LOGIN_PATH') }}" class="glgllo"><img class="gloool" src="{{ url('home/img/goolge_sm.png')}}" alt="" />Google</a>
                     <a href="{{ url('auth/facebook') }}" class="fblgoo"><img class="fboo" src="{{ url('home/img/face_bks.png')}}" alt="" />Facebook</a>
 				   </div>
                    <p class="clr">By signing up, you agree to our<a href="javascript:void(0);"> Terms of Use</a> and <a href="javascript:void(0);">Privacy Policy</a>.
@@ -276,3 +364,5 @@
         $('#mobile').val(fullNumber); // Replace field value with the full number
     });
 </script>
+
+</body>

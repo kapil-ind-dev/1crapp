@@ -166,7 +166,6 @@
         margin-bottom: 25px;
     }
     .ftr_new_other .ftr_content .menu_ftrr a {
-        color: #fff;
         margin-right: 20px;
     }
     .ftr_new_other .ftr_content .menu_ftrr a:last-child {
@@ -231,12 +230,12 @@
     .new_ar_tring .pert_listst ul li {
         float: left;
         width: 50%;
-        font-size: 18px;
+        font-size: 16px;
         margin-bottom: 12px;
     }
     .new_ar_tring .pert_listst ul li i {
         color: #95c917;
-        font-size: 30px;
+        font-size: 22px;
         position: relative;
         top: 4px;
         margin-right: 3px;
@@ -362,8 +361,8 @@
     .aa_pgess .you_tb_arra {
         max-width: 550px;
         margin: 0 auto;
-        width: 100%;
-    }
+        width: 100%;		height: 400px;        overflow: hidden;
+    }	.aa_pgess .you_tb_arra img {        width: 100% !important;        height: 100% !important;        object-fit: cover;    }
     .n_thiks {
         margin-top: 20px;
         text-align: center;
@@ -434,7 +433,7 @@
     #countdown ul li:last-child {
         margin: 0;
     }
-    @media (min-width: 481px) and (max-width: 767px) {
+    @media (min-width: 481px) and (max-width: 767px) {								#countdown {margin: 20px 0 0;}.yr_awer_pro {    margin-top: 0px;    margin-bottom: 10px;}.new_ar_tring .pert_listst {    margin-top: 20px;}.new_ar_tring .pert_listst ul li i {    font-size: 20px;    top: 0px;    margin-right: 0px;}    	.new_ar_tring .pert_listst ul li {        width: 100%;        font-size: 14px;        display: flex;        gap: 10px;    }		.v_part_liststs.opt_in_pg iframe#chatbot-iframe {    width: 100%;}.v_part_liststs.opt_in_pg .bk_pert_sh p span.sup_al_cntx {    font-size: 13px;}.v_part_liststs.opt_in_pg .bk_pert_sh p span.sup_al_cntx strong {    font-size: 15px;}.aa_pgess .you_tb_arra {    height: 310px;}.container.mt-5.mbvewss {    margin-top: 0 !important;}		
         .what_tst .qu_bx_partss {
             padding: 10px 10px 10px !important;
         }
@@ -509,7 +508,7 @@
             margin-bottom: 10px;
         }
     }
-    @media (min-width: 320px) and (max-width: 480px) {
+    @media (min-width: 320px) and (max-width: 480px) {				#countdown {margin: 20px 0 0;}.yr_awer_pro {    margin-top: 0px;    margin-bottom: 10px;}.new_ar_tring .pert_listst {    margin-top: 20px;}.new_ar_tring .pert_listst ul li i {    font-size: 20px;    top: 0px;    margin-right: 0px;}    	.new_ar_tring .pert_listst ul li {        width: 100%;        font-size: 14px;        display: flex;        gap: 10px;    }		.v_part_liststs.opt_in_pg iframe#chatbot-iframe {    width: 100%;}.v_part_liststs.opt_in_pg .bk_pert_sh p span.sup_al_cntx {    font-size: 13px;}.v_part_liststs.opt_in_pg .bk_pert_sh p span.sup_al_cntx strong {    font-size: 15px;}.aa_pgess .you_tb_arra {    height: 210px;}.container.mt-5.mbvewss {    margin-top: 0 !important;}
         .what_tst .qu_bx_partss {
             padding: 10px 10px 10px !important;
         }
@@ -591,7 +590,7 @@
             font-size: 14px;
         }
         .v_part_liststs.opt_in_pg {
-            margin-top: 0;
+            margin-top: 0;			        padding: 15px 15px;
         }
         .yr_awer_pro .new_ar_tring h3 {
             font-size: 22px;
@@ -608,6 +607,7 @@
 <!--- New On-Demand Training ---->
 <div class="container">
     <div class="new_ar_tring mt_50p">
+        
         @if($page_data->pre_heading_status == 1)
         @if($page_data->pre_heading)<h2 class="bnt_rundds">{!! $page_data->pre_heading !!} </h2>@endif
         @endif
@@ -632,7 +632,7 @@
     </div>
 </div>
 <!--- End New On-Demand Training ---->
-<div class="container mt-5">
+<div class="container mt-5 mbvewss">
     <div class="yr_awer_pro_all">
         <div class="yr_awer_pro">
             <div class="row mt-4">
@@ -644,8 +644,8 @@
                             <img src="{{ ASSETS_PATH.$page_data->media_file }}" alt="Description of image 2" width="100%" height="400">
                         </div>
                         @elseif($page_data->media_type == 2)
-                        <div class="you_tb_arra">
-                            <iframe width="100%" height="400" src="{{ $page_data->media_link }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        <div class="you_tb_arra text-center">
+                            {!! $page_data->media_embeded_code !!}
                         </div>
                         @elseif($page_data->media_type == 3)
                         @if($page_data->media_link)
@@ -690,44 +690,52 @@
     <div class="row mt-4">
         <div class="col-lg-12">
             <div class="v_part_liststs opt_in_pg">
-                <div class="bk_pert_sh">
+                <div class="bk_pert_sh  text-center">
                     @if($page_data->pre_cta_status == 1)
-                    @if($page_data->pre_cta)
-                    <p>
-                        <img class="fr_iconss" src="{{ url('home/img/fire_hot_icon.png')}}" alt="" />
-                        <span class="sup_al_cntx"><strong>Special Deal</strong> With this : {{ $page_data->pre_cta }} </span>
-                    </p>
-                    @endif
+                        @if($page_data->pre_cta)
+                        <p>
+                            <img class="fr_iconss" src="{{ url('home/img/fire_hot_icon.png')}}" alt="" />
+                            <span class="sup_al_cntx"><strong>Special Deal</strong> With this : {{ $page_data->pre_cta }} </span>
+                        </p>
+                        @endif
                     @endif
                     @if($page_data->popup_status == 1)
                     <a href="javascript:void(0)" onclick="getPopupContent('{{$page_data->id}}', 'popup_data_id')" data-toggle="modal" data-target="#sub_m_al_frms">
                         @else
                         @if($page_data->form_type == 'external')
-                        @if($page_data->page_cta_url)
-                        <a href="{{ $page_data->page_cta_url }}" @if($page_data->open_new_tab == 1) target="_blank" @endif >@endif
-                            @elseif($page_data->form_type == 'embeded')
-                            <hr> {!! $page_data->embed_form_code !!}
-                            <hr>
-                            @elseif($page_data->form_type == 'custom')
+                            @if($page_data->page_cta_url)
+                                <a href="{{ $page_data->page_cta_url }}" @if($page_data->open_new_tab == 1) target="_blank" @endif >
+                            @endif
+                        @elseif($page_data->form_type == 'embeded')
+                        
+                            <hr> {!! $page_data->embed_form_code !!}<hr>
+                        @elseif($page_data->form_type == 'custom')
+                        
                             <div id="cstm_frm_id"></div>
+                        @elseif($page_data->form_type == 'page')
+                             @if($page_data->page_url)
+                                <a href="{{ $page_data->page_url }}" @if($page_data->open_new_tab == 1) target="_blank" @endif >
                             @endif
+                        @elseif($page_data->form_type == 'assets')
+                             @if($page_data->assets_url)
+                                <a href="{{ $page_data->assets_url }}" @if($page_data->open_new_tab == 1) target="_blank" @endif >
                             @endif
-                            @if($page_data->popup_status == 1)
+                        @endif  
+                            @endif
+                            @if($page_data->form_type != 'custom' || $page_data->popup_status == 1)
                             <h5>{{ $page_data->cta_button_text }}</h5>
                             <span>{{ $page_data->cta_button_subtext }}</span>
                             @endif
                         </a>
                 </div>
-                @if($page_data->popup_status == 1)
                     @if($page_data->ps_text_status == 1)
-                    @if($page_data->ps_text)<div class="tx_v_ars"><span class="red_tx"><strong>P.S.</strong></span> : {{ $page_data->ps_text }}</div>@endif
+                        @if($page_data->ps_text)<div class="tx_v_ars"><span class="red_tx"><strong>P.S.</strong></span> : {{ $page_data->ps_text }}</div>@endif
                     @endif
-                @endif
             </div>
             @if($page_data->addination_cta_status == 1)
             <div class="n_thiks">
                 @if($page_data->addination_cta_title)
-                <a href="{{ $page_data->addination_url }}" @if($page_data->addination_cta_new_tab == 1) target="_blank" @endif>{{ $page_data->addination_cta_title }}</a><br>
+                <a href="{{ $page_data->addination_url }}" @if($page_data->addination_cta_new_tab == 1) target="_blank" @endif>{{ $page_data->addination_cta_title }}123</a><br>
                 @endif
                 @if($page_data->addination_cta)
                 <p>{{ $page_data->addination_cta }}</p>
@@ -766,6 +774,7 @@
 <script>
     @if($page_data->form_type == 'custom')
     getPopupContent("{{$page_data->id}}", "cstm_frm_id");
+    $('#cstm_frm_id').text('');
     @endif
     function getPopupContent(id, data_id) {
         $.ajax({

@@ -4,10 +4,87 @@
 .login-form.flu_lnth .medls_araeass .login-form-inner .forms_reass input.lg_frms {width:100%;}
 .iti--separate-dial-code .iti__selected-flag {color: #0e3992; font-size: 14px;}
 .iti__country {color: #333; font-size: 12px;}
-.login-container.regisstr .onboarding.flu_lnth {
-    height: 740px;
-    overflow: auto;
+.login-container.regisstr .onboarding.flu_lnth {height: auto; overflow: auto;}
+
+.login-container.regisstr .onboarding.flu_lnth.top_data .slide-content {align-items: baseline; height:auto;}
+.login-container.regisstr .login-form.flu_lnth.col-md-6.justify-content-center.d-flex{height: auto;}
+
+.login-form.flu_lnth .medls_araeass{margin-top:0 !important; padding: 40px 0;}
+
+.login-container.regisstr .onboarding.flu_lnth.top_data .slide-content .mg_areeea {
+    max-width: 392px;
+    width: 100%;
+    height: 220px;
+    margin: 0 auto;
+	overflow: hidden;
 }
+.login-container.regisstr .onboarding.flu_lnth.top_data .slide-content .mg_areeea img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.onboarding.flu_lnth .slide-content .medilss_areaaa .lgo_areaa {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+.onboarding.flu_lnth .slide-content .medilss_areaaa .lgo_areaa a {
+    display: block;
+}
+.onboarding.flu_lnth .slide-content .medilss_areaaa .lgo_areaa a img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.login-form.flu_lnth .medls_araeass .login-form-inner .alert.alert-danger {
+    max-width: 360px;
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 15px;
+    padding: 12px !important;
+    line-height: 20px;
+	font-size: 13px !important;
+}
+.login-form.flu_lnth .medls_araeass .login-form-inner .alert.alert-danger a.text-info {
+    color: #5e0a08 !important;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+.onboarding.flu_lnth .slide-content .medilss_areaaa embed {
+    object-fit: cover;
+	height: 220px;
+}
+.login-container.regisstr .onboarding.flu_lnth.top_data .slide-content p.py-4.btnmss_tx {
+    max-width: 320px;
+	width:100%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    padding: 0 !important;
+}
+.login-container.regisstr .onboarding.flu_lnth.top_data .slide-content .socila_mds {
+    max-width: 200px;
+    width: 100%;
+    height: 60px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+.login-container.regisstr .onboarding.flu_lnth.top_data .slide-content .socila_mds a{
+    display:block;
+}
+.login-container.regisstr .onboarding.flu_lnth.top_data .slide-content .socila_mds a img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+
 @media screen and (max-width: 800px) {
     .login-form.flu_lnth .medls_araeass {padding: 30px 20px; width: 100% !important; margin: 0 0 20px;}
 	.login-form.flu_lnth .medls_araeass .login-form-inner h3 {font-size: 23px;}
@@ -19,11 +96,12 @@
 	.login-container .login-form .login-form-group.with_both.lft_rigt .snd_cd {padding: 12px 5px; font-size: 11px;}	
     .login-container.regisstr .onboarding.flu_lnth { height: auto !important; overflow: initial; }
     .login-container.regisstr .onboarding.flu_lnth .slide-content {height: auto; }
+	.onboarding.flu_lnth .slide-content .medilss_areaaa {margin-bottom: 25px;}
 }
 </style>
 
 
-<body class="bg_whit">
+<body style="background: #1347a2;">
 <div class="top_hedderrss">
  <div class="container">
   <div class="row">
@@ -42,12 +120,13 @@
     <div class="container-fluid px-0 pdding_0">
         <div class="login-container regisstr">
             <div class="col-md-6">
-                <div class="onboarding flu_lnth text-center">
+                <div class="onboarding flu_lnth text-center top_data">
                     <div class="slide-content">
                         @if(isset($logincms) && !is_null($logincms))
                         <div class="medilss_areaaa">
-                            @if(isset($logincms->logo_visible) && $logincms->logo_visible == 1)<div class="lgo_areaa"><a href="{{ url('') }}"><img width="100" src="{{ $logincms->company_logo }}" alt="Logo" /></a></div>@endif
+                            @if(isset($logincms->logo_visible) && $logincms->logo_visible == 1)<div class="lgo_areaa"><a href="{{ url('') }}"><img src="{{ $logincms->company_logo }}" alt="Logo" /></a></div>@endif
                             @if(isset($logincms->tagline_visible) && $logincms->tagline_visible == 1)<h2 class="txt_hdns">{{ $logincms->tagline_text }}</h2>@endif
+							<div class="mg_areeea">
                             @if(isset($logincms->file_visible) && $logincms->file_visible == 1)
                                 @if(isset($logincms->file_type) && $logincms->file_type == 1)
                                     <img src="{{ $logincms->file_path }}" alt="" />
@@ -55,6 +134,7 @@
                                     <embed src="{{ $logincms->file_path }}" />
                                 @endif
                             @endif
+							</div>
                             @if(isset($logincms->content_visible) && $logincms->content_visible == 1)<p class="py-4 btnmss_tx">{{ $logincms->content }}</p>@endif
                             @if(isset($logincms->gotit_visible) && $logincms->gotit_visible == 1)<div class="socila_mds"><a href="{{ $logincms->gotit_link }}" target="_blank"><img src="{{ $logincms->gotit_image }}" alt="" /></a></div>@endif
                         </div>
@@ -179,5 +259,5 @@
     //   });
     // });
     </script>
-    </div>
+    </body>
     @include('front.layouts.footer_new')

@@ -109,11 +109,38 @@
 
 .property_report_page section.bottom_partss {padding-top: 60px;}
 .property_report_page section.bottom_partss .lg_part_lg {text-align: center;}
-.property_report_page section.bottom_partss .lg_part_lg img {width: 55px;}
+.property_report_page section.bottom_partss .lg_part_lg img {width: 150px;}
 .property_report_page .bottom_partss .ct_contents {display:flex; align-items:center; justify-content:center; height:100%; width:100%; font-size:15px;}
 
 
-@media (min-width: 320px) and (max-width: 480px) {
+.thnkss_al_partss {
+    border: #fff solid 1px;
+    text-align: center;
+    padding: 20px;
+}
+.thnkss_al_partss .lgo_partss {
+    max-width: 210px;
+    margin: 0 auto;
+    width: 100%;
+    margin-bottom: 30px;
+}
+.thnkss_al_partss .lgo_partss img {
+    width: 100%;
+    max-width: 210px;
+}
+.thnkss_al_partss h4 {
+    margin: 0 0 20px;
+    font-size: 30px;
+    font-weight: 800;
+}
+
+
+@media (min-width: 320px) and (max-width: 767px) {
+.property_report_page #proprt_reportss .pro_area_hdss .pro_botom_araes .totl_boxxx{padding: 0 0px !important;}
+.property_report_page #proprt_reportss .pro_area_hdss .pro_botom_araes .totl_boxxx .bx_part_prp_rept p {font-size: 12px;}
+.property_report_page #proprt_reportss .pro_area_hdss .pro_botom_araes .totl_boxxx .bx_part_prp_rept h4 {font-size: 14px;}
+.property_report_page #proprt_reportss .pro_area_hdss .pro_botom_araes .totl_boxxx .bx_part_prp_rept {margin-bottom: 10px;}
+
 .property_report_page section.usr_item_liststs {padding: 20px 0 20px;}
 .property_report_page section.usr_item_liststs .owl-nav {position: absolute; top: 45%; width: 100%;}
 .property_report_page section.usr_item_liststs .owl-nav button.owl-prev {position: absolute; left: 5px; font-size: 30px;}
@@ -184,7 +211,7 @@
                 <div class="totl_boxxx">
                     <div class="row">
                         <!---- Item ---->
-                        <div class="col-lg-2">
+                        <div class="col-lg-2 col-sm-6 col-6">
                             <div class="bx_part_prp_rept">
                                 <p>Cash Needed</p>
                                 <h4>$ 11,946</h4>
@@ -193,7 +220,7 @@
                         <!---- End Item ---->
 
                         <!---- Item ---->
-                        <div class="col-lg-2">
+                        <div class="col-lg-2 col-sm-6 col-6">
                             <div class="bx_part_prp_rept">
                                 <p>Total Profit</p>
                                 <h4>$ 23,688</h4>
@@ -202,7 +229,7 @@
                         <!---- End Item ---->
 
                         <!---- Item ---->
-                        <div class="col-lg-2">
+                        <div class="col-lg-2 col-sm-6 col-6">
                             <div class="bx_part_prp_rept">
                                 <p>ROI</p>
                                 <h4>170.7%</h4>
@@ -211,7 +238,7 @@
                         <!---- End Item ---->
 
                         <!---- Item ---->
-                        <div class="col-lg-2">
+                        <div class="col-lg-2 col-sm-6 col-6">
                             <div class="bx_part_prp_rept">
                                 <p>Annualizes ROI</p>
                                 <h4>682.8%</h4>
@@ -220,7 +247,7 @@
                         <!---- End Item ---->
 
                         <!---- Item ---->
-                        <div class="col-lg-2">
+                        <div class="col-lg-2 col-sm-6 col-6">
                             <div class="bx_part_prp_rept">
                                 <p>Holdding Cost (PM)</p>
                                 <h4>Rs. 25000/Month</h4>
@@ -229,7 +256,7 @@
                         <!---- End Item ---->
 
                         <!---- Item ---->
-                        <div class="col-lg-2">
+                        <div class="col-lg-2 col-sm-6 col-6">
                             <div class="bx_part_prp_rept">
                                 <p>Purchase Price</p>
                                 <h4>Rs. 4500000</h4>
@@ -252,6 +279,7 @@
         <div class="m_logo"><img src="{{ url('img/lgo_botms.png')}}" alt="" /></div>
         <div class="contntts">1CR APP.Ramjee Enterprises G-10, Green View, Jagatpura Jaipur Rajasthan, India 301720</div>
     </div>
+    <h4>Giving You Data that Buiders or Even Other Brokers Don't Offer</h4>
     <h4>Giving You Data that Buiders or Even Other Brokers Don't Offer</h4>
     <p>Make Wiser & Smart Decesion Faster</p>
     <span>See How the Number Stack Up in Your Faver!</span>
@@ -418,60 +446,70 @@
 							<div class="col-lg-6">
 								<div class="form-group managsss1">
 									<label>Unit Number (Optional)</label>
-									<input class="" type="text" id="" placeholder="Unit Number" value="" oninput="" required="" />
+									<input class="" type="text" id="" placeholder="Unit Number" value="123456789" readonly="" />
+								</div>
+							</div>
+							
+							<div class="col-lg-6">
+								<div class="form-group managsss1">
+									<label>Tower Number(Optional) :</label>
+									<input class="" type="text" id="" placeholder="Unit Number" value="TN123456" readonly="" />
 								</div>
 							</div>
 							
 							<div class="col-lg-6">
 								<div class="form-group managsss1">
 									<label>Project Name (Optional)</label>
-									<input class="" type="text" id="" placeholder="Project Name" value="" oninput="" required="" />
+									<input class="" type="text" id="" placeholder="Project Name" value="Project" readonly="" />
 								</div>
 							</div>
 							
 							<div class="col-lg-6">
 								<div class="form-group managsss1">
 									<label>Building Name (Optional)</label>
-									<input class="" type="text" id="" placeholder="Building Name" value="" oninput="" required="" />
+									<input class="" type="text" id="" placeholder="Building Name" value="BL123456" readonly="" />
 								</div>
 							</div>
 							
 							<div class="col-lg-6">
 								<div class="form-group managsss1">
 									<label>Sector/Street No./Address:</label>
-									<input class="" type="text" id="" placeholder="Street Address" value="" oninput="" required="" />
+									<input class="" type="text" id="" placeholder="Street Address" value="Street Address" readonly="" />
 								</div>
 							</div>
 							
 							<div class="col-lg-6">
 								<div class="form-group managsss1">
 									<label>Country</label>
-									<select name="state" id="" onchange="" required="" class="slt_areaa_ful">
-										<option value="">Select</option>
-									</select>
+									<input class="" type="text" id="" placeholder="Country" value="India" readonly="" />
 								</div>
 							</div>
 							
 							<div class="col-lg-6">
 								<div class="form-group managsss1">
 									<label>State/Region</label>
-									<select name="state" id="" onchange="" required="" class="slt_areaa_ful">
-										<option value="">Select</option>
-									</select>
+									<input class="" type="text" id="" placeholder="State Region" value="Town Area" readonly="" />
 								</div>
 							</div>
 							
 							<div class="col-lg-6">
 								<div class="form-group managsss1">
 									<label>City Name</label>
-									<input class="" type="text" id="" placeholder="" value="" oninput="" required="" />
+									<input class="" type="text" id="" placeholder="" value="Noida" readonly="" />
 								</div>
 							</div>
 							
 							<div class="col-lg-6">
 								<div class="form-group managsss1">
 									<label>ZIP Postal Code:</label>
-									<input class="" type="text" id="" placeholder="" value="" oninput="" required="" />
+									<input class="" type="text" id="" placeholder="" value="201301" readonly="" />
+								</div>
+							</div>
+							
+							<div class="col-lg-6">
+								<div class="form-group managsss1">
+									<label>Property Google Location</label>
+									<input class="" type="text" id="" placeholder="" value="Gotam Both" readonly="" />
 								</div>
 							</div>
 						</div>
@@ -490,69 +528,81 @@
 							<div class="col-lg-6">
 								<div class="form-group managsss1">
 									<label>Category</label>
-									<select name="state" id="" onchange="" required="" class="slt_areaa_ful">
-										<option value="">NA</option>
-									</select>
+									<input class="" type="text" id="" placeholder="" value="NA" readonly="" />
 								</div>
 							</div>
 							
-							<div class="col-lg-6">
-								<div class="form-group managsss1">
-									<label>Parking</label>
-									<select name="state" id="" onchange="" required="" class="slt_areaa_ful">
-										<option value="">Select</option>
-									</select>
-								</div>
+							<div class="col-lg-6">								
+								<div class="row bothmngess">
+								  <div class="col-lg-6 col-12 left">
+									<div class="form-group managsss1">
+										<label>Parking:</label>
+										<input class="" type="text" id="" placeholder="" value="Yes" readonly="" />
+									</div>
+								  </div>
+
+								  <div class="col-lg-6 col-12 right">
+								    <div class="form-group managsss1">
+									 <label>No. of Parking</label>
+									 <input class="" type="text" id="" placeholder="" value="1" readonly="" />
+									</div>
+								  </div>
+								</div>							
 							</div>
 							
 							<div class="col-lg-6">
 								<div class="form-group managsss1">
 									<label>Type</label>
-									<select name="state" id="" onchange="" required="" class="slt_areaa_ful">
-										<option value="">Select</option>
-									</select>
+									<input class="" type="text" id="" placeholder="" value="NA" readonly="" />
 								</div>
 							</div>
 							
 							<div class="col-lg-6">								
 								<div class="form-group managsss1 lot_sz">
 							     <label>Size</label>
-								  <input class="slt_areaa_ful" type="text" id="" placeholder="" value="" oninput="" required="" />
-								  <select name="psizetype" id="psizetype" class="pusntttss">
-									<option selected="" value="Square Feet"></option>
-								  </select>
+								  <input class="" type="text" id="" placeholder="" value="10 Square Feet" readonly="" />
 							     </div>								
 							</div>
 							
 							<div class="col-lg-6">
 								<div class="form-group managsss1">
 									<label>Unit Type</label>
-									<select name="state" id="" onchange="" required="" class="slt_areaa_ful">
-										<option value="">Select</option>
-									</select>
+									<input class="" type="text" id="" placeholder="" value="2" readonly="" />
 								</div>
 							</div>
 							
 							<div class="col-lg-6">
 								<div class="form-group managsss1">
 									<label>Status</label>
-									<select name="state" id="" onchange="" required="" class="slt_areaa_ful">
-										<option value="">Select</option>
-									</select>
+									<input class="" type="text" id="" placeholder="" value="NA" readonly="" />
+								</div>
+							</div>
+							
+							<div class="col-lg-6">
+								<div class="form-group managsss1">
+									<label>No. of bedrooms</label>
+									<input class="" type="text" id="" placeholder="" value="2" readonly="" />
+								</div>
+							</div>
+							
+							<div class="col-lg-6">
+								<div class="form-group managsss1">
+									<label>No. of barthrooms</label>
+									<input class="" type="text" id="" placeholder="" value="2" readonly="" />
 								</div>
 							</div>
 							
 							<div class="col-lg-6">
 								<div class="form-group managsss1">
 									<label>Year Built</label>
-									<input class="" type="text" id="" placeholder="" value="" oninput="" required="" />
+									<input class="" type="text" id="" placeholder="" value="2020" readonly="" />
 								</div>
 							</div>
 							
 							<div class="col-lg-6">
 								<div class="form-group managsss1">
 									<label>Property Google Location:</label>
-									<input class="" type="text" id="" placeholder="" value="" oninput="" required="" />
+									<input class="" type="text" id="" placeholder="" value="Gotam Both" readonly="" />
 								</div>
 							</div>
 						</div>
@@ -929,14 +979,32 @@
 	    <div class="ct_contents">Prepared BY : 1CR APP Consultants</div>
 	   </div>
 	   <div class="col-lg-2">
-	    <div class="lg_part_lg"><img src="{{ url('img/lgo_botms.png')}}" alt="" /></div>
+	    <div class="lg_part_lg"><img src="{{ url('img/logo 1.png')}}" alt="" /></div>
 	   </div>
 	   <div class="col-lg-5">
 	    <div class="ct_contents">G-01, Green View, Jaipur, Rajasthan 201307</div>
 	   </div>
 	  </div>
+	  
+	    <div class="thnkss_al_partss">
+		   <h4>Thank You Very Much!</h4>
+		</div>
+	  
+	  
+	  <div class="ftr_content text-center py-4" style="background-color:#000000;">
+        <div class="lgo">
+                <a href="https://kapil.1crapp.com"><img class="logo" src="https://admin.1crapp.com/img/1779197054895525347.png" alt="Logo"></a>
+            </div>
+        <div class="menu_ftrr text-light mt-1">
+        Fastest-Simple Yet Powerful Tool for Indian Realtors Business Automation.
+    </div>
+    <div class="crt_arar mt-1">
+                    <a href="https://1crapp.com/register" target="_blank"><button class="btn " style="background-color:#ed0c2e; color:#ffffff;">Try 1CRAPP Now For Free !</button></a>
+            </div>
+    </div>
 	</div>
 </section>	
+
 
        
  </div>  

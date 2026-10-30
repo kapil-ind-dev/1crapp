@@ -1,23 +1,23 @@
-@if($page_data->popup_content_status == 1)
+@if($page_data->popup_status == 1 && $page_data->popup_content_status == 1)
     <p>{{ $page_data->popup_content }}</p>
 @endif
 <div class="row">
-@if($page_data->popup_image_status == 1)
-    <div class="col-lg-6">
-        <div class="mdl_mg_arar"><img src="{{ ASSETS_PATH.$page_data->popup_image }}" alt="" /></div>
-    </div>
-    <div class="col-lg-6">
-        @else
-    <div class="col-lg-12">
-@endif
-    @if($page_data->embed_form_status == 1)
+    @if($page_data->popup_image_status == 1)
+        <div class="col-lg-6">
+            <div class="mdl_mg_arar"><img src="{{ ASSETS_PATH.$page_data->popup_image }}" alt="" /></div>
+        </div>
+        <div class="col-lg-6">
+            @else
+        <div class="col-lg-12">
+    @endif
+    @if($page_data->popup_status == 1 && $page_data->form_type == 'embeded')
     <div class="frm_al_suprtsss">
         {!! $page_data->embed_form_code !!}
     </div>
     @else
 <div class="frm_al_suprtsss">
     @php 
-        $apiUrl = request()->getSchemeAndHttpHost() . '/admin/api/save-leads'
+        $apiUrl = request()->getSchemeAndHttpHost() . '/admin/api/api/save-leads'
     @endphp
     <form action="{{ $apiUrl }}" method="post">
     <!-- <form action="{{ route('save-page-popup-data') }}" method="post"> -->

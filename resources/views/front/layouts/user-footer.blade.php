@@ -54,12 +54,12 @@
         float: left;
     }
     .usr_likts .urs_bx_rgss .mg_bx_araeae {
-        width: 30%;
+        width: 70px;        height: 60px;        overflow: hidden;
         float: left;
         padding-left: 10px;
     }
     .usr_likts .urs_bx_rgss .mg_bx_araeae img {
-        width: 100%;
+        width: 100%;		height:100%;		object-fit:cover;
     }
     #ftr_alsss .usr_likts a.dwn_ldss {
         background: #003250;
@@ -136,12 +136,9 @@
         line-height: 22px;
     }
     .rev_gl_rv .rv_usr_lgo {
-        margin-top: 20px;
+        margin-top: 20px;    width: 100%;    height: 150px;    display: flex;    overflow: hidden;    gap: 20px;
     }
-    .rev_gl_rv .rv_usr_lgo a {
-        display: inline-block;
-        margin-right: 30px;
-    }
+		.rev_gl_rv .rv_usr_lgo a {    display: inline-block;    margin-right:0px;    width: 100%;    height: 150px;}.rev_gl_rv .rv_usr_lgo a img {    width: 100%;    height: 100%;    object-fit: cover;}	
     .rev_gl_rv .rv_usr_lgo a:last-child {
         display: inline-block;
         margin-right: 0px;
@@ -359,14 +356,7 @@ $compliances = DB::table('tbl_compliances')->where('created_by', app('currentAge
                         </div>
                     </div>
                     <a href="{{ @$topFooter->promo_btn_link }}" target="_blank" class="dwn_ldss">{{ @$topFooter->promo_btn_text }}</a>
-                    <div class="social_lk_partss">
-                        @php
-                        $socialLinks = DB::table('tbl_footer_sociallinks')->where('created_by', app('currentAgent')->id)->get();
-                        @endphp
-                        @foreach($socialLinks as $sLinks)
-                        <a href="{{ $sLinks->link }}"  target="_blank" @if($sLinks->new_tab == 1) @endif><i class="fa {{ $sLinks->icon }}"></i></a>
-                        @endforeach
-                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -420,14 +410,23 @@ $compliances = DB::table('tbl_compliances')->where('created_by', app('currentAge
         </div>
         <div class="copy_btm">
             <div class="row">
-                <div class="col-lg-8">
+                <div class="col-lg-4">
                     <div class="lkns_bntsss">
                         @foreach($compliances as $compliance)
                         <a href="{{ $compliance->link }}" @if($compliance->new_tab == 1) target="_blank" @endif>{{ $compliance->title }}</a>
                         @endforeach
                     </div>
                 </div>
-                <div class="col-lg-4"> Copyright {{ DB::table('branding_setting')->where('user_id', app('currentAgent')->id)->value('copyright_year')??date('Y') }} <a href="{{ url('') }}">{{ request()->getHost() }}</a> all rights reserved </div>
+                
+                <div class="col-lg-4 social_lk_partss">
+                    @php
+                    $socialLinks = DB::table('tbl_footer_sociallinks')->where('created_by', app('currentAgent')->id)->get();
+                    @endphp
+                    @foreach($socialLinks as $sLinks)
+                    <a href="{{ $sLinks->link }}"  target="_blank" @if($sLinks->new_tab == 1) @endif><i class="fa {{ $sLinks->icon }}"></i></a>
+                    @endforeach
+                </div>
+                <div class="col-lg-4"> {{ DB::table('tbl_customlayout')->where('created_by', app('currentAgent')->id)->value('copyright_text'); }} </div>
             </div>
         </div>
     </div>

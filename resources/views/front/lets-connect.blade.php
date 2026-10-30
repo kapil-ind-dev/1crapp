@@ -14,10 +14,14 @@
     <script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js" defer></script>
 </head>
 <style>
+.mng_box_areeaasdd {background:#f7f7f7; padding:40px 20px; border-radius:10px; margin-bottom:0; width:100%; margin-top:20px; box-shadow:0px 10px 10px #efefef; border:#ebebeb solid 1px;}
+.mng_box_areeaasdd .Watch-This-Vedeo {background:#fff; padding:15px; border-radius:10px; border:#ececec solid 1px; max-width:890px; width:100%;  margin:0 auto;}
+
+.Watch-This-Vedeo .v_part_liststs ul li {    font-size: 14px;    font-weight: 400;	margin-bottom: 30px;}.Watch-This-Vedeo .v_part_liststs ul li:last-child{margin-bottom:0;}.dash_board_pages .toptitless_areeeas {    display: flex;    justify-content: center;    align-items: center;    gap: 20px;    background: #f3f3f3;    padding: 15px;    border-radius: 15px 15px 0px 0px;}.dash_board_pages .toptitless_areeeas h3 {    margin: 0 0 0;    max-width: 270px;    width: 100%;}.dash_board_pages .toptitless_areeeas .shr_linkss {    margin: 0;}.dash_board_pages .toptitless_areeeas a button.btn.btn-primary {    background: #0e3992;    padding: 11px 20px !important;    border: #0e3992 solid 1px;    border-radius: 8px;    color: #fff !important;}.Watch-This-Vedeo .v_part_liststs .wtch_txt {    display: inline-block;    width: 100%;}.Watch-This-Vedeo .v_part_liststs .wtch_txt h4 {    margin: 0 0 5px;    font-size: 18px;    color: #0e3992;    font-weight: 700;}.Watch-This-Vedeo .v_part_liststs .wtch_txt p {    font-weight: 500;    line-height: 20px;}.Watch-This-Vedeo .v_part_liststs .you_tb_arra {    height: 280px;    overflow: hidden;    width: 100%;	    border-radius: 10px;}.Watch-This-Vedeo .v_part_liststs .you_tb_arra iframe {    width: 100% !important;    height: 100% !important;    object-fit: cover;}.Watch-This-Vedeo .v_part_liststs ul {    display: grid;    justify-content: left;    align-items: center;    margin-top:-2px;}.Watch-This-Vedeo .v_part_liststs ul li i {    background: {{ !empty($layouts->countdown_color) ? $layouts->countdown_color : '#0e3992' }};    width: 17px;    height: 17px;    border-radius: 50px;    color: #fff;    font-size: 10px;    -webkit-text-stroke: 0px #fff;    line-height: 18px;    text-align: center;    margin-right: 2px;}
     .shadow.othr_pgss_lde .top_menuues {
         margin: 0;
         padding: 5px 5px;
-        background: {{ $page->header_footer_bg_color?? '#000000' }};
+        background:{{ !empty($layouts->header_bg_color) ? $layouts->header_bg_color : '#000000' }}; !important;
     }
     .shadow.othr_pgss_lde .top_menuues .top_sec_menu.cnt_parts {
         margin: 0 0 0px;
@@ -32,7 +36,7 @@
         padding: 15px 10px;
     }
     .shadow.othr_pgss_lde .top_menuues .top_sec_menu.cnt_parts ul li a.gt_it_nnw {
-        background: {{ !empty($page->button_bg_color) ? $page->button_bg_color : '#e82626' }};
+        background: {{ !empty($layouts->btn_bg_color) ? $layouts->btn_bg_color : '#e82626' }};
         padding: 8px 20px;
         display: inline-block;
         border-radius: 100px;
@@ -53,27 +57,7 @@
         margin: 0 0 14px;
         font-weight: 600;
     }
-    .new_ar_tring h2.bnt_rundds {
-        background: #f5cb8d;
-        padding: 12px 25px;
-        color: #000000;
-        font-size: 13px;
-        font-weight: 300;
-        border-radius: 10px;
-        display: inline-block;
-    }
-    .new_ar_tring h3 {
-        margin: 10px 0 20px;
-        font-size: 22px;
-        font-weight: 700;
-    }
-    .new_ar_tring p {
-        font-size: 14px;
-        font-weight: 600;
-        max-width: 700px;
-        margin: 0 auto;
-        width: 100%;
-    }
+     .new_ar_tring h2.bnt_rundds {    background: #f5cb8d;    padding: 12px 25px;    color: #000000;    font-size: 16px;    font-weight: 600;    border-radius: 10px;    display: inline-block;    }		.New-On-Demand .new_ar_tring h3 {    margin: 0 auto;    font-size: 30px;    line-height: 38px;    font-weight: 700;    max-width: 670px;    margin-bottom: 15px;}    .New-On-Demand .new_ar_tring p {        font-size: 14px;        font-weight: 600;        max-width: 700px;        margin: 0 auto;        width: 100%;    }
     .v_part_liststs {
         display: inline-block;
         width: 100%;
@@ -104,8 +88,9 @@
         margin-top: 30px;
         padding: 15px;
         background: #fff;
-        border: #f5bcbc dashed 1px;
+        border:#777777 dashed 1px;
         border-radius: 10px;
+		text-align:center;
     }
     .v_part_liststs .bk_pert_sh p {
         text-align: center;
@@ -115,11 +100,13 @@
     }
     .v_part_liststs .bk_pert_sh a {
         background: #ff0000;
-        display: block;
-        text-align: center;
-        color: #fff;
-        padding: 15px 10px;
-        border-radius: 5px;
+    text-align: center;
+    color: #fff;
+    padding: 15px 10px;
+    border-radius: 5px;
+    max-width: 500px;
+    width: 100%;
+    display: inline-block;
     }
     .v_part_liststs .bk_pert_sh a h5 {
         margin: 0px 0 5px;
@@ -253,7 +240,7 @@
         width: 100%;
     }
     .arow_downss span.ar_bntss {
-        background: {{ !empty($page->header_footer_bg_color) ? $page->header_footer_bg_color : '#000000' }};
+        background: {{ !empty($layouts->countdown_color) ? $layouts->countdown_color : '#f71c1c' }};
         width: 40px;
         display: inline-block;
         height: 40px;
@@ -283,7 +270,7 @@
     #countdown ul li {
         margin-right: 10px;
         float: left;
-        background: {{ !empty($page->header_footer_bg_color) ? $page->header_footer_bg_color : '#f71c1c' }};
+        background: {{ !empty($layouts->countdown_color) ? $layouts->countdown_color : '#f71c1c' }};
         padding: 20px 20px;
         width: 23.3%;
         border-radius: 10px;
@@ -313,7 +300,20 @@
         text-decoration: underline;
         color: {{ !empty($page->header_footer_text_color) ? $page->header_footer_text_color : '#ffffff' }};
     }
+	
+	
+	.mdl_mg_arar.lets_cnttts {
+    height: 286px;
+    background: #f2f5f9;
+    border-radius: 0;
+}
+	
+	
     @media (min-width: 481px) and (max-width: 767px) {
+.Watch-This-Vedeo .v_part_liststs .wtch_txt.mb_centerre {
+    text-align: center;
+}
+		.dash_board_pages .toptitless_areeeas {display: grid; justify-content: normal; gap: 15px; padding: 15px; border-radius: 15px 15px 0px 0px; width: 100%;}		.New-On-Demand .new_ar_tring h3 {font-size: 16px; line-height: 23px; margin-bottom: 5px;}		.Watch-This-Vedeo .v_part_liststs ul li {margin-bottom: 15px;}				.shadow.othr_pgss_lde .top_menuues .top_sec_menu.cnt_parts ul li a span {    font-size: 12px;}.Watch-This-Vedeo .v_part_liststs .you_tb_arra {    height: 310px;    width: 100%;    margin-bottom: 15px;    display: inline-table;}
         .what_tst .qu_bx_partss {
             padding: 10px 10px 10px !important;
         }
@@ -388,7 +388,23 @@
             margin-bottom: 10px;
         }
     }
-    @media (min-width: 320px) and (max-width: 480px) {
+    @media (min-width: 320px) and (max-width: 480px) {				
+	.mng_box_areeaasdd {padding: 20px 10px;}	
+	.mng_box_areeaasdd .col-lg-12.mt-4 {padding: 0;}
+	.Watch-This-Vedeo .v_part_liststs .wtch_txt.mb_centerre {
+    text-align: center;
+}
+
+.mng_box_areeaasdd .Watch-This-Vedeo {
+    padding: 0 15px;
+    border-radius: 7px;
+    margin-top: 15px !important;
+}
+.Watch-This-Vedeo .v_part_liststs .wtch_txt h4{font-size:15px;}
+.Watch-This-Vedeo .v_part_liststs .wtch_txt p {font-size: 12px;  margin: 0;}
+
+
+	.dash_board_pages .toptitless_areeeas {display: grid; justify-content: normal; gap: 15px; padding: 15px; border-radius: 15px 15px 0px 0px; width: 100%;}		.New-On-Demand .new_ar_tring h3 {font-size: 16px; line-height: 23px; margin-bottom: 5px;}		.Watch-This-Vedeo .v_part_liststs ul{margin-bottom:20px;}		.Watch-This-Vedeo .v_part_liststs ul li {margin-bottom:5px; font-size:13px; margin-top:5px;}				.shadow.othr_pgss_lde .top_menuues .top_sec_menu.cnt_parts ul li a span {    font-size: 12px;}.Watch-This-Vedeo .v_part_liststs .you_tb_arra {    height: 170px;    width: 100%;    margin-bottom: 15px;    display: inline-table;}
         .mess_form_fildss {
             margin-bottom: 30px;
         }
@@ -468,7 +484,7 @@
             font-size: 15px;
         }
         .v_part_liststs {
-            margin-top: 35px;
+            margin-top: 0px;
         }
         .ftr_new_other .ftr_content .menu_ftrr a {
             margin-right: 10px;
@@ -670,7 +686,7 @@
         margin-right: 0;
     }
     .part_both_arraea .add_area_parts_show .prof_imgsss {
-        width: 80px;
+        width: 65px;
         height: 80px;
         overflow: hidden;
         margin: 0 auto;
@@ -727,10 +743,10 @@
         border-radius: 4px;
     }
     .shadow .top_menuues .top_sec_menu.cnt_parts li{
-        color: {{ !empty($page->header_footer_text_color) ? $page->header_footer_text_color : '#ffffff' }};
+        color: {{ !empty($layouts->header_text_color) ? $layouts->header_text_color:$page->header_footer_text_color }};
     }
     .shadow .top_menuues .top_sec_menu.cnt_parts li a{
-        color: {{ !empty($page->header_footer_text_color) ? $page->header_footer_text_color : '#ffffff' }};
+        color: {{ !empty($layouts->header_text_color) ? $layouts->header_text_color : $page->header_footer_text_color }};
     }
     .thankyou-overlay {
         display: none;
@@ -892,7 +908,25 @@
     }
     #st-1 .st-btn > img{
         left:-50px;
-    }
+    }			.property_report_page {width: 100%;}.property_report_page .bottom_partss {padding-top:30px;}.property_report_page .bottom_partss .lg_part_lg {text-align: center;}.property_report_page .bottom_partss .lg_part_lg img {width: 150px;}.property_report_page .bottom_partss .ct_contents {display:flex; align-items:center; justify-content:center; height:100%; width:100%; font-size:15px;}.thnkss_al_partss {    border: #fff solid 1px;    text-align: center;    padding: 20px;}.thnkss_al_partss .lgo_partss {    max-width: 210px;    margin: 0 auto;    width: 100%;    margin-bottom: 30px;}.thnkss_al_partss .lgo_partss img {    width: 100%;    max-width: 210px;}.thnkss_al_partss h4 {    margin: 0 0 20px;    font-size: 30px;    font-weight: 800;}.share_araea .shr_linkss {    width: 100%;    margin-top: 20px;}
+	
+	
+	.share_araea .shr_linkss input#referral_link {
+    border-radius: 7px 0 0 7px;
+}
+	.share_araea .shr_linkss .sharethis-share-buttons {
+    background: #1447a2 !important;
+    border-radius: 0px 7px 7px 0px;
+}
+.share_araea .shr_linkss .sharethis-share-buttons img {
+    left: 0 !important;
+}
+.dropdown-item:focus, .dropdown-item:hover {
+  color: {{ !empty($layouts->header_bg_color) ? $layouts->header_bg_color : '#000000' }} !important;
+  text-decoration: none;
+  background-color: {{ !empty($layouts->header_text_color) ? $layouts->header_text_color:$page->header_footer_text_color }};
+}
+
 </style>
 <!-- Form Modal -->
  @if($page && $page->popup_enable)
@@ -912,11 +946,11 @@
                 <div class="row">
                     @if($formdata && $formdata->image_visible && $formdata->file_path)
                     <div class="col-lg-6">
-                        <div class="mdl_mg_arar"><img src="{{ asset($formdata->file_path)}}" alt="" /></div>
+                        <div class="mdl_mg_arar lets_cnttts"><img src="{{ asset($formdata->file_path)}}" alt="" /></div>
                     </div>
                     @endif
                     @if($formdata && $formdata->image_visible && $formdata->file_path)
-                    <div class="col-lg-6 mt-4">
+                    <div class="col-lg-6">
                         @else
                     <div class="col-lg-12 mt-4">
                         @endif
@@ -983,17 +1017,92 @@
                                 <div class="row">
                                     <div class="col-lg-2 col-2">
                                         <div class="othr_logges">
-                                            <a class="nav-brand" href="javascript:void(0);"><img class="logo" src="{{ url('home/img/logo 1.png')}}" alt="Logo" /></a>
+                                            @if($company && $company->company_logo)
+                                                <a href="{{ url('/') }}"><img class="logo" src="{{ asset($company->company_logo) }}" alt="Logo" /></a>
+                                            @endif
                                         </div>
                                     </div>
                                     <div class="col-lg-10 col-10">
                                         <div class="top_sec_menu cnt_parts">
-                                            <ul>
+                                           <ul>
+                                                @foreach($headermenus as $menu)
+                                            
+                                                    @php
+                                                        $chield_menues = DB::table('tbl_letsconnectmenu')
+                                                            ->where([
+                                                                'type' => 1,
+                                                                'parent_id' => $menu->id,
+                                                                'status' => 1
+                                                            ])
+                                                            ->orderBy('id')
+                                                            ->get();
+                                                    @endphp
+                                            
+                                                    @if($chield_menues->count() > 0)
+                                            
+                                                        <li class="dropdown">
+                                                            <a class="dropdown-toggle"
+                                                               href="javascript:void(0)"
+                                                               id="dropdownMenu{{ $menu->id }}"
+                                                               data-toggle="dropdown"
+                                                               aria-haspopup="true"
+                                                               aria-expanded="false">
+                                            
+                                                                @if($menu->icon)
+                                                                    <i class="fa {{ $menu->icon }}"></i>
+                                                                @endif
+                                            
+                                                                <span>{{ $menu->title }}</span>
+                                                            </a>
+                                            
+                                                            <div class="dropdown-menu" aria-labelledby="dropdownMenu{{ $menu->id }}" style="background:{{ !empty($layouts->header_bg_color) ? $layouts->header_bg_color : '#000000' }}; !important;">
+                                            
+                                                                @foreach($chield_menues as $child)
+                                            
+                                                                    <a class="dropdown-item"
+                                                                       href="{{ $child->page_url }}"
+                                                                       @if($child->open_new_tab) target="_blank" @endif>
+                                            
+                                                                        @if($child->icon)
+                                                                            <i class="fa {{ $child->icon }}"></i>
+                                                                        @endif
+                                            
+                                                                        {{ $child->title }}
+                                            
+                                                                    </a>
+                                            
+                                                                @endforeach
+                                            
+                                                            </div>
+                                                        </li>
+                                            
+                                                    @else
+                                            
+                                                        <li>
+                                                            <a href="{{ $menu->page_url }}"
+                                                               @if($menu->open_new_tab) target="_blank" @endif>
+                                            
+                                                                @if($menu->icon)
+                                                                    <i class="fa {{ $menu->icon }}"></i>
+                                                                @endif
+                                            
+                                                                <span>{{ $menu->title }}</span>
+                                            
+                                                            </a>
+                                                        </li>
+                                            
+                                                    @endif
+                                            
+                                                @endforeach
+                                            
                                                 <li>
-                                                    <a href="{{ url('help') }}"><i class="fa fa-phone"></i> <span>Help ?</span></a>
+                                                    <a href="{{ $layouts->btn_link ?? 'javascript:void(0)' }}"
+                                                       class="gt_it_nnw"
+                                                       @if(!empty($layouts->open_new_tab)) target="_blank" @endif
+                                                        style="background-color: {{ $layouts->btn_bg_color ?? '#e82626' }}; color: {{ $layouts->btn_text_color ?? '#ffffff' }} !important;">
+                                                        {{ $layouts->btn_text ?? 'Get it now' }}
+                                                    </a>
                                                 </li>
-                                                <li class="callss"><i class="fa fa-whatsapp"></i> <span>+91-9966680133</span></li>
-                                                <li><a href="javascript:void(0);" class="gt_it_nnw" style="background-color: {{ !empty($page->button_bg_color) ? $page->button_bg_color : '#e82626' }}; color: {{ !empty($page->button_text_color) ? $page->button_text_color : '#ffffff' }};">Get it now</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -1002,9 +1111,10 @@
                         </div>
                     </section>
                     <!---- End Header Part ---->
-                    <!--- New On-Demand Training ---->
+                    <!--- New On-Demand Training ---->                    
+					<div class="mng_box_areeaasdd">
                     <div class="New-On-Demand">
-                        <div class="new_ar_tring mt_50p">
+                        <div class="new_ar_tring">
                             @if($page && $page->pre_headline_visible)<h2 class="bnt_rundds">{!! $page->pre_headline !!}</h2> @endif
                             @if($page && $page->headline_visible)<h3>{!! $page->headline !!}</h3>@endif
                             @if($page && $page->post_headline_visible)<p>{!! $page->post_headline !!}</p>@endif
@@ -1014,10 +1124,14 @@
                     <div class="Watch-This-Vedeo mt-5">
                         <div class="row mt-4">
                             @if($page && $page->media_visible)
-                            <div class="col-lg-6">
-                                <div class="wtch_txt">Watch This Vedeo Before You Sign Up</div>
+                            <div class="col-lg-6">                               
+						      <div class="v_part_liststs">
+                                <div class="wtch_txt mb_centerre">								 
+								 <h4><span class="icnnes">🎥</span> Watch Before You Register</h4>								 
+								 <p>Watch this short introduction before registering.</p>								
+								</div>
                                 <div class="you_tb_arra">
-                                    @if(isset($page->media_path) && !empty($page->media_path))
+                                    @if(isset($page->media_path) && !empty($page->media_path) || !empty($page->media_embeded_code))
                                             {{-- ✅ IMAGE --}}
                                             @if(($page->media_type ?? '') == 'image' && !empty($page->media_path))
                                                 <img src="{{ asset($page->media_path) }}" width="100%" height="100%" style="border-radius:8px;">
@@ -1028,25 +1142,19 @@
                                                     Your browser does not support video.
                                                 </video>
                                             {{-- ✅ LINK (YouTube / Embed) --}}
-                                            @elseif(($page->media_type ?? '') == 'link' && !empty($page->media_path))
-                                                <!-- <iframe
-                                                    width="100%"
-                                                    height="100%"
-                                                    src="{{ $page->media_path }}"
-                                                    frameborder="0"
-                                                    allowfullscreen
-                                                    style="border-radius:8px;">
-                                                </iframe> -->
-                                                
-                                                {!! $page->media_path !!}
+                                            @elseif(($page->media_type ?? '') == 'link' && !empty($page->media_embeded_code))
+                                                {!! $page->media_embeded_code !!}
                                             @endif
                                     @endif
                                 </div>
-                            </div>
+                               </div>                            </div>
                             @endif
                             <div class="col-lg-6">
-                                <div class="v_part_liststs mt-4">
-                                    <br>
+                                <div class="v_part_liststs">
+                                    <div class="wtch_txt">								 
+                                    <h4><span class="icnnes">⭐</span> Why This Program Is Different</h4>	
+                                    <p>Everything you'll gain after joining this program.</p>	
+                                    </div>
                                     <ul>
                                         @if($page && $page->bullet_status)
                                             @for($i = 1; $i <= 6; $i++)
@@ -1058,7 +1166,10 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="col-lg-12">
+                            </div>						
+                        </div>
+                    </div>	
+                    <div class="mt-4">
                                 <div class="v_part_liststs">
                                     @if($page && $page->countdown_visible && $page->countdown_datetime && \Carbon\Carbon::parse($page->countdown_datetime)->isFuture())
                                     <div id="countdown">
@@ -1075,68 +1186,70 @@
                                         <span class="ar_bntss"><i class="fa fa-long-arrow-down"></i></span>
                                         <span class="ar_bntss"><i class="fa fa-long-arrow-down"></i></span>
                                     </div>
-                                    <div class="bk_pert_sh">
+                                    <div class="bk_pert_sh" >
                                         @if($page && $page->pre_cta_visible)
-                                            <p>{{ $page->pre_cta }}</p>
-                                        @endif
-                                        @if($page && $page->cta_title || $page->cta_sub_title)
-                                        @if($page && $page->popup_enable)
-                                          <a href="javascript:void(0);" id="openModalBtn" data-toggle="modal" data-target="#sub_m_al_frms">
-                                        @else
-                                            <a href="{{ $page->page_cta_url }}" @if($page && $page->page_new_tab) target="_blank" @endif>
-                                        @endif
-                                            <h5>{{ $page->cta_title }}</h5>
-                                            <span>{{ $page->cta_sub_title }}</span>
-                                        </a>
+                                                <p>{{ $page->pre_cta }}</p>
+                                            @endif
+                                            @if($page && $page->cta_title || $page->cta_sub_title)
+                                            @if($page && $page->popup_enable)
+                                              <a href="javascript:void(0);" id="openModalBtn" data-toggle="modal" data-target="#sub_m_al_frms" style="background-color: {{ $layouts->btn_bg_color ?? '#e82626' }}; color: {{ $layouts->btn_text_color ?? '#ffffff' }} !important;">
+                                            @else
+                                                <a href="{{ $page->page_cta_url }}" @if($page && $page->page_new_tab) target="_blank" @endif style="background-color: {{ $layouts->btn_bg_color ?? '#e82626' }}; color: {{ $layouts->btn_text_color ?? '#ffffff' }} !important;">
+                                            @endif
+                                                <h5>{{ $page->cta_title }}</h5>
+                                                <span>{{ $page->cta_sub_title }}</span>
+                                            </a>
+                                            @endif
+                                            
+        									@if($page && $page->ps_text_visible)
+                                            <div class="tx_v_ars">{{ $page->ps_text }}</div>
                                         @endif
                                     </div>
-                                    @if($page && $page->ps_text_visible)
-                                    <div class="tx_v_ars">{{ $page->ps_text }}</div>
-                                    @endif
+                                    
                                 </div>
-                            </div>
-                        </div>
-                    </div>
+                            </div>					
                     
                     
-                    <div class="add_area_parts_show mt-5">
-                        @if($page && $page->company_logo)
-                        <div class="prof_imgsss">
-                            <img class="logo" src="{{ asset($page->company_logo) }}" alt="Logo" />
-                        </div>
-                        @endif
-                        <table class="table table-bordered">
-                            <tr class="bg-dark text-white">
-                                <th>Company Name</th>
-                                <th>Website</th>
-                                <th>Email ID</th>
-                                <th>Phone Number</th>
-                            </tr>
-                            <tr>
-                                <td>{{ $page->company_name ?? 'N/A' }}</td>
-                                <td>{{ $page->company_website ?? 'N/A' }}</td>
-                                <td>{{ $page->company_email ?? 'N/A' }}</td>
-                                <td>{{ $page->company_phone ?? 'N/A' }}</td>
-                            </tr>
-                        </table>
-                        <div class="ads_boxx_araessa">Address</div>
-                        <p class="text-center">{{ $page->company_address ?? 'N/A' }}</p>
-                    </div>
-                    <section class="ftr_new_other">
-                        <div class="frt_partsss">
-                            <div class="ftr_content">
-                                <div class="lgo">
-                                    <a href="javascript:void(0);"><img class="logo" src="{{ url('home/img/logo 1.png')}}" alt="Logo" /></a>
-                                </div>
-                                <div class="crt_arar mt-0 mb-4">
-                                    1CR App : Creating Your Own Lead Magnet is Easy & Fast Now With 1CR App. Try Il It's <a href="javascript:void(0);">Free</a>
-                                </div>
-                                <div class="crt_arar mt-0">
-                                    <a href="javascript:void(0);" class="ck_cliess" style="background-color: {{ !empty($page->button_bg_color) ? $page->button_bg_color : '#e82626' }}; color: {{ !empty($page->button_text_color) ? $page->button_text_color : '#ffffff' }};">Check this for idea</a>
-                                </div>
+                        <div class="add_area_parts_show mt-5">
+                            @if($company && $company->company_logo)
+                            <div class="prof_imgsss">
+                                <img class="logo" src="{{ asset($company->company_logo) }}" alt="Logo" />
+                            </div>
+                            @endif
+    
+                            <table class="table table-bordered">
+                                <tr class="bg-dark text-white">
+                                    <th>Company Name</th>
+                                    <th>Website</th>
+                                    <th>Email ID</th>
+                                    <th>Phone Number</th>
+                                </tr>
+                                <tr>
+                                    <td>{{ $company->company_name ?? 'N/A' }}</td>
+                                    <td>{{ $company->company_website ?? 'N/A' }}</td>
+                                    <td>{{ $company->company_email ?? 'N/A' }}</td>
+                                    <td>{{ $company->company_phone ?? 'N/A' }}</td>
+                                    
+                                </tr>
+    
+                            </table>
+                            <div class="ads_boxx_araessa">Address</div>
+                            <p class="text-center mt-2">{{ $company->company_address ?? 'N/A' }}</p>
+                            <div class="menu_ftrr mt-1 text-center">
+                                |
+                                @foreach($footermenus as $fmenu)
+                                    <a href="{{ $fmenu->page_url }}" @if($fmenu->open_new_tab == 1) target="_blank" @endif>{{ $fmenu->title }}</a> |
+                                @endforeach
+                            </div>
+                            <div class="crt_arar mt-1 text-center">
+                                @if($layouts && $layouts->copyright_text)
+                                {{ $layouts->copyright_text }}
+                                @endif
                             </div>
                         </div>
-                    </section>
+                    
+                    @include('front.custom-layout.poweredby-footer')
+                    
                     <div class="share_araea">
                         <div class="shr_linkss d-flex">
                             <input type="text" class="" placeholder="" id="referral_link" value="{{ url('/').'/lets-connect/'.$page->page_url }}" />
@@ -1352,4 +1465,12 @@ function closeErrorModal() {
         console.error("Failed to copy text: ", error);
     });
 }
+$(document).on('click', '.submenu-toggle', function (e) {
+    e.preventDefault();
+
+    $(this).next('.submenu').slideToggle(200);
+
+    $(this).find('.fa-chevron-down')
+        .toggleClass('fa-chevron-up');
+});
 </script>

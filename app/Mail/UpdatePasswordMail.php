@@ -21,7 +21,7 @@ class UpdatePasswordMail extends Mailable
     public function __construct(array $data)
     {
         $this->data = $data;
-        $this->content = DB::table('tbl_authtemp')->where(['agent_id' => app('currentAgent')->id, 'category' => 2])->first();
+        $this->content = DB::table('tbl_authtemp')->where(['agent_id' => app('currentAgent')->id, 'category' => 3])->first();
         $this->subject = $this->content->subject ?? '1CR APP - Password Updated Successfully!';
     }
 

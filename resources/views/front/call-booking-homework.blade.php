@@ -378,9 +378,9 @@ margin-right: 10px;
   height: 10px;
   width: 10px;
   z-index: -1;
-}
+}.text-end{  position: absolute;  right: 15%;}.you_tb_arra {    width: 100%;    max-width: 100%;    overflow: hidden; /* 🔥 prevents overflow */	    height: 570px;}.you_tb_arra iframe,.you_tb_arra video,.you_tb_arra img,.you_tb_arra audio {    width: 100% !important;    max-width: 100%;    height: 100%;	object-fit:cover;    display: block;}.you_tb_arra iframe,.you_tb_arra video {    aspect-ratio: 16 / 9;    height: auto;}
 
-@media (min-width: 481px) and (max-width: 767px) {
+@media (min-width: 481px) and (max-width: 767px) {.v_part_liststs.opt_in_pg.call_bk {padding:10px; margin-top:10px; margin-bottom:10px;}.you_tb_arra {height: 310px ;}.v_part_liststs.opt_in_pg iframe#chatbot-iframe {width: 100% !important;}.aa_pgess .you_tb_arra {height: 310px;}
 .what_tst .qu_bx_partss {padding: 10px 10px 10px !important;}
 #testimonials .owl-nav button.owl-next {right: 5px;}
 .mdl_mg_arar{display:none;}
@@ -420,7 +420,7 @@ margin-right: 10px;
 
 }
 
-@media (min-width: 320px) and (max-width: 480px) {
+@media (min-width: 320px) and (max-width: 480px) {.v_part_liststs.opt_in_pg.call_bk {padding:10px; margin-top:10px; margin-bottom:10px;}.you_tb_arra {height: 210px;}.v_part_liststs.opt_in_pg iframe#chatbot-iframe {width: 100% !important;}.aa_pgess .you_tb_arra {height: 310px;}
 .what_tst .qu_bx_partss {padding: 10px 10px 10px !important;}
 #testimonials .owl-nav button.owl-next {right: 5px;}
 .mdl_mg_arar{display:none;}
@@ -459,30 +459,7 @@ margin-right: 10px;
 .iv-player_responsive_padding {padding: 250% 0 0 0 !important;}
 
 }
-.text-end{
-  position: absolute;
-  right: 15%;
-}
-.you_tb_arra {
-    width: 100%;
-    max-width: 100%;
-    overflow: hidden; /* 🔥 prevents overflow */
-}
 
-.you_tb_arra iframe,
-.you_tb_arra video,
-.you_tb_arra img,
-.you_tb_arra audio {
-    width: 100% !important;
-    max-width: 100%;
-    height: auto;
-    display: block;
-}
-.you_tb_arra iframe,
-.you_tb_arra video {
-    aspect-ratio: 16 / 9;
-    height: auto;
-}
 </style>
 
 
@@ -556,6 +533,7 @@ margin-right: 10px;
 <!---- End Special Deal ----->
 
 <!--- YOUR CALL IS RESERVED! ---->
+@if($homework->ec_visible || $homework->fd_visible || $homework->form_visible)
 <div class="container">
     <div class="new_ar_tring mt_50 call_bk">
         <h3>{!! $homework->sort_description !!}</h3>
@@ -579,14 +557,22 @@ margin-right: 10px;
             {!! $form_data??'' !!}
         @endif
     </div>
-
 </div>
-    @if($homework->typ_visible)
-        <div class="arow_downss">
-            <a class="btn btn-info mx-auto text-end" href="{{ url('appointments/thankyou') }}/{{ $homework->thankyou_path }}"> {{ $homework->typ_cta_text }} -></a>
-        </div>
-        <br>
-    @endif
+@endif
+@if($homework->typ_visible)
+    <div class="arow_downss">
+        
+        <?php
+            if($homework->thankyou_path){
+                $path = url('appointments/thankyou').'/'.$homework->thankyou_path;
+            }else{
+                $path = $homework->cta_url;
+            }
+        ?>
+        <a class="btn btn-info mx-auto text-center" href="{{ $path }}"> {{ $homework->typ_cta_text }} -></a>
+    </div>
+    <br>
+@endif
 <!--- End YOUR CALL IS RESERVED! ---->	
 @if($homework->custom_footer_visible == 1)
     @include('front.custom-layout.footer')

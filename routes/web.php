@@ -28,7 +28,8 @@ use App\Models\ServiceCategoryModel;
 use App\Models\ServiceModel;
 use App\Models\TestimonialsModel;
 use App\Models\OurClientsModel;
-use App\Models\QuicklyAnalyzeModel;
+use App\Http\Controllers\LetsConnectSettings;
+use App\Http\Controllers\SubscriptionController;
 
 
 /*
@@ -45,8 +46,12 @@ use App\Models\QuicklyAnalyzeModel;
     return view('front.login');
 });*/
 
+require base_path('routes/ngo.php');
+require base_path('routes/my-village.php');
+require base_path('routes/1crcoach.php');
 require base_path('routes/rms-route.php');
 Route::get('/', [WebController::class, 'index']);
+
 Route::get('/features', [WebController::class, 'features'])->name('features');
 Route::get('/about-us', [WebController::class, 'about_us'])->name('about-us');
 Route::get('/faq', [WebController::class, 'faq'])->name('faq');
@@ -77,7 +82,7 @@ Route::get('/join-the-team', function () {
     return view('front.join-the-team');
 });
 
-Route::get('/how-it-works', [WebController::class,'how_it_works'])->name('how-it-works');
+
 
 // Route::get('/inspired-by', function () {
 //     return view('front.inspired-by');
@@ -124,6 +129,13 @@ Route::get('/opt-in-page', function () {
 Route::get('/aa-page', function () {
     return view('front.aa-page');
 });
+Route::get('/master-booking/', [WebController::class, 'master_booking'])->name('master-booking');
+Route::get('/master-booking/{any}', [WebController::class, 'booking_type'])->name('master-booking');
+Route::get('/master-booking/{any}/review', [WebController::class, 'booking_review'])->name('booking-review');
+Route::post('/save-review', [WebController::class, 'saveReview'])->name('save-review');
+Route::get('/review/thank-you/{id}', [WebController::class, 'thank_you_review'])->name('review.thank-you');
+Route::post('/get-booked-slots', [WebController::class, 'getBookedSlots'])->name('get-booked-slots');
+
 
 Route::prefix('appointment/')->name('appointment.')->group(function () {
     Route::get('/{any}', [AppointmentsController::class, 'index'])
@@ -256,8 +268,6 @@ Route::group(['middleware' => 'guest'], function () {
     Route::get('/login-without-password', [LoginWithoutPasswordController::class, 'ShowloginWithoutPassword'])->name('login-without-password');
     Route::post('/login_without_password', [LoginWithoutPasswordController::class, 'login_without_password'])->name('login_without_password');
     Route::post('/login_by_otp', [LoginWithoutPasswordController::class, 'login_by_otp'])->name('login_by_otp');
-
-    Route::get('/auth-mail', [AuthController::class, 'authMail'])->name('auth-mail');
 });
 
 
@@ -267,11 +277,16 @@ Route::group(['middleware' => 'auth'], function () {
         return view('front.reviews');
     });
     Route::post('/submit-review', [WebController::class, 'review'])->name('submit-review');
+    Route::get('/price2', [WebController::class, 'price2'])->name('price2');
 
-    Route::get('/price', [WebController::class, 'price'])->name('price');
-    Route::post('/upgrade-plan', [WebController::class, 'upgrade_plan'])->name('upgrade-plan');
-    Route::post('/upgrade-cdb-plan', [WebController::class, 'upgrade_cdb_plan'])->name('upgrade-cdb-plan');
-    Route::post('/create-order', [WebController::class,'create_order'])->name('create.order');
+    Route::get('/price', [SubscriptionController::class, 'price'])->name('price');
+    Route::post('/checkout', [SubscriptionController::class, 'checkout'])->name('checkout');
+    Route::post('/upgrade-plan', [SubscriptionController::class, 'upgrade_plan'])->name('upgrade-plan');
+    Route::post('/upgrade-cdb-plan', [SubscriptionController::class, 'upgrade_cdb_plan'])->name('upgrade-cdb-plan');
+    Route::post('/create-order', [SubscriptionController::class,'create_order'])->name('create.order');
+    Route::post('/coupon/apply', [SubscriptionController::class,'coupon_apply'])->name('coupon.apply');
+    Route::get('/thank-you', [SubscriptionController::class,'thankyou'])->name('thank-you');
+    
     Route::get('/pnt', [PntController::class, 'index'])->name('pnt');
     Route::post('/save-pnt', [PntController::class, 'save_pnt'])->name('save-pnt');
     Route::get('/pnt-assets', [PntController::class, 'pnt_assets'])->name('pnt-assets');
@@ -320,7 +335,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 });  
 
-
+Route::get('/lets-connect/{page_url}/{user_id}', [HomeController::class, 'letsconnect'])->name('lets-connect');
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('property-compare/', [PropertyCompareController::class, 'index'])->name('property.compare.index');
@@ -462,9 +477,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/my-profile', [AuthController::class, 'my_profile'])->name('my-profile');
     Route::get('/wallet', [HomeController::class, 'wallet'])->name('wallet');
     
-    Route::get('/lets-connect/{page_url}', [HomeController::class, 'letsconnect'])->name('lets-connect');
+    
     Route::get('/lead-magnet', [HomeController::class, 'lead_magnet'])->name('lead-magnet');
     Route::post('/lead-magnet/store', [WebController::class, 'lead_magnet'])->name('leadmagnet.store');
+    Route::get('/lead-magnet-settings', [LetsConnectSettings::class, 'index'])->name('lead-magnet-settings');
+    Route::post('/lead-magnet-menu/store', [LetsConnectSettings::class, 'menu_store'])->name('lead-magnet-settings.menu-store');
+    Route::post('/lead-magnet-settings/store', [LetsConnectSettings::class, 'store'])->name('lead-magnet-settings.store');
+    Route::get('/lead-magnet-settings/delete/{id}', [LetsConnectSettings::class, 'delete'])->name('lead-magnet-settings.delete');
     Route::get('/lead-magnet-form', [HomeController::class, 'lead_magnet_form'])->name('lead-magnet-form');
     Route::get('/mail-template-form', [HomeController::class, 'mail_template_form'])->name('mail-template-form');
     Route::post('/mail-template/store', [HomeController::class, 'mail_template_store'])->name('mail-template.store');
@@ -530,8 +549,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/customer/business-card', [BusinessCard::class, 'index'])->name('customer.business-card');
     Route::post('/customer/business-card/save', [BusinessCard::class, 'save'])->name('customer.business-card.save');
     
-Route::get('/mydigitalcard/{slug}',[WebController::class, 'CustomerBusinessCard'])->name('my-business-card');
 });
+Route::get('/mydigitalcard/{slug}',[WebController::class, 'CustomerBusinessCard'])->name('my-business-card');
 Route::get('/clear', function () {
     Artisan::call('optimize:clear');
     Artisan::call('config:cache');
@@ -566,6 +585,8 @@ Route::get('/get-resource-category', [ResourceController::class, 'get_resource_c
 Route::post('/get-resource-by-category', [ResourceController::class, 'get_resource_bycategory'])->name('get-resource-by-category');
 Route::get('/check-authorization/{id}', [ResourceController::class, 'check_authorization'])->name('check-authorization');
 Route::get('/page/{slug}', [PageController::class, 'index'])->name('page');
+Route::get('/report/{slug}', [PageController::class, 'report'])->name('report');
+Route::get('/appointments-page/{slug}', [PageController::class, 'appointments'])->name('appointments-page');
 Route::post('/get-page-popup-info', [PageController::class, 'get_page_popup_info'])->name('get-page-popup-info');
 Route::post('/get-cdo-by-cat', [PageController::class, 'get_cdo_by_cat'])->name('get-cdo-by-cat');
 Route::post('/get-product-by-cat', [PageController::class, 'get_product_by_cat'])->name('get-product-by-cat');
@@ -583,8 +604,10 @@ Route::get('/cookie-policy',[WebController::class,'cookie_policy'])->name('cooki
 Route::get('/disclaimers',[WebController::class,'disclaimers'])->name('disclaimers');
 Route::get('/accessibility',[WebController::class,'accessibility'])->name('accessibility');
 
-Route::get('/pages/{slug}', [PageController::class, 'embed_pages'])->name('pages');
-Route::get('/core-page/{slug}', [PageController::class, 'core_page'])->name('core_page');
+Route::get('/embed-page/{slug}', [PageController::class, 'embed_pages'])->name('embed-page');
+Route::get('/custom-block/{slug}', [PageController::class, 'custom_block'])->name('custom-block');
+Route::get('/how-it-works', [WebController::class,'how_it_works'])->name('how-it-works');
+
 
 Route::get('/pepm-enquiry-type', function () {
     return view('front.pepm-enquiry-type');
@@ -595,3 +618,8 @@ Route::get('/unsubscribe', function () {
 Route::get('/360-vts', function () {
     return view('front.360-vts');
 });
+
+Route::get('/checkout', [WebController::class,'checkout'])->name('checkout');
+
+Route::get('/preview/{slug}', [PageController::class, 'preview_core_page'])->name('preview');
+Route::get('/{slug}', [PageController::class, 'core_page'])->name('core_page');

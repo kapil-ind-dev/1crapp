@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Auth;
 use App\Models\AppointmentBookingModel;
 use App\Models\AppointmentBookingHomeworkModel;
+use Illuminate\Support\Facades\Http;
 
 class AppointmentsController extends Controller
 {
@@ -18,25 +19,62 @@ class AppointmentsController extends Controller
     {
         // dd($page);
         //  ,'created_by'=>app('currentAgent')->id
+        $reviewData = '';
         $booking = AppointmentBookingModel::where(['status'=>1, 'slug'=>$page, ])->first();
         if(is_null($booking)){
             abort(404);
         }
-        // dd($booking);
-        return view('front.calendar-booking', compact('booking'));
+        $review_setting = DB::table('tbl_review_setting')->where('agent_id', app('currentAgent')->id)->first();
+        $review_data = DB::table('tbl_review_feedback')->where(['id'=>$booking->reviewdata_id, 'status'=>1, 'agent_id'=> app('currentAgent')->id])->first();
+        if(!is_null($review_setting) && $booking->reviewdata_id && $review_data){
+            $review_items = DB::table('tbl_reviewfeedback_items')->select('tbl_customer_reviews.*')
+            ->join('tbl_customer_reviews', 'tbl_customer_reviews.id', '=', 'tbl_reviewfeedback_items.review_id')
+            ->where(['tbl_reviewfeedback_items.rf_id'=>$booking->reviewdata_id])->orderBy('tbl_reviewfeedback_items.id', 'ASC')->get();
+            // dd($gallery_items);
+            $reviewData = view('sections.review-page',compact('review_data', 'review_items', 'review_setting'))->render();
+        }
+        $embededData = null;
+        if($booking->cal_format == 1){
+            // dd($booking->bookingtype_id);
+            $embededData = $this->getBookingTypeData($booking->bookingtype_id);
+        }else{
+            $embededData = $booking->embed_code;
+        }
+        // dd($embededData);
+        return view('front.calendar-booking', compact('booking', 'reviewData', 'embededData'));
     }
-    
+    public function getBookingTypeData($id)
+    {
+        $response = Http::get(
+            'https://www.admin.1crapp.com/api/get-booking-type/' . $id
+        );
+
+        if ($response->successful()) {
+            return $response->body();
+        }
+
+        \Log::error('Booking Type API failed', [
+            'id' => $id,
+            'status' => $response->status(),
+            'body' => $response->body(),
+        ]);
+
+        return null;
+    }
     public function homework($page)
     {
         // dd($page);
         $agent_id = app('currentAgent')->id??8;
         // $agent_id = 78;
+        // dd($agent_id);  
+        // ,'created_by'=>app('currentAgent')->id
         $homework = DB::table('tbl_appointment_booking_homework')->select('tbl_appointment_booking_homework.*','tbl_filedrive.title as file_name', 'tbl_filedrive.path as file_path', 'tbl_appointment_thankyou.slug as thankyou_path')
-        ->join('tbl_calender', 'tbl_calender.homework_page_id','=','tbl_appointment_booking_homework.id')
-        ->join('tbl_appointment_thankyou', 'tbl_appointment_thankyou.id','=','tbl_calender.thank_you_id')
+        ->leftjoin('tbl_calender', 'tbl_calender.homework_page_id','=','tbl_appointment_booking_homework.id')
+        ->leftjoin('tbl_appointment_thankyou', 'tbl_appointment_thankyou.id','=','tbl_calender.thank_you_id')
         ->leftjoin('tbl_filedrive', 'tbl_filedrive.id','=','tbl_appointment_booking_homework.file_drive_id')
         ->where('tbl_appointment_booking_homework.slug', $page)
         ->where(['tbl_appointment_booking_homework.status'=>1, 'tbl_appointment_booking_homework.created_by'=> $agent_id])->first();
+        // dd($homework);
         if(is_null($homework)){
             abort(404);
         }

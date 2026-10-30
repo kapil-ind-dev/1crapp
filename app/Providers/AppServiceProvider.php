@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // \URL::forceScheme('https');
+        \URL::forceScheme('https');
         // $agentId = app('currentAgent')->id;
         // echo "Agentid: ".$agentId;die;
         $this->setDynamicMailConfig(78);
@@ -34,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
     {
         // Fetch the mail config from the database for the user
         $mailConfig = SmtpSetting::where('user_id', $user_id)->first();
-
+        // dd($mailConfig);
         // Check if the configuration exists
         if ($mailConfig) {
             // Set dynamic configuration

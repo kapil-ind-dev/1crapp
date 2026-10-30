@@ -2303,7 +2303,9 @@ class PropertyEditController extends Controller
                             ->where('user_id',Auth::id())
                             ->where('main_properties.prop_id',$propertyID);
         $property_list = $property_list_query->first();
-        
+        if(is_null($property_list)){
+            return redirect()->back()->with('error', 'No Data Found!');
+        }
         // to run reports from recent-sales-comp
         $MainProperty = $property_list;
         $userSubscription = Subscription::where('user_id',Auth::id())->orderBy('id','DESC')->first();
@@ -2387,7 +2389,8 @@ class PropertyEditController extends Controller
         ]);
     }
 
-    private function propertListCollect($propertyList,$MainProperty){
+    private function propertListCollect($propertyList, $MainProperty){
+        // dd($MainProperty);
         $propertyCollect = collect([]);
         foreach ($propertyList as $key => $value) {
             $singlePropertyCollect = collect([]);
