@@ -73,7 +73,7 @@ class ForgotPasswordController extends Controller
         // $userotp = implode("", $otp);
         $userotp = $request->security_code;
         $token = $request->token;
-        $user = User::where('email', $request->email)->first();
+        $user = User::where(['email'=> $request->email, 'agent_id' => app('currentAgent')->id])->first();
         if ($user) {
             if ($user->otp == $userotp) {
 
@@ -160,7 +160,7 @@ class ForgotPasswordController extends Controller
             Session::forget('verification_code');
         }
     
-        $user = User::where('email', $request->email)->first();
+        $user = User::where(['email'=> $request->email, 'agent_id' => app('currentAgent')->id])->first();
         if ($user) {
             // Send verification email or other logic
             $mailData  = array();
